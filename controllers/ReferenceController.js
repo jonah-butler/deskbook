@@ -12,7 +12,7 @@ module.exports = {
   async post(req, res) {
     try{
       const question = await ReferenceQuestion.create(req.body);
-      res.send(questions);
+      res.send(question);
     } catch(err) {
       console.log('new reference post', err);
     }
