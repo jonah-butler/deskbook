@@ -1,0 +1,99 @@
+<%- include ('partials/header') %>
+
+<div class="back-container">
+  <a href="/entries/<%= category %>/<%= entry._id %>/">
+    <i class="fas fa-long-arrow-alt-left"></i>
+  </a>
+</div>
+
+<div class="container padding-sm-top padding-sm-right padding-sm-bottom">
+	<div class="row">
+
+<div class="col-md-10">
+<h1 class="jumbo-header">
+	Edit the <span style="color:#00008B";><em><%= entry.title %></em></span> FAQ
+</h1>
+<!-- <div style="width: 30%; margin: 0 auto"> -->
+
+<form action="/entries/<%= category %>/<%= entry._id %>/?_method=PUT" method="POST" onkeypress="formReturnDisabled(event)">
+	<!-- section title name - this should eventually be a select box -->
+	<!-- <div class="form-group form-group-select">
+	</div> -->
+	<!-- Title Text Input -->
+	<!-- <div class="form-group title-field">
+		<label for="titleField">Title for FAQ</label>
+		<input id="titleField" type="text" name="entry[title]" value="<%= entry.title %>"></input>
+	</div> -->
+  <div class="form-group title-field">
+    <div class="tag-input-container">
+      <div class="headline">
+        Title
+      </div>
+      <input class="tag-input" id="titleField" type="text" name="entry[title]" value="<%= entry.title %>" placeholder=""></input>
+    </div>
+  </div>
+		<!-- input for text -->
+		<!-- <div class="form-group">
+			<textarea class="form-control" id="comment" name="entry[description]" rows="8" cols="80"> <%= entry.description %> </textarea>
+		</div> -->
+    <div class="form-group">
+      <div class="tag-input-container-large">
+        <div class="headline">
+          Description
+        </div>
+        <textarea class="form-control tag-input" id="comment" name="entry[description]" rows="8" cols="80" ><%= entry.description %></textarea>
+      </div>
+    </div>
+		<!-- <div class="form-group cost-field">
+			<label for="costField">Enter the Cost</label>
+			<input id="costField" type="text" name="entry[cost]" value="<%= entry.cost %>"></input>
+		</div> -->
+    <div class="form-group title-field">
+      <div class="tag-input-container">
+        <div class="headline">
+          Add Cost (if valid)
+        </div>
+        <input class="tag-input" id="titleField" type="text" name="entry[cost]" value="<%= entry.cost %>" placeholder=""></input>
+      </div>
+    </div>
+    <div class="form-group title-field">
+			<div class="tag-input-container">
+				<div class="headline">
+					Add Cabinet (if valid)
+				</div>
+				<input class="tag-input" id="titleField" type="text" name="entry[cabinet]" value="<%= entry.cabines %>" placeholder=""></input>
+			</div>
+		</div>
+    <div class="tag-input-container">
+      <div class="headline">Add/Edit Category</div>
+    <div id="spanContainer">
+      <% if(entry.category.length) { %>
+      <%  entry.category.forEach((category) => { %>
+      <span class="data-added">
+        <%= category %>
+        <span class="category-close">x</span>
+        <input type="hidden" name="entry[category]" value="<%= category %>">
+      </span>
+      <% }) %>
+      <% } %>
+    </div>
+    <input class="tag-input-component" type="text">
+    </div>
+		 <!-- submit button for form -->
+		<div class="form-group">
+			<button class="button-main">
+				Submit
+			</button>
+		</div>
+</form>
+<!-- </div> -->
+<form class="" action="/entries/<%= category %>/<%= entry._id %>/edit/?_method=DELETE" method="POST">
+  <button class="button-main">
+    Delete
+  </button>
+</form>
+</div>
+</div>
+</div>
+<%- include ('partials/footer') %>
+<script src="/category.js"></script>

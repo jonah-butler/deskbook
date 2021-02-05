@@ -1,0 +1,69 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="jumbo-header">Searching...</h1>
+      <h3><%= query %></h3>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <% if(categoryResults.length) { %>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        <h3 class="panel-title">Category Results for <span style="color: #333;"><%= query %></span></h3>
+      </div>
+      <% categoryResults.forEach(category => { %>
+      <div class="panel-body">
+        <a href="/entries/<%= category._id %>"><%= category.title %></a>
+        <% if(category.category.length) { %>
+        <div class="category-container">
+          <% category.category.forEach(category => { %>
+            <a href="/search/category/<%= category %>"> <span class="category"><%= category %></span> </a>
+          <% }) %>
+        </div>
+      <% } %>
+      </div>
+      <% }) %>
+    </div>
+    <% } else { %>
+      <div class="panel panel-default">
+        <div class="panel-heading">Category results for <%= query %></div>
+        <div class="panel-body">
+          <p>No category data found. Try another search.</p>
+        </div>
+      </div>
+    <% } %>
+  </div>
+
+  <div class="container">
+    <% if(entryResults.length) { %>
+      <div class="panel panel-primary">
+        <div class="panel-heading">
+          <h3 class="panel-title">Entry Results for <span style="color: #333;"><%= query %></span></h3>
+        </div>
+        <% entryResults.forEach(entry => { %>
+        <div class="panel-body">
+          <a href="/entries/<%= entry.section %>/<%= entry._id %>"><%= entry.title %></a>
+          <% if(entry.category.length) { %>
+          <div class="category-container">
+            <% entry.category.forEach(category => { %>
+              <a href="/search/category/<%= category %>"> <span class="category"><%= category %></span> </a>
+            <% }) %>
+          </div>
+        <% } %>
+        </div>
+        <% }) %>
+      </div>
+      <% } else { %>
+        <div class="panel panel-default">
+          <div class="panel-heading">FAQ results for <%= query %></div>
+          <div class="panel-body">
+            <p>No entry data found. Try another search.</p>
+          </div>
+        </div>
+      <% } %>
+    </div>
+<%- include ('partials/footer') %>

@@ -1,0 +1,59 @@
+<%- include ('partials/header') %>
+
+<article>
+
+  <div class="back-container">
+		<a href="/entries/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
+	</div>
+
+  <div class="text-container">
+    <h1><%= parentCategory.title %> </h1>
+    <h3><%= values[0].title %></h3>
+    <% if(values[0].category.length) { %>
+    <div class="category-container">
+    <%  values[0].category.forEach((category) => { %>
+    <a href="/search/category/<%= category %>"> <span class="category"><%= category %></span> </a>
+    <%  }) %>
+    </div>
+    <% } %>
+    <% if(values[0].section === 'Purchasable Goods'){ %>
+    <p> Cost: $<%= values[0].cost %> </p>
+    <% } %>
+    <% if(values[0].section === 'Where In The Drawer'){ %>
+    <p> Cabinet: <%= values[0].cabinet %> </p>
+    <% } %>
+    <div class="faq-description"><%- values[0].description %></div>
+  </div>
+  <a href="/entries/<%= parentCategory._id %>/<%= values[0]._id %>/edit/">
+    <% if(adminStatus == true) { %>
+    <button class="button-main-sm">Edit</button>
+    <% } %>
+  </a>
+</article>
+<div class="container explore-container">
+    <% if(values.length > 1) { %>
+      <h1>Explore More</h1>
+      <% for(let i = 1; i < values.length; i++) { %>
+        <% if(values[i] != undefined) { %>
+          <div class="row">
+        <div class="col-sm-6 col-center">
+          <a class="next-previous-links" href="/entries/<%= parentCategory._id %>/<%= values[i].id %>/">
+          <div class="explore-card">
+            <% if(i == 2) { %>
+              <i class="nav-arrows fas fa-long-arrow-alt-right"></i>
+            <% } else {%>
+            <i class="nav-arrows fas fa-long-arrow-alt-left"></i>
+            <% } %>
+            <h4 class="nav-card-header"><%= parentCategory.title %></h4>
+            <p><%= values[i].title %></p>
+          </div>
+          </a>
+        </div>
+        <% } %>
+        <% } %>
+      <% } %>
+  </div>
+</div>
+
+
+<%- include ('partials/footer') %>

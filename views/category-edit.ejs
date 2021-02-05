@@ -1,0 +1,63 @@
+<%- include ('partials/header') %>
+<div class="container padding-sm-top padding-sm-right padding-sm-bottom">
+	<div class="row">
+
+<div class="col-md-10">
+<h1 class="jumbo-header">
+	Edit <%= category.title %>
+</h1>
+
+  <form action="/category/<%= category._id %>/edit/?_method=PUT" method="POST" onkeypress="formReturnDisabled(event)">
+	<!-- Title Text Input -->
+	<div class="form-group title-field">
+		<div class="tag-input-container">
+			<div class="headline">
+				 Edit Title
+			</div>
+			<input class="tag-input" id="titleField" type="text" name="entry[title]" value="<%= category.title %>" placeholder=""></input>
+		</div>
+	</div>
+		<!-- Description Text area -->
+		<div class="form-group">
+			<div class="tag-input-container-large">
+				<div class="headline">
+					Add Description
+				</div>
+				<textarea class="form-control tag-input" id="comment" name="entry[description]" rows="8" cols="80" ><%= category.description %></textarea>
+			</div>
+		</div>
+
+		<div class="tag-input-container">
+			<div class="headline">Add/Edit Category</div>
+		<div id="spanContainer">
+			<% if(category.category.length) { %>
+			<%  category.category.forEach((category) => { %>
+			<span class="data-added">
+				<%= category %>
+				<span class="category-close">x</span>
+				<input type="hidden" name="entry[category]" value="<%= category %>">
+			</span>
+			<% }) %>
+			<% } %>
+		</div>
+		<input class="tag-input-component" type="text">
+		</div>
+		 <!-- submit button for form -->
+		<div class="form-group">
+			<button class="button-main">
+				Update
+			</button>
+		</div>
+</form>
+<form class="" onsubmit="return confirm('This delete is recursive. It will delete all subdirectories and entries underneath this parent, including the parent itself. Click ok, if you mean to remove all this data.')" action="/category/<%= category._id %>/edit/?_method=DELETE" method="POST">
+  <button class="button-main delete">
+    Delete
+  </button>
+</form>
+<a href="/entries"><button class="button-main-sm">Go Back</button></a>
+	</div>
+	</div>
+	</div>
+
+<%- include ('partials/footer') %>
+<script src="/category.js"></script>

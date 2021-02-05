@@ -1,0 +1,57 @@
+<%- include ('partials/header') %>
+
+
+<div class="view-container">
+  <div class="empty-view">
+    <h1>No data</h1>
+    <h3>Choose a date range to get started</h3>
+    <img class="empty-events-img" src="imgs/undraw_no_data.svg" alt="">
+  </div>
+  <div class="container-fluid data-reference">
+    <ul class="list-group">
+
+    </ul>
+  </div>
+</div>
+
+<footer class="footer-container slate-grey">
+  <div class="container-fluid color-white">
+    <div class="row">
+      <div class="flex-container-row">
+    <div class="">
+      <button class="icon-circle slate-grey"><i class="fas fa-search"></i></button>
+      <input id="date-input-start" class="slate-grey" type="text" placeholder="From">
+      <i class="fas fa-angle-double-right"></i>
+      <input id="date-input-end" class="slate-grey" type="text" placeholder="To">
+    </div>
+    <!-- Default dropup button -->
+    <div class="dropup padding-sm">
+      <button class="btn btn-default dropdown-toggle" type="button" id="branchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Branch
+        <span class="caret"></span>
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li>All</>
+        <li>Belmont</li>
+        <li>Broad Rock</li>
+        <li>East End</li>
+        <li>Ginter Park</li>
+        <li>Hull Street</li>
+        <li>Main</li>
+        <li>North Avenue</li>
+        <li>West End</li>
+        <li>Westover Hills</li>
+      </ul>
+    </div>
+    <!-- <div class="padding-sm">
+      Over 5 Minutes?
+      <input name="question" id="questionLength" value="true" type="checkbox" aria-label="...">
+    </div> -->
+    </div>
+    </div>
+  </div>
+</footer>
+
+
+<%- include ('partials/footer') %>
+<script src="/reference.js"></script>

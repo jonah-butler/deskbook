@@ -1,0 +1,57 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+	<div class="row">
+
+<div class="col-md-10">
+<h1 class="jumbo-header" style="text-align: center;">
+	Create a new User
+</h1>
+<div style="width: 30%; margin: 0 auto">
+	<div class="active-users">
+		<h4>Currently Active Users:</h4>
+			<% if(users.length === 0){ %>
+				<p>No active Jobseekers - select a computer and submit to create a user</p>
+			<% } else { %>
+			<ul>
+				<% users.forEach((user) => { %>
+					<li>Computer number: <%= user.computerNum %> </li>
+				<% }) %>
+			</ul>
+			<% } %>
+	</div>
+
+<form action="/user/print-tracker/<%= userId %>" method="POST">
+
+		<!-- section title name - this should eventually be a select box -->
+		<div class="form-group form-group-select">
+			<select name="computerNum">
+				<option hidden disabled selected value> -- select a computer -- </option>
+			  <option value="1">One</option>
+        <option value="2">Two</option>
+        <option value="3">Three</option>
+        <option value="4">Four</option>
+        <option value="5">Five</option>
+        <option value="6">Six</option>
+        <option value="7">Seven</option>
+        <option value="8">Eight</option>
+			</select>
+		</div>
+		 <!-- submit button for form -->
+		<div class="form-group">
+			<button class="button-main">
+				Submit
+			</button>
+		</div>
+</form>
+
+
+	<a href="/print-tracker"><button class="button-main-sm">Go Back</button></a>
+	</div>
+
+	</div>
+	</div>
+
+	</div>
+
+<%- include ('partials/footer') %>

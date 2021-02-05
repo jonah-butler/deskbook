@@ -1,0 +1,243 @@
+
+const dates = {
+
+  dayNames: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+
+  monthNames: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+
+  getDayName(dateString){
+    const dayInt = dateString.getDay();
+    return this.dayNames[dayInt];
+  },
+
+  getMonthName(dateString){
+    const monthInt = dateString.getMonth();
+    return this.monthNames[monthInt];
+  },
+
+  getTime(dateString){
+    let hour = dateString.getHours();
+    if(hour > 12){
+        hour = hour - 12;
+        hour += 'pm';
+    } else if(hour == 12) {
+        hour += 'pm';
+    } else {
+        hour += 'am';
+    }
+    return hour;
+  }
+
+}
+
+let date1 = new Date("2020-04-15T10:30:00-04:00");
+
+
+
+const calendarModule = {
+
+  calendarIds: {
+    'Belmont': 7752,
+    'Broad Rock': 7340,
+    'East End': 7753,
+    'Ginter Park': 7750,
+    'Hull Street': 7405,
+    'Main': 7469,
+    'North Avenue': 7402,
+    'West End': 7751,
+    'Westover Hills': 7403
+  },
+
+  inputFields: {
+    from: document.querySelector('#date-input-start'),
+    to: document.querySelector('#date-input-end')
+  },
+
+  initializeDatePickers(){
+
+    datepicker( this.inputFields.from,{
+      formatter: (input, date, instance) => {
+        const value = date.toLocaleDateString()
+        input.value = value // => '1/1/2099'
+      },
+      position: 'tr',
+    } );
+
+    datepicker( this.inputFields.to,{
+      formatter: (input, date, instance) => {
+        const value = date.toLocaleDateString()
+        input.value = value // => '1/1/2099'
+      },
+      position: 'tr',
+    } );
+  },
+
+  findDateDiff(date1, date2){
+    let d1 = new Date(date1);
+    let d2 = new Date(date2);
+
+    let timeDiff = d2.getTime() - d1.getTime();
+
+    return timeDiff / (1000 * 3600 * 24);
+  },
+
+   addSubmitListener(ele){
+    ele.addEventListener('click', () => {
+      this.submitAnimationInit(ele, 'clicked');
+      const d1 = this.inputFields.from.value;
+      const d2 = this.inputFields.to.value;
+      const timeDiff = this.findDateDiff(d1, d2);
+      const urlFirstDate = new Date(d1).toISOString().split('T')[0];
+      let id = this.getBranchId();
+      try{
+        this.clearView();
+        this.getAndFetch(urlFirstDate, timeDiff, id);
+      } catch(e){
+        console.log(e);
+      }
+    })
+  },
+
+  dropdownSelection(){
+    let branchBtn = document.querySelector('#branchDropdown');
+    let branchMenu = document.querySelector('.dropdown-menu');
+
+    branchMenu.addEventListener('click', (e) => {
+      branchBtn.innerText = e.target.innerText;
+      console.log(branchBtn.innerText);
+      branchBtn.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
+    })
+  },
+
+  getBranchId(){
+    let branchName = document.querySelector('#branchDropdown').innerText;
+    let branchKeys = Object.keys(this.calendarIds);
+    if(branchKeys.indexOf(branchName) != -1){
+      return this.calendarIds[branchName];
+    } else {
+      alert('Don\'t forget to select a branch');
+    }
+  },
+
+  submitAnimationInit(ele, newClass){
+    ele.classList.add(newClass);
+    setTimeout(() => {
+      ele.classList.remove(newClass);
+    }, 500);
+  },
+
+  async getAndFetch(firstDate, timeDiff, id){
+      try{
+        let response = await this.getClient("/calendarClient");
+          let secondRespond = await this.fetchApi(response.clientSecret, firstDate, timeDiff, id);
+          console.log(response);
+
+      } catch(e){
+        console.log(e);
+      }
+
+  },
+
+  async getClient(url = ''){
+    const response = await fetch(url);
+    let data = await response.json();
+    console.log(data);
+    return data;
+  },
+
+  async fetchApi(secret, firstDate, timeDiff, id){
+    let response = await fetch('https://rvalibrary.libcal.com/1.1/oauth/token', {
+      method: 'POST',
+      body: JSON.stringify({
+        client_id: '570',
+        client_secret: secret,
+        grant_type: 'client_credentials'
+      }),
+      headers: {
+        'Content-type': 'application/json'
+      }
+    });
+    let data = await response.json();
+      await fetch(`https://rvalibrary.libcal.com/1.1/events?cal_id=${id}&date=${firstDate}&days=${timeDiff}`, {
+        headers: {
+          'Authorization': `Bearer ${data.access_token}`
+        }
+      }).then((finalResp) => {
+        return finalResp.json();
+      }).then((data) => {
+        console.log(data);
+        let view = document.querySelector('.view-container');
+        data.events.forEach((event) => {
+          let eventObj = {};
+          let start;
+          let end;
+          eventObj.title = event.title;
+          eventObj.description = event.description.replace(/(<([^>]+)>)/ig,"");
+          if(event.location.name == ""){
+            eventObj.location = event.calendar.name;
+          } else {
+            eventObj.location = event.location.name;
+          }
+          start = new Date(event.start);
+          end = new Date(event.end);
+          eventObj.start = dates.getTime(start);
+          eventObj.end = dates.getTime(end);
+          eventObj.day = dates.getDayName(start);
+          eventObj.month = dates.getMonthName(start);
+          eventObj.month = eventObj.month.slice(0, 3);
+          eventObj.date = start.getDate();
+          view.insertAdjacentHTML('beforeend', this.buildHTML(eventObj));
+        })
+      })
+    },
+
+    clearView(){
+      let view = document.querySelector('.view-container');
+      Array.from(view.childNodes).forEach((node) => {
+        view.removeChild(node);
+      })
+    },
+
+    buildHTML(obj){
+      const html = `<div class="calendar-card-container">
+  <div class="calendar-card">
+    <div class="card-content">
+      <div class="card-header">
+        <div class="calendar-box">
+          <div class="day">${obj.date}</div>
+          <div class="month">${obj.month}</div>
+        </div>
+        <div class="card-text-aside">
+          <div class="day-name">${obj.day}</div>
+          <div class="time">${obj.start} - ${obj.end}</div>
+          <div class="location">${obj.location}</div>
+        </div>
+        <div class="calendar-right">
+          <i class="far fa-calendar-alt"></i>
+        </div>
+      </div>
+      <div class="calendar-body">
+        <div class="title">${obj.title}</div>
+        <div class="description">${obj.description}</div>
+      </div>
+  </div>
+  </div>
+</div>`
+return html;
+},
+
+  buildHTML2(obj){
+    const html = `<div class="bs-example">
+    </div>
+    <figure></figure>`
+return html;
+},
+
+  init(){
+    this.initializeDatePickers();
+    this.dropdownSelection();
+    this.addSubmitListener(document.querySelector('.icon-circle'));
+  }
+}
+
+calendarModule.init();

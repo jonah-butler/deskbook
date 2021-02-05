@@ -1,0 +1,36 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+	<div class="row">
+
+<div class="col-md-10">
+<h1 class="jumbo-header" style="text-align: center;">
+	Edit Category
+</h1>
+<div style="width: 30%; margin: 0 auto">
+
+<form action="/category-new" method="POST">
+	<!-- Title Text Input -->
+	<div class="form-group title-field">
+		<label for="titleField">Title for Category</label>
+		<input id="titleField" type="text" name="category[title]" value="" placeholder=""></input>
+	</div>
+		<!-- input for text -->
+		<div class="form-group">
+			<textarea class="form-control" id="comment" name="category[description]" rows="8" cols="80" placeholder="Add small description to define this category"></textarea>
+		</div>
+		 <!-- submit button for form -->
+		<div class="form-group">
+			<button class="button-main">
+				Submit
+			</button>
+		</div>
+</form>
+
+	<a href="/entries"><button class="button-main-sm">Go Back</button></a>
+	</div>
+	</div>
+	</div>
+	</div>
+
+<%- include ('partials/footer') %>

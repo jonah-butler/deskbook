@@ -1,0 +1,76 @@
+<%- include('partials/header') %>
+
+<div class="container text-center">
+  <div class="row">
+    <div class="button-container">
+      <a href="/user/print-tracker/new/<%= userId %>">
+        <button class="button-main">Add A User</button>
+      </a>
+    </div>
+  </div>
+
+
+  <div class="row">
+
+    <%
+      if(jobseekers.length === 0){
+    %>
+        <div class="container">
+            <h1 class="print-tracker-status">No Active Jobseekers Yet</h1>
+        </div>
+    <% } else {
+
+        jobseekers.forEach((jobseeker) => {
+      %>
+    <div class="col-lg-4 col-sm-6 col-xs-6">
+        <div data-id="<%= jobseeker._id %>" class="card">
+          <div class="card-header">
+            Job Seekers - Print Tally
+            <span class="close-btn">
+              <form action="/user/print-tracker/?_method=DELETE" method="POST">
+
+                <input class="test" type="hidden" value="<%= jobseeker._id %>" name="valueId">
+                <button class="delete-user">x</button>
+              </form>
+              </span>
+          </div> <!-- card header -->
+          <div class="card-body">
+            <div class="computer-number">
+              Computer # <span class="number-field"><%= jobseeker.computerNum %></span>
+            </div> <!-- computer num -->
+            <form class="tracker" action="/print-tracker" method="post">
+            <div class="increment-btns">
+              <input type="hidden" class="hidden-input" name="content[text]" value="">
+              <span class="add-btn">
+                <div class="print-total">
+                  <%= jobseeker.numOfPrints %>
+                </div>
+                <button class="add" name="button" type="button">
+                  +
+                </button>
+              </span> <!-- add-btn -->
+              <span class="minus-btn">
+                <button class="minus" name="button" type="button">
+                  -
+                </button>
+              </span> <!-- minus-btn -->
+            </div> <!-- increment-btns -->
+            <div class="submitPrints">
+              <button class="button-main submit-prints" type="button">Submit</button>
+            </div>
+            </form>
+            <div class="check-mark">
+              submitting
+            </div>
+          </div> <!-- card body -->
+          <div class="card-footer">
+            <span class="remaining-prints"><%= 10 - jobseeker.numOfPrints %></span> prints remaining
+          </div> <!-- card-footer -->
+        </div> <!-- card -->
+    </div> <!-- col -->
+    <%    })
+        }
+    %>
+  </div> <!-- row -->
+
+<%- include('partials/footer') %>

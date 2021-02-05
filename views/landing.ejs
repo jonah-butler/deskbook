@@ -1,0 +1,27 @@
+<%- include ('partials/header') %>
+
+
+<div class="container jumbotron">
+	<h1 class="jumbo-header">
+		Landing Page!
+	</h1>
+
+	<p>
+		Welcome to RVALibrary Deskbook <%= bookEmoji %>
+		<%= user.username %>
+	</p>
+	<ul>
+	<li><a href="/entries">View all FAQs</a></li>
+	<li><a href="/reference">Browse Reference Questions</a></li>
+	<li><a href="/calendar">Browse Events</a></li>
+	<li onclick="loadModal()"><a>Submit Reference</a></li>
+	</ul>
+</div>
+
+
+
+
+
+
+
+<%- include ('partials/footer') %>
