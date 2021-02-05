@@ -13,7 +13,7 @@ async function fetchApi(url = '', data = {}) {
   return await response.json();
 }
 
-function buildData(data, parentElement) {
+function buildData(data, parentElement, labels, chartData) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
@@ -57,7 +57,38 @@ function buildData(data, parentElement) {
     ul.appendChild(li);
   })
   parentElement.appendChild(ul);
-  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><p>Query Total: ${data.length}</p></div></header>`)
+  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><p>Query Total: ${data.length}</p></div></header>`);
+  // parentElement.appendChild(document.createElement('canvas'));
+  let canvas = createCanvas('canvas', parentElement);
+  createChart(canvas, labels, chartData);
+}
+
+function createCanvas(className, parentElement) {
+  let canvas = document.createElement('canvas');
+  canvas.classList.add(className);
+  parentElement.appendChild(canvas);
+  return canvas;
+}
+
+function createChart(chartElement, labels, data) {
+  var chart = new Chart(chartElement, {
+    // The type of chart we want to create
+    type: 'pie',
+
+    // The data for our dataset
+    data: {
+        labels: labels,
+        datasets: [{
+            label: 'My First dataset',
+            backgroundColor: ['#0267c1', '#0075c4', '#efa00b', '#d65108', '#591f0a', '#fcf300', '#2f1847', '#c62e65'],
+            borderColor: '#fff',
+            data: data,
+        }]
+    },
+
+    // Configuration options go here
+    options: {}
+});
 }
 
 function submitAnimationInit(ele, newClass) {
@@ -128,10 +159,41 @@ window.onload = function(){
     if(data != false){
       this.disabled = true;
       const response = await fetchApi('http://localhost:3000/reference/search', data);
-      console.log(response);
+      response.sort(function(a,b) {
+        if(a.library.toUpperCase() < b.library.toUpperCase()){
+          return -1;
+        }
+        if(a.library.toUpperCase() > b.library.toUpperCase()){
+          return 1;
+        }
+        return 0;
+      })
+      let valueObj = {};
+      let counter = 0;
+      response.forEach((val, i, arr) => {
+          if(val == arr[arr.length - 1]){
+              if(val.library != arr[i-1].library){
+                  console.log(arr[i-1].library, counter);
+                  // valueArr.push({arr[i-1].library: counter});
+                  valueObj[arr[i-1].library] = counter;
+                  console.log(val.library, 1);
+                  valueObj[val.library] = counter;
+              } else {
+                  // valueArr.push({arr[i-1].library: counter + 1]);
+                  valueObj[arr[i-1].library] = counter+1;
+              }
+          } else if(i != 0 && val.library != arr[i-1].library){
+              console.log(arr[i-1].library, counter);
+              valueObj[arr[i-1].library] = counter;
+              // valueArr.push({arr[i-1].library: counter});
+              counter = 0;
+          }
+          counter++;
+      })
+      console.log(valueObj);
       this.disabled = false;
       clearResults(document.querySelector('.view-container'));
-      buildData(response, document.querySelector('.view-container'));
+      buildData(response, document.querySelector('.view-container'), Object.keys(valueObj), Object.keys(valueObj).map(key => valueObj[key]));
     } else {
       return;
     }
