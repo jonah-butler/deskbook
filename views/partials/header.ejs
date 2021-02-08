@@ -78,12 +78,17 @@
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <!-- <div class="navbar-header"> -->
-      <a class="navbar-brand" href="/"><img src="https://rvalibrary.org/wp-content/uploads/2019/11/logo_nobackground.png" style="width: 4%; display: inline-block; margin: -10px 10px 0 0;" alt="">Deskbook</img></a>
+      <a class="navbar-brand" href="/"><img src="https://rvalibrary.org/wp-content/uploads/2019/11/logo_nobackground.png" style="max-width: 40px; display: inline-block; margin: -10px 10px 0 0;" alt="">Deskbook</img></a>
     <!-- </div> -->
-
+		<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+			<span class="sr-only">Toggle navigation</span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+			<span class="icon-bar"></span>
+		</button>
     <!-- Collect the nav links, forms, and other content for toggling -->
-    <div class="collapse navbar-collapse">
-      <ul class="navbar-right navbar-nav nav">
+    <div id="navbar" class="collapse navbar-collapse out" aria-expanded="true">
+      <ul class="navbar-right navbar-nav nav" style="overflow: hidden;">
 				<form class="navbar-form navbar-left" action="/search/" method="GET">
 					<div class="form-group">
 						<input type="text" class="form-control" name="query" placeholder="Search FAQs">
@@ -95,7 +100,6 @@
 				<li><a class="glyphicon glyphicon-plus" aria-hidden="true"></a></li>
 				<li><a href="/entries">FAQ</a></li>
 				<li><a href="/reference">Reference</a></li>
-        <li><a href="/login">Login</a></li>
 				<li><a href="/calendar">Calendar</a></li>
 		  	<li><a href="/logout">Logout</a></li>
       </ul>
