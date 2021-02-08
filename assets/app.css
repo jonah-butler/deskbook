@@ -167,6 +167,10 @@ article{
 	margin: 0 auto !important;
 }
 
+.navbar-brand{
+  width: 100% !important;
+}
+
 
 .list-group-item{
   transition: background-color .5s ease;
@@ -1003,7 +1007,6 @@ button{
 .description-query{
   font-size: 12px;
   height: 0px;
-  max-width: 0px;
   overflow: hidden;
   transition: all .3s ease;
   padding: 0px;
@@ -1013,7 +1016,6 @@ button{
 
 .description-query.open{
   height: fit-content;
-  max-width: 400px;
   padding: 20px;
 }
 
