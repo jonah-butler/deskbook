@@ -17,10 +17,14 @@
   <% if(category.section == 'parent') { %>
   <a href="/entries"><button class="button-main">Go Back</button></a>
   <% } %>
+  <% if(adminStatus) { %>
   <a href="/entries/<%= category._id %>/new"><button class="button-main">Add a new FAQ</button></a>
+  <% } %>
+  <% if(adminStatus) { %>
   <a href="/category/<%= category._id %>/new"><button class="button-main">Add a new Subcategory</button></a>
+  <% } %>
   <a href="/category/<%= category._id %>/edit/">
-    <% if(adminStatus == true) { %>
+    <% if(adminStatus) { %>
     <button style="display: block; margin-top: 3px;" class="button-main-sm">Edit</button>
     <% } %>
   </a>

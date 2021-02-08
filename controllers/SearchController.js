@@ -16,8 +16,6 @@ module.exports = {
               { $or: [{description: { $regex: req.query.query, $options: 'i' } },
                       {title: { $regex: req.query.query, $options: 'i' } },
                       {category: { $regex: req.query.query, $options: 'i' } },
-                      // {cost: req.body.query },
-                      // {cabinet: req.body.query },
                     ] },
                 function(err, entryResults) {
                   if(err) {

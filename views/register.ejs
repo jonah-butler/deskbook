@@ -1,4 +1,4 @@
-<%- include ('partials/header') %>
+<%- include ('partials/unauthenticated-header') %>
 
 
 
@@ -13,14 +13,18 @@
 </div>
 
 <div class="container center-block">
-  <form action="/register" method="post" enctype="application/x-www-form-urlencoded" style="max-width: 300px; margin: 0 auto; background-color: #eeeeee; padding: 40px 20px; border-radius: 5px;">
+  <form action="/register" method="post" style="max-width: 300px; margin: 0 auto; background-color: #eeeeee; padding: 40px 20px; border-radius: 5px;">
     <div class="form-group">
       <label for="formGroupExampleInput">Username</label>
       <input type="text" class="form-control" id="formGroupExampleInput" placeholder="username" name="username">
     </div>
     <div class="form-group">
+      <label for="formGroupExampleInput2">Email</label>
+      <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="email" name="email">
+    </div>
+    <div class="form-group">
       <label for="formGroupExampleInput2">Password</label>
-      <input type="password" class="form-control" id="formGroupExampleInput2" placeholder="password" name="password">
+      <input type="password" class="form-control" id="formGroupExampleInput3" placeholder="password" name="password">
     </div>
     <div class="form-group">
       <label for="formGroupExampleInput2">Is Admin?</label>
@@ -34,7 +38,7 @@
     <button class="button-main">Submit</button>
   </form>
 </div>
-
+<!-- 
 <div class="container center-block">
   <div class="table-wrapper-scroll-y my-custom-scrollbar">
 
@@ -47,64 +51,9 @@
       </tr>
     </thead>
     <tbody>
-      <%
-      let i = 1;
-      users.forEach((user) => {
-      %>
-      <tr>
-        <th scope="row"><%= i %></th>
-        <td class="username-button"><i class="fas fa-pencil-alt" style="padding-right: 10px;"></i><%= user.username %></td>
-        <td><%= user.isAdmin %></td>
-        <% i++ %>
-      </tr>
-      <% }) %>
+
     </tbody>
   </table>
   </div>
-</div>
+</div> -->
 
-<div class="container center-block user-edit-section">
-
-</div>
-
-
-
-
-<!-- <div class="signin-section">
-  <div class="greeting-container">
-    <h1 class="dynamic-greeting">Hello</h1>
-    <h5>Create an Account</h5>
-     <div class="signin-container">
-      <div class="left-signin">
-        <div class="form__group field">
-          <form action="/register" method="post" enctype="application/x-www-form-urlencoded">
-            <input type="text" class="form__field" placeholder="username" name="username" />
-             <input type="password" class="form__field" placeholder="password" name="password" />
-             <button class="button-main">Submit</button>
-          </form>
-      </div>
-       </div>
-      <div class="seperator">
-        <div class="line"></div>
-        <div class="sep-text">or</div>
-       </div>
-      <div class="right-signin">
-        <a href="/login" class="main-button-link"><div class="button-main">Sign-in</div></a>
-      </div>
-       </div>
-     </div>
-  </div>
-</div>
-
-<form>
-  <div class="form-group">
-    <label for="formGroupExampleInput">Example label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput" placeholder="Example input">
-  </div>
-  <div class="form-group">
-    <label for="formGroupExampleInput2">Another label</label>
-    <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="Another input">
-  </div>
-</form> -->
-
-<%- include ('partials/footer') %>

@@ -24,5 +24,21 @@ function findNextDay(date) {
   return tomorrow;
 }
 
+function isLoggedIn(req, res, next){
+	if(req.isAuthenticated()){
+		return next();
+	}
+	res.redirect("/login");
+}
+
+function isAdmin(req, res, next){
+	if(req.isAuthenticated() && req.user.isAdmin == true){
+		return next();
+	}
+	res.redirect("/entries");
+}
+
 module.exports.recursiveCollectEntries = recursiveCollectEntries;
 module.exports.findNextDay = findNextDay;
+module.exports.isLoggedIn = isLoggedIn;
+module.exports.isAdmin = isAdmin;

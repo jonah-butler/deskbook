@@ -87,6 +87,10 @@ const calendarModule = {
       const d1 = this.inputFields.from.value;
       const d2 = this.inputFields.to.value;
       const timeDiff = this.findDateDiff(d1, d2);
+      if(timeDiff < 0){
+        alert('enter valid date range');
+        return;
+      }
       const urlFirstDate = new Date(d1).toISOString().split('T')[0];
       let id = this.getBranchId();
       try{
@@ -104,7 +108,6 @@ const calendarModule = {
 
     branchMenu.addEventListener('click', (e) => {
       branchBtn.innerText = e.target.innerText;
-      console.log(branchBtn.innerText);
       branchBtn.insertAdjacentHTML('beforeend', '<span class="caret"></span>');
     })
   },
@@ -130,8 +133,6 @@ const calendarModule = {
       try{
         let response = await this.getClient("/calendarClient");
           let secondRespond = await this.fetchApi(response.clientSecret, firstDate, timeDiff, id);
-          console.log(response);
-
       } catch(e){
         console.log(e);
       }
@@ -141,7 +142,6 @@ const calendarModule = {
   async getClient(url = ''){
     const response = await fetch(url);
     let data = await response.json();
-    console.log(data);
     return data;
   },
 
@@ -165,7 +165,6 @@ const calendarModule = {
       }).then((finalResp) => {
         return finalResp.json();
       }).then((data) => {
-        console.log(data);
         let view = document.querySelector('.view-container');
         data.events.forEach((event) => {
           let eventObj = {};
@@ -186,6 +185,7 @@ const calendarModule = {
           eventObj.month = dates.getMonthName(start);
           eventObj.month = eventObj.month.slice(0, 3);
           eventObj.date = start.getDate();
+          eventObj.url = event.url.public;
           view.insertAdjacentHTML('beforeend', this.buildHTML(eventObj));
         })
       })
@@ -217,7 +217,7 @@ const calendarModule = {
         </div>
       </div>
       <div class="calendar-body">
-        <div class="title">${obj.title}</div>
+        <a style="text-decoration: none;" href="${obj.url}"><div class="title">${obj.title}</div></a>
         <div class="description">${obj.description}</div>
       </div>
   </div>

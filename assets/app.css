@@ -229,10 +229,11 @@ article{
 }
 
 .card-header{
-  background-color: #189db2;
+  background-color: #004765;
   padding: 15px;
   border-radius: 5px 5px 0 0;
   position: relative;
+  color: white;
 }
 
 .card-body{
@@ -589,14 +590,12 @@ content-align: center;
   align-items: center;
   border-radius: 10px;
   margin: 10px;
+  width: 90%;
 }
 
 .calendar-card{
   height: fit-content;
-  width: 70%;
-  max-width: 700px;
-  border: 2px solid #d5d5d5;
-  border-radius: 5px;
+  width: 100%;
 }
 
 
@@ -642,7 +641,7 @@ content-align: center;
 
 .calendar-box > .month{
   font-size: 4rem;
-  color: #3e3e3e;
+  color: white;
 }
 
 .card-text-aside{
@@ -650,8 +649,12 @@ content-align: center;
   flex-direction: column;
   justify-content: center;
   font-size: 2rem;
-  color: #3e3e3e;
+  color: white;
   margin-left: 10px;
+}
+
+.calendar-right > i {
+  color: white;
 }
 
 .card-text-aside > .day-name{
@@ -682,7 +685,8 @@ content-align: center;
 /* CALENDAR BODY */
 
 .calendar-body{
-  margin: 20px;
+  padding: 20px;
+  background: #f5f2eb;
 }
 
 .calendar-body > .title{
