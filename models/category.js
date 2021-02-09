@@ -28,6 +28,10 @@ let EntryCategory = new mongoose.Schema({
 			ref: "MainCategory",
 		},
 	],
+	isPrivate: {
+		type: Boolean,
+		default: false,
+	}
 }, {
 	timestamps: true,
 })

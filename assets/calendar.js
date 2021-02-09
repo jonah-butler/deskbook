@@ -166,28 +166,41 @@ const calendarModule = {
         return finalResp.json();
       }).then((data) => {
         let view = document.querySelector('.view-container');
-        data.events.forEach((event) => {
-          let eventObj = {};
-          let start;
-          let end;
-          eventObj.title = event.title;
-          eventObj.description = event.description.replace(/(<([^>]+)>)/ig,"");
-          if(event.location.name == ""){
-            eventObj.location = event.calendar.name;
-          } else {
-            eventObj.location = event.location.name;
-          }
-          start = new Date(event.start);
-          end = new Date(event.end);
-          eventObj.start = dates.getTime(start);
-          eventObj.end = dates.getTime(end);
-          eventObj.day = dates.getDayName(start);
-          eventObj.month = dates.getMonthName(start);
-          eventObj.month = eventObj.month.slice(0, 3);
-          eventObj.date = start.getDate();
-          eventObj.url = event.url.public;
-          view.insertAdjacentHTML('beforeend', this.buildHTML(eventObj));
-        })
+        if(data.events.length) {
+          data.events.forEach((event) => {
+            let eventObj = {};
+            let start;
+            let end;
+            eventObj.title = event.title;
+            eventObj.description = event.description.replace(/(<([^>]+)>)/ig,"");
+            if(event.location.name == ""){
+              eventObj.location = event.calendar.name;
+            } else {
+              eventObj.location = event.location.name;
+            }
+            start = new Date(event.start);
+            end = new Date(event.end);
+            eventObj.start = dates.getTime(start);
+            eventObj.end = dates.getTime(end);
+            eventObj.day = dates.getDayName(start);
+            eventObj.month = dates.getMonthName(start);
+            eventObj.month = eventObj.month.slice(0, 3);
+            eventObj.date = start.getDate();
+            eventObj.url = event.url.public;
+            view.insertAdjacentHTML('beforeend', this.buildHTML(eventObj));
+          })
+          view.insertAdjacentHTML('afterbegin', `<button id="print" style="font-size: 25px;" class="button-main-sm glyphicon glyphicon-print"></button`);
+          document.querySelector('#print').addEventListener('click', function() {
+            const printWin = window.open('','','');
+            printWin.document.write(`${view.innerHTML}`);
+            printWin.document.close();
+            printWin.focus();
+            printWin.print();
+            printWin.close();
+          });
+        } else {
+          view.insertAdjacentHTML('beforeend', `<h1>No data for that selected date range!</h1><img class="empty-events-img" src="imgs/undraw_calendar_dutt.svg" alt="">`);
+        }
       })
     },
 
@@ -217,7 +230,7 @@ const calendarModule = {
         </div>
       </div>
       <div class="calendar-body">
-        <a style="text-decoration: none;" href="${obj.url}"><div class="title">${obj.title}</div></a>
+        <a style="text-decoration: none; color: #ff7236; font-size: 22px;" href="${obj.url}"><div class="title">${obj.title}</div></a>
         <div class="description">${obj.description}</div>
       </div>
   </div>

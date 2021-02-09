@@ -623,7 +623,7 @@ content-align: center;
 
 .calendar-box{
   width: fit-content;
-  border: 1px solid #ff7236;
+  /* border: 1px solid #ff7236; */
   border-radius: 1px 1px 4px 4px;
   margin: 2px;
   display: flex;
@@ -696,9 +696,9 @@ content-align: center;
 
 .calendar-body > .description{
   margin: 10px 0 0 5px;
-  border-left: 1px solid #003652;
+  /* border-left: 1px solid #003652; */
   padding-left: 5px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 
