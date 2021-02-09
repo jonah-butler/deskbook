@@ -466,7 +466,7 @@ app.delete('/user/print-tracker/', isLoggedIn, (req, res) => {
 // 		}
 // 	});
 // });
-app.get("/register", (req, res) => {
+app.get("/register", isAdmin, (req, res) => {
 	// User.find({}, (err, obj) => {
 	// 	if(err){
 	// 		console.log(err);
