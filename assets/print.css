@@ -1,0 +1,117 @@
+.calendar-card-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    font-family: sans-serif;
+    margin: 10px;
+    width: 90%;
+  }
+
+  .calendar-card{
+    height: fit-content;
+    width: 100%;
+  }
+
+
+  /* HEADER */
+  .card-header{
+    display: flex;
+    flex-direction: row;
+    border-bottom: 1px solid #003652;
+    padding: 18px;
+    padding-bottom: 5px;
+    position: relative;
+  }
+
+  .color-white{
+    color: white !important;
+  }
+
+  .flex-container-row{
+    display: flex;
+    flex-wrap: wrap;
+    padding: 10px;
+  }
+
+  /* CALENDAR BOX  */
+
+  .calendar-box{
+    width: fit-content;
+    /* border: 1px solid #ff7236; */
+    border-radius: 1px 1px 4px 4px;
+    margin: 2px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .calendar-box > .day{
+    background: #ff7236;
+    color: white;
+    font-size: 3rem;
+    width: 100%;
+    text-align: center;
+  }
+
+  .calendar-box > .month{
+    font-size: 4rem;
+    color: white;
+  }
+
+  .card-text-aside{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    margin-left: 10px;
+  }
+
+  .calendar-right > i {
+    color: white;
+  }
+
+  .card-text-aside > .day-name{
+
+  }
+
+  .card-text-aside > .time{
+    font-size: 1.8rem;
+  }
+
+  .card-text-aside > .location{
+    font-size: 1.5rem;
+  }
+
+  .calendar-right{
+    display: flex;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    color: #3e3e3e;
+  }
+
+  .calendar-right > .far{
+    font-size: 3rem;
+  }
+
+
+  /* CALENDAR BODY */
+
+  .calendar-body{
+    padding: 20px;
+    background: #f5f2eb;
+  }
+
+  .calendar-body > .title{
+    font-size: 2.1rem;
+    color: #ff7236;
+  }
+
+  .calendar-body > .description{
+    margin: 10px 0 0 5px;
+    /* border-left: 1px solid #003652; */
+    padding-left: 5px;
+    font-size: 1.5rem;
+  }
