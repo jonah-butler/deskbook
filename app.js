@@ -68,9 +68,11 @@ mongoose.connect(process.env.DB_URL,
 	// Passport Config
 	//**********
 
+	const secret = process.env.SECRET || 'secretfordevelopment';
+
 	const store = new MongoStore({
 		url: process.env.DB_URL,
-		secret: 'R3AD1NG',
+		secret,
 		touchAfter: 24 * 60 * 60
 	})
 
@@ -81,7 +83,7 @@ mongoose.connect(process.env.DB_URL,
 	const sessionConfig = {
 		store,
 		name: 'session',
-		secret: 'R3AD1NG',
+		secret,
 		resave: false,
 		saveUninitialized: true,
 		cookie: {
