@@ -14,9 +14,10 @@
 	  </div>
 	</header>
   <div class="container-fluid">
-    <h1 class="jumbo-header">System Wide Entries</h1>
+    <h1 class="jumbo-header">System Wide Categories</h1>
     <hr>
   </div>
+  <% if(categories.length != 0) { %>
 	<div class="row text-center" style="display: flex; flex-wrap: wrap">
 		<% categories.forEach((heading) =>{ %>
 		<div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
@@ -33,6 +34,11 @@
 		</div>
 		<% }); %>
 	</div>
+  <% } else {%>
+    <div class="container">
+      <h4 class="jumbo-header">This section is loney! Add some knowledge to the deskbook to get started!</h4>
+    </div>
+  <% } %>
   <% if(privateCategories.length) { %>
   <div class="container-fluid">
     <h1 class="jumbo-header">Private Entries</h1>
