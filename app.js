@@ -1,7 +1,8 @@
 const express 				  = require('express'),
 		  app 						  = express(),
 			ejs 						  = require('ejs'),
- 			bodyParser 			  = require('body-parser')
+ 			bodyParser 			  = require('body-parser'),
+			session           = require('express-session'),
  			mongo 			      = require('mongodb').MongoClient,
  			mongoose 				  = require('mongoose'),
 		 	expressSanitizer  = require('express-sanitizer'),
@@ -14,6 +15,7 @@ const express 				  = require('express'),
 			Entry             = require("./models/entry"),
 			MainCategory      = require("./models/category"),
 			ReferenceQuestion = require("./models/question"),
+			MongoStore        = require('connect-mongo')(session),
 			passportLocalMongoose = require("passport-local-mongoose")
 
 const router = express.Router();
@@ -65,11 +67,36 @@ mongoose.connect(process.env.DB_URL,
 	// Passport Config
 	//**********
 
-	app.use(require("express-session")({
-		secret: "Library's famous secret password",
+	const store = new MongoStore({
+		url: process.env.DB_URL,
+		secret: 'R3AD1NG',
+		touchAfter: 24 * 60 * 60
+	})
+
+	store.on("error", function(e) {
+		console.log('SESSION STORE', e);
+	})
+
+	const sessionConfig = {
+		store,
+		name: 'session',
+		secret: 'R3AD1NG',
 		resave: false,
-		saveUninitialized: false
-	}));
+		saveUninitialized: true,
+		cookie: {
+			httpOnly: true,
+			maxAge: 1000 * 60 * 60 * 24 * 7,
+			expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+		}
+	}
+
+		app.use(session(sessionConfig));
+
+	// app.use(session({
+	// 	secret: "Library's famous secret password",
+	// 	resave: false,
+	// 	saveUninitialized: false
+	// }));
 
 	app.use(passport.initialize());
 	app.use(passport.session());
@@ -546,8 +573,8 @@ app.get("*", (req, res) => {
 	res.render("404");
 })
 
-
+const port = process.env.PORT || 3000;
 //localhost setup
-app.listen(3000, (req, res) =>{
+app.listen(port, (req, res) =>{
 	console.log("successfully listening on port 3000");
 })
