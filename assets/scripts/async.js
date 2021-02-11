@@ -8,7 +8,7 @@ async function submitReference() {
     const description = document.querySelector('#referenceDescription').value;
     const post = {library, overFiveMinutes, description};
     if(library != ""){
-      const response = await fetch('http://localhost:3000/reference', {
+      const response = await fetch(`https://${document.location.host}/reference`, {
         method: 'POST',
         body: JSON.stringify(post),
         headers: {
