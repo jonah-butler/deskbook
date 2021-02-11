@@ -31,7 +31,11 @@ let EntryCategory = new mongoose.Schema({
 	isPrivate: {
 		type: Boolean,
 		default: false,
-	}
+	},
+	user: {
+		type: String,
+		required: false,
+	},
 }, {
 	timestamps: true,
 })

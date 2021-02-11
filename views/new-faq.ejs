@@ -17,7 +17,7 @@
 				Categories
 			</div>
 			<select name="entry[section]">
-	
+
 				<option value="<%= category._id %>"><%= category.title %></option>
 			</select>
 		</div>
@@ -31,6 +31,21 @@
 			<input class="tag-input" id="titleField" type="text" name="entry[title]" value="" placeholder=""></input>
 		</div>
 	</div>
+<% if(category.isPrivate == true) {%>
+	<div class="form-group form-group-select">
+		<div class="tag-input-container">
+			<div class="headline">
+				Private Category?
+			</div>
+			<div class="sub-headline">
+				Adding an FAQ to a private category will make this FAQ private.
+			</div>
+			<select name="entry[isPrivate]">
+				<option value="true">True</option>
+			</select>
+		</div>
+	</div>
+	<% } %>
 		<!-- input for text -->
 		<div class="form-group">
 			<div class="tag-input-container-large">

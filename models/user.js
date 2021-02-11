@@ -10,10 +10,10 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  library: {
-    type: String,
-    required: true,
-  },
+  // library: {
+  //   type: String,
+  //   required: true,
+  // },
   password: String,
   isAdmin: {
     type: Boolean,

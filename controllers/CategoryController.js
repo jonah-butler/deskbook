@@ -1,5 +1,6 @@
 const MainCategory = require('../models/category.js');
 const Entry = require('../models/entry.js');
+const User = require('../models/user.js');
 const helpers = require('../assets/helpers/helpers.js');
 
 module.exports = {
@@ -11,16 +12,36 @@ module.exports = {
   },
   async newPost(req, res) {
     try{
-      if(req.body.entry.section){
-        const newCategory = await MainCategory.create(req.body.entry);
-        let parentCategory = await MainCategory.findOne({_id: req.body.entry.section});
-        parentCategory.subCategories.push(newCategory);
-        parentCategory = await parentCategory.save();
-        res.redirect(`/entries/${newCategory._id}`);
+      console.log(req.body);
+      if(req.body.entry.isPrivate == 'true'){
+        let user = await User.findOne({_id: req.user._id});
+        if(req.body.entry.section){
+          req.body.entry.user = user._id;
+          const newCategory = await MainCategory.create(req.body.entry);
+          let parentCategory = await MainCategory.findOne({_id: req.body.entry.section});
+          parentCategory.subCategories.push(newCategory);
+          parentCategory = await parentCategory.save();
+          res.redirect(`/entries/${newCategory._id}`);
+        } else {
+          req.body.entry.section = 'parent';
+          req.body.entry.user = user._id;
+          let newCategory = await MainCategory.create(req.body.entry);
+          user.privateEntries.push(newCategory);
+          await user.save();
+          res.redirect(`/entries/${newCategory._id}`);
+        }
       } else {
-        req.body.entry.section = 'parent';
-        const newCategory = await MainCategory.create(req.body.entry);
-        res.redirect(`/entries/${newCategory._id}`);
+        if(req.body.entry.section){
+          const newCategory = await MainCategory.create(req.body.entry);
+          let parentCategory = await MainCategory.findOne({_id: req.body.entry.section});
+          parentCategory.subCategories.push(newCategory);
+          parentCategory = await parentCategory.save();
+          res.redirect(`/entries/${newCategory._id}`);
+        } else {
+          req.body.entry.section = 'parent';
+          const newCategory = await MainCategory.create(req.body.entry);
+          res.redirect(`/entries/${newCategory._id}`);
+        }
       }
     } catch(err) {
       console.log(err);
@@ -56,6 +77,12 @@ module.exports = {
     let arr = await helpers.recursiveCollectEntries(category.subCategories, stagingArray);
     console.log(arr);
     await MainCategory.deleteOne({_id: req.params.categoryId});
+    if(category.section === 'parent' && category.isPrivate === true){
+      await User.update(
+        {_id: req.user._id},
+        {$pull: {'privateEntries': category._id}}
+      )
+    }
     await Entry.deleteMany({section: req.params.categoryId});
     if(arr != undefined){
       try{

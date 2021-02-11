@@ -727,7 +727,13 @@ content-align: center;
   opacity: 0.6;
   font-size: 12px;
   text-align: left;
-  padding-bottom: 10px;
+  /* padding-bottom: 10px; */
+}
+
+.sub-headline {
+  font-size: 10px;
+  opacity: 0.6;
+  /* padding-bottom: 10px; */
 }
 
 #spanContainer > span{

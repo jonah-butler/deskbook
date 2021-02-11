@@ -1,22 +1,47 @@
 const MainCategory = require('../models/category.js');
 const Entry = require('../models/entry.js');
+const User = require('../models/user.js');
 const helpers = require('../assets/helpers/helpers.js');
 
 module.exports = {
   async index(req, res) {
-    MainCategory.find({section: 'parent'}, (err, categories) => {
-      if(err){
-        console.log(err);
-      } else {
-        res.render("index", {
-          categories: categories,
-          user: req.user,
-          adminStatus: req.user.isAdmin
-        });
+    let publicCategories = await MainCategory.find(
+      {
+        $and: [
+          {section: {
+            $in: 'parent',
+          }},
+          {isPrivate: {
+            $in: false,
+          }},
+        ],
       }
+    )
+    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries');
+    console.log(privateCategories);
+    res.render('index', {
+      categories: publicCategories,
+      privateCategories: privateCategories.privateEntries,
+      user: req.user,
+      adminStatus: req.user.isAdmin
     })
+    // MainCategory.find({section: 'parent'}, (err, categories) => {
+    //   if(err){
+    //     console.log(err);
+    //   } else {
+    //     res.render("index", {
+    //       categories: publicCategories,
+    //       privateCategories: privateCategories,
+    //       user: req.user,
+    //       adminStatus: req.user.isAdmin
+    //     });
+    //   }
+    // })
   },
   async post(req, res) {
+    if(req.body.entry.isPrivate == 'true'){
+      req.body.entry.user = req.user._id;
+    }
     Entry.create(req.body.entry, (err, newEntry) => {
       if(err){
         console.log(err);

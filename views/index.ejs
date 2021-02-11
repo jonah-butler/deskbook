@@ -8,11 +8,15 @@
 		<p></p>
     <% if(adminStatus == true) { %>
 		<a href="/category/new-parent"><button class="button-main">Add New Parent Category</button></a>
+    <a href="/category/new-parent"><button class="button-main">Add New Private Category</button></a>
     <!-- <a href="/entries/new"><button class="button-main">Add A New FAQ</button></a> -->
     <% } %>
 	  </div>
 	</header>
-
+  <div class="container-fluid">
+    <h1 class="jumbo-header">System Wide Entries</h1>
+    <hr>
+  </div>
 	<div class="row text-center" style="display: flex; flex-wrap: wrap">
 		<% categories.forEach((heading) =>{ %>
 		<div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
@@ -29,6 +33,28 @@
 		</div>
 		<% }); %>
 	</div>
+  <% if(privateCategories.length) { %>
+  <div class="container-fluid">
+    <h1 class="jumbo-header">Private Entries</h1>
+    <hr>
+  </div>
+  <div class="row text-center" style="display: flex; flex-wrap: wrap">
+    <% privateCategories.forEach((heading) =>{ %>
+    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+      <div class="thumbnail">
+
+        <h3 class="section-name"><%= heading.title %></h3>
+        <div class="caption">
+          <p><%= heading.description.slice(0, 100) %>...</p>
+        </div>
+        <p>
+          <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
+        </p>
+      </div>
+    </div>
+    <% }); %>
+  </div>
+  <% } %>
 
 
 </div>

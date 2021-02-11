@@ -21,6 +21,7 @@ const express 				  = require('express'),
 const router = express.Router();
 require('dotenv').config()
 
+
 // mongoose.connect(process.env.DB_URL,
 // 	{
 // 		useNewUrlParser: true,

@@ -24,6 +24,14 @@ const DeskBookSchema = new mongoose.Schema({
 			required: false,
 		},
 	],
+	isPrivate: {
+		type: Boolean,
+		default: false,
+	},
+	user: {
+		type: String,
+		required: false,
+	},
 }, {
 	timestamps: true,
 })
