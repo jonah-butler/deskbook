@@ -202,7 +202,7 @@ window.onload = function(){
     if(data != false){
       this.disabled = true;
       try {
-        const response = await fetchApi('http://localhost:3000/reference/search', data);
+        const response = await fetchApi(`https://${document.location.host}/reference/search`, data);
         console.log(response);
         if(!response.length){
           console.log('nothing');
