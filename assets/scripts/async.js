@@ -16,11 +16,18 @@ async function submitReference() {
         },
       });
       const data = await response.json();
-      if(data){
-        console.log(data);
+      console.log(data);
+      if(data.error){
+        this.insertAdjacentHTML('afterend', '<h1>please login</h1>');
+      } else {
         this.disabled = false;
         confetti.start(2000);
       }
+      // if(data){
+      //   console.log(data);
+      //   this.disabled = false;
+      //   confetti.start(2000);
+      // }
     }
   })
 }

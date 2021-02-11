@@ -88,25 +88,24 @@ function setupDataForChart(response) {
   response.forEach((val, i, arr) => {
       if(val == arr[arr.length - 1]){
           if(arr.length == 1){
-            console.log('yo');
             valueObj[val.library] = 1;
             return valueObj;
           }
           if(val.library != arr[i-1].library){
-              console.log(arr[i-1].library, counter);
               // valueArr.push({arr[i-1].library: counter});
               valueObj[arr[i-1].library] = counter;
-              console.log(val.library, 1);
-              valueObj[val.library] = counter;
+              valueObj[val.library]++;
           } else {
               // valueArr.push({arr[i-1].library: counter + 1]);
               valueObj[arr[i-1].library] = counter+1;
           }
       } else if(i != 0 && val.library != arr[i-1].library){
-          console.log(arr[i-1].library, counter);
-          valueObj[arr[i-1].library] = counter;
+          // valueObj[arr[i-1].library] = counter+1;
+          valueObj[val.library] = counter;
           // valueArr.push({arr[i-1].library: counter});
-          counter = 0;
+          counter = 1;
+      } else {
+        valueObj[arr[i].library] = 1;
       }
       counter++;
   })

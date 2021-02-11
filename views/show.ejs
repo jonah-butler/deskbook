@@ -25,7 +25,8 @@
     <div class="faq-description"><%- values[0].description %></div>
   </div>
   <a href="/entries/<%= parentCategory._id %>/<%= values[0]._id %>/edit/">
-    <% if(adminStatus == true) { %>
+
+    <% if(user != null && user.isAdmin == true) { %>
     <button class="button-main-sm">Edit</button>
     <% } %>
   </a>

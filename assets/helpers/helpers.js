@@ -27,8 +27,17 @@ function findNextDay(date) {
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
-	}
-	res.redirect("/login");
+	} else {
+    res.redirect("/login");
+  }
+}
+
+function canSubmit(req, res, next){
+  if(req.isAuthenticated()){
+    return next();
+  } else {
+    res.send({error: 'user not logged in'});
+  }
 }
 
 function isAdmin(req, res, next){
@@ -38,7 +47,20 @@ function isAdmin(req, res, next){
 	res.redirect("/entries");
 }
 
+function isPublic(req, res, next){
+  Entry.findOne({_id: req.params.id}, (err, entry) => {
+    if(entry.isPrivate && req.user._id != entry.user){
+      res.redirect('/login');
+    } else {
+      req.entry = entry;
+      return next();
+    }
+  });
+}
+
 module.exports.recursiveCollectEntries = recursiveCollectEntries;
 module.exports.findNextDay = findNextDay;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.isAdmin = isAdmin;
+module.exports.isPublic = isPublic;
+module.exports.canSubmit = canSubmit;

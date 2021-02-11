@@ -14,7 +14,7 @@ module.exports = (app) => {
   app.get('/entries/:id', helpers.isLoggedIn,
   EntryController.categoryIndex);
 
-  app.get('/entries/:categoryId/:id', helpers.isLoggedIn,
+  app.get('/entries/:categoryId/:id', helpers.isPublic,
   EntryController.faqIndex);
 
   app.get("/entries/:headerCategory/:id/edit", helpers.isLoggedIn,

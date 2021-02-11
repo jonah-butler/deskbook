@@ -11,6 +11,7 @@ module.exports = {
   },
   async post(req, res) {
     try{
+      console.log('yoooo');
       const question = await ReferenceQuestion.create(req.body);
       res.send(question);
     } catch(err) {
@@ -18,7 +19,6 @@ module.exports = {
     }
   },
   async postSearch(req, res) {
-    console.log(req.body);
     req.body.createdAt[1] = helpers.findNextDay(req.body.createdAt[1]);
     if(req.body.library == 'all') {
       const questions = await ReferenceQuestion.find(
