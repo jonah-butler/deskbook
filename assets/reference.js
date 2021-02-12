@@ -84,30 +84,12 @@ function sortData(data) {
 
 function setupDataForChart(response) {
   let valueObj = {};
-  let counter = 0;
   response.forEach((val, i, arr) => {
-      if(val == arr[arr.length - 1]){
-          if(arr.length == 1){
-            valueObj[val.library] = 1;
-            return valueObj;
-          }
-          if(val.library != arr[i-1].library){
-              // valueArr.push({arr[i-1].library: counter});
-              valueObj[arr[i-1].library] = counter;
-              valueObj[val.library]++;
-          } else {
-              // valueArr.push({arr[i-1].library: counter + 1]);
-              valueObj[arr[i-1].library] = counter+1;
-          }
-      } else if(i != 0 && val.library != arr[i-1].library){
-          // valueObj[arr[i-1].library] = counter+1;
-          valueObj[val.library] = counter;
-          // valueArr.push({arr[i-1].library: counter});
-          counter = 1;
-      } else {
-        valueObj[arr[i].library] = 1;
-      }
-      counter++;
+    if(valueObj[val.library] == undefined){
+      valueObj[val.library] = 1;
+    } else {
+      valueObj[val.library] += 1;
+    }
   })
   return valueObj;
 }
