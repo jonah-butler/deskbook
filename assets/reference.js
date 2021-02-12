@@ -84,7 +84,7 @@ function sortData(data) {
 
 function setupDataForChart(response) {
   let valueObj = {};
-  response.forEach((val, i, arr) => {
+  response.forEach((val) => {
     if(valueObj[val.library] == undefined){
       valueObj[val.library] = 1;
     } else {
@@ -183,7 +183,7 @@ window.onload = function(){
     if(data != false){
       this.disabled = true;
       try {
-        const response = await fetchApi(`https://${document.location.host}/reference/search`, data);
+        const response = await fetchApi(`http://${document.location.host}/reference/search`, data);
         console.log(response);
         if(!response.length){
           console.log('nothing');

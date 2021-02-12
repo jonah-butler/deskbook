@@ -7,8 +7,20 @@
 	</div>
 
   <div class="text-container">
-    <h1><%= parentCategory.title %> </h1>
+    <h1>
+      <%= parentCategory.title %> 
+      <% if(values[0].isPrivate) { %>
+        <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-lock"></span>
+        <% } else {%>
+        <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-eye-open"></span>
+        <% } %>
+    </h1>
     <h3><%= values[0].title %></h3>
+    <% if(!values[0].isPrivate) { %>
+    <div>
+      <div class="show-link glyphicon glyphicon-link"></div>
+    </div>
+    <% } %>
     <% if(values[0].category.length) { %>
     <div class="category-container">
     <%  values[0].category.forEach((category) => { %>
@@ -32,19 +44,14 @@
   </a>
 </article>
 <div class="container explore-container">
-    <% if(values.length > 1) { %>
+    <% if(values[1] || values[2]) { %>
       <h1>Explore More</h1>
       <% for(let i = 1; i < values.length; i++) { %>
         <% if(values[i] != undefined) { %>
           <div class="row">
         <div class="col-sm-6 col-center">
           <a class="next-previous-links" href="/entries/<%= parentCategory._id %>/<%= values[i].id %>/">
-          <div class="explore-card">
-            <% if(i == 2) { %>
-              <i class="nav-arrows fas fa-long-arrow-alt-right"></i>
-            <% } else {%>
-            <i class="nav-arrows fas fa-long-arrow-alt-left"></i>
-            <% } %>
+          <div class="entry">
             <h4 class="nav-card-header"><%= parentCategory.title %></h4>
             <p><%= values[i].title %></p>
           </div>

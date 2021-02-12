@@ -87,6 +87,7 @@ module.exports = {
           res.render("header-list", {
             category: category,
             adminStatus: req.user.isAdmin,
+            user: req.user || null,
           });
         }
       }
@@ -123,12 +124,10 @@ module.exports = {
 					return obj[0];
 			};
 		})
-
-		// console.log(newObj);
 		res.render("show", {
 			parentCategory: parentCategory,
 			values: newObj,
-			user: req.user || null,
+      user: req.user || null,
 		} );
 	})
   },
