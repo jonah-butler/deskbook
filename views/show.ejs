@@ -36,16 +36,19 @@
     <% } %>
     <div class="faq-description"><%- values[0].description %></div>
   </div>
-  <a href="/entries/<%= parentCategory._id %>/<%= values[0]._id %>/edit/">
+  <% if(user != null && user.isAdmin == true) { %>
+  <div class="edit-container">
+    <a href="/entries/<%= parentCategory._id %>/<%= values[0]._id %>/edit/">
+      <button class="button-main-sm">Edit</button>
+    </a>
+  </div>
+  <% } %>
 
-    <% if(user != null && user.isAdmin == true) { %>
-    <button class="button-main-sm">Edit</button>
-    <% } %>
-  </a>
 </article>
 <div class="container explore-container">
     <% if(values[1] || values[2]) { %>
-      <h1>Explore More</h1>
+      <h1>Explore</h1>
+      <p>More in <%= parentCategory.title %></p>
       <% for(let i = 1; i < values.length; i++) { %>
         <% if(values[i] != undefined) { %>
           <div class="row">
