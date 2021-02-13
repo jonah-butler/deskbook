@@ -9,14 +9,25 @@
     <% if(adminStatus == true) { %>
 		<a href="/category/new-parent"><button class="button-main">Add New Parent Category</button></a>
     <a href="/category/new-parent"><button class="button-main">Add New Private Category</button></a>
+    <br><a href="/entries"><button class="button-main">Categories Home</button></a>
     <!-- <a href="/entries/new"><button class="button-main">Add A New FAQ</button></a> -->
     <% } %>
 	  </div>
 	</header>
   <div class="container">
-    <h1 class="jumbo-header">System Wide Categories</h1>
-    <p>Most Recently Added</p>
-    <a href="/category/public/?page=1"><button class="button-main">View All</button></a>
+    <h1 class="jumbo-header">All Public Categories</h1>
+    <h5>Page <%= page %></h5>
+    <% if(page > 1) { %>
+      <a href="/category/public/?page=<%= page - 1 %>">
+        <button style="display: block; margin-top: 3px;" class="button-main-sm">Previous Page</button>
+      </a>
+      <% } %>
+    <% if(remainder > 0) { %>
+    <a href="/category/public/?page=<%= page + 1 %>">
+      <button style="display: block; margin-top: 3px;" class="button-main-sm">Next Page</button>
+    </a>
+    <% } %>
+    <!-- <p>Most Recently Added</p> -->
     <hr>
     <% if(categories.length != 0) { %>
       <div class="row text-center" style="display: flex; flex-wrap: wrap">
@@ -43,32 +54,6 @@
         </div>
       <% } %>
   </div>
-  <% if(privateCategories.length) { %>
-  <div class="container">
-    <h1 class="jumbo-header">Private Entries</h1>
-    <p>Most Recently Added</p>
-    <a href="/category/private/all"><button class="button-main">View All</button></a>
-    <hr>
-    <div class="row text-center" style="display: flex; flex-wrap: wrap">
-      <% privateCategories.forEach((heading) =>{ %>
-      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
-        <div class="entry private">
-  
-          <h3 class="section-name"><%= heading.title %></h3>
-          <% let date = new Date(heading.createdAt); %>
-          <p><%= date.toDateString(); %></p>
-          <div class="caption">
-            <p><%= heading.description.slice(0, 100) %>...</p>
-          </div>
-          <p>
-            <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
-          </p>
-        </div>
-      </div>
-      <% }); %>
-    </div>
-  </div>
-  <% } %>
 
 
 </div>

@@ -10,6 +10,80 @@ module.exports = {
       category: category,
     });
   },
+  async publicIndex(req, res) {
+    const count = await MainCategory.countDocuments(
+      {
+        $and: [
+          {section: {
+            $in: 'parent',
+          }},
+          {isPrivate: {
+            $in: false,
+          }},
+        ],
+      }
+    )
+    if(req.query.page == 1){
+      let publicCategories = await MainCategory.find(
+        {
+          $and: [
+            {section: {
+              $in: 'parent',
+            }},
+            {isPrivate: {
+              $in: false,
+            }},
+          ],
+        }
+      ).sort({'createdAt': -1}).limit(9);
+      const remainder = count - 9;
+      res.render('index-all', {
+        categories: publicCategories, 
+        user: req.user,
+        adminStatus: req.user.isAdmin,
+        remainder: remainder,
+        page: parseInt(req.query.page),
+      })
+    } else {
+      const offset = req.query.page * 9;
+      if(offset){
+        let publicCategories = await MainCategory.find(
+          {
+            $and: [
+              {section: {
+                $in: 'parent',
+              }},
+              {isPrivate: {
+                $in: false,
+              }},
+            ],
+          }
+        ).sort({'createdAt': -1}).limit(9).skip(offset - 9);
+        res.render('index-all', {
+          categories: publicCategories, 
+          user: req.user,
+          adminStatus: req.user.isAdmin,
+          remainder: (count - offset),
+          page: parseInt(req.query.page),
+        })
+    }
+    }
+    // let publicCategories = await MainCategory.find(
+    //   {
+    //     $and: [
+    //       {section: {
+    //         $in: 'parent',
+    //       }},
+    //       {isPrivate: {
+    //         $in: false,
+    //       }},
+    //     ],
+    //   }
+    // ).sort({'createdAt': -1}).limit(3);
+  },
+  async privatIndex(req, res) {
+
+  },
   async newPost(req, res) {
     try{
       console.log(req.body);

@@ -8,6 +8,9 @@ module.exports = (app) => {
   app.get('/category/new-parent', helpers.isLoggedIn,
   CategoryController.newParent);
 
+  app.get('/category/public/', helpers.isLoggedIn,
+  CategoryController.publicIndex);
+
   app.post('/category/new', helpers.isLoggedIn,
   CategoryController.newPost);
 

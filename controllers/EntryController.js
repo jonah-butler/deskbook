@@ -16,9 +16,10 @@ module.exports = {
           }},
         ],
       }
-    )
-    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries');
-    console.log(privateCategories);
+    ).sort({'createdAt': -1}).limit(6);
+    // console.log(publicCategories);
+    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1}).limit(10);
+    // console.log(privateCategories);
     res.render('index', {
       categories: publicCategories,
       privateCategories: privateCategories.privateEntries,
