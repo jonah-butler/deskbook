@@ -1121,3 +1121,15 @@ button{
   min-height: 200px !important;
 }
 
+.fr-toolbar, .fr-wrapper{
+  border: none !important;
+}
+
+.fr-second-toolbar{
+  display: none;
+}
+
+.fr-wrapper > div:first-child{
+  display: none;
+}
+

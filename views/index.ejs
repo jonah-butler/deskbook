@@ -28,7 +28,7 @@
             <% let date = new Date(heading.createdAt); %>
             <p><%= date.toDateString(); %></p>
             <div class="caption">
-              <p><%= heading.description.slice(0, 100) %>...</p>
+              <p><%- heading.description.slice(0, 100) %>...</p>
             </div>
             <p>
               <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
@@ -58,7 +58,7 @@
           <% let date = new Date(heading.createdAt); %>
           <p><%= date.toDateString(); %></p>
           <div class="caption">
-            <p><%= heading.description.slice(0, 100) %>...</p>
+            <p><%- heading.description.slice(0, 100) %>...</p>
           </div>
           <p>
             <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>

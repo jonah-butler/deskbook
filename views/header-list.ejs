@@ -13,7 +13,7 @@
       <a href="/search/?query=<%= category %>"><span class="category"> <%= category %> </span> </a>
   <% }) %>
   </div>
-  <p><%= category.description %></p>
+  <p><%- category.description %></p>
   <% if(category.section == 'parent') { %>
   <a href="/entries"><button class="button-main">Go Back</button></a>
   <% } %>
