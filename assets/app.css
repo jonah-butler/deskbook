@@ -1061,7 +1061,7 @@ button{
   bottom: 0px;
   border-radius: 5px;
   border: 2px solid transparent;
-  min-width: 330px;
+  /* min-width: 330px; */
   max-width: 550px;
 }
 

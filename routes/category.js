@@ -11,6 +11,9 @@ module.exports = (app) => {
   app.get('/category/public/', helpers.isLoggedIn,
   CategoryController.publicIndex);
 
+  app.get('/category/private/', helpers.isLoggedIn,
+  CategoryController.privateIndex);
+
   app.post('/category/new', helpers.isLoggedIn,
   CategoryController.newPost);
 

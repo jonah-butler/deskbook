@@ -15,17 +15,34 @@
 	  </div>
 	</header>
   <div class="container">
-    <h1 class="jumbo-header">All Public Categories</h1>
+    <% if (isPrivate) { %>
+    <h1 class="jumbo-header">All Private Categories</h1>
+    <% } else {%>
+      <h1 class="jumbo-header">All Public Categories</h1>
+    <% } %>
     <h5>Page <%= page %></h5>
-    <% if(page > 1) { %>
-      <a href="/category/public/?page=<%= page - 1 %>">
-        <button style="display: block; margin-top: 3px;" class="button-main-sm">Previous Page</button>
-      </a>
-      <% } %>
-    <% if(remainder > 0) { %>
-    <a href="/category/public/?page=<%= page + 1 %>">
-      <button style="display: block; margin-top: 3px;" class="button-main-sm">Next Page</button>
-    </a>
+    <% if(isPrivate) { %>
+      <% if(page > 1) { %>
+        <a href="/category/private/?page=<%= page - 1 %>">
+          <button style="display: block; margin-top: 3px;" class="button-main-sm">Previous Page</button>
+        </a>
+        <% } %>
+        <% if(remainder > 0) { %>
+          <a href="/category/private/?page=<%= page + 1 %>">
+            <button style="display: block; margin-top: 3px;" class="button-main-sm">Next Page</button>
+          </a>
+          <% } %>
+    <% } else { %>
+      <% if(page > 1) { %>
+        <a href="/category/public/?page=<%= page - 1 %>">
+          <button style="display: block; margin-top: 3px;" class="button-main-sm">Previous Page</button>
+        </a>
+        <% } %>
+        <% if(remainder > 0) { %>
+          <a href="/category/public/?page=<%= page + 1 %>">
+            <button style="display: block; margin-top: 3px;" class="button-main-sm">Next Page</button>
+          </a>
+          <% } %>
     <% } %>
     <!-- <p>Most Recently Added</p> -->
     <hr>
@@ -33,8 +50,11 @@
       <div class="row text-center" style="display: flex; flex-wrap: wrap">
         <% categories.forEach((heading) =>{ %>
         <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+          <% if(isPrivate) { %>
+          <div class="entry private">
+          <% } else { %>
           <div class="entry">
-    
+          <% } %>
             <h3 class="section-name"><%= heading.title %></h3>
             <% let date = new Date(heading.createdAt); %>
             <p><%= date.toDateString(); %></p>

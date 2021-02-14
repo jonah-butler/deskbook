@@ -18,11 +18,11 @@ module.exports = {
       }
     ).sort({'createdAt': -1}).limit(6);
     // console.log(publicCategories);
-    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1}).limit(10);
+    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
     // console.log(privateCategories);
     res.render('index', {
       categories: publicCategories,
-      privateCategories: privateCategories.privateEntries,
+      privateCategories: privateCategories.privateEntries.slice(0, 6),
       user: req.user,
       adminStatus: req.user.isAdmin
     })

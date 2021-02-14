@@ -43,6 +43,7 @@ module.exports = {
         adminStatus: req.user.isAdmin,
         remainder: remainder,
         page: parseInt(req.query.page),
+        isPrivate: false,
       })
     } else {
       const offset = req.query.page * 9;
@@ -65,24 +66,39 @@ module.exports = {
           adminStatus: req.user.isAdmin,
           remainder: (count - offset),
           page: parseInt(req.query.page),
+          isPrivate: false,
         })
     }
     }
-    // let publicCategories = await MainCategory.find(
-    //   {
-    //     $and: [
-    //       {section: {
-    //         $in: 'parent',
-    //       }},
-    //       {isPrivate: {
-    //         $in: false,
-    //       }},
-    //     ],
-    //   }
-    // ).sort({'createdAt': -1}).limit(3);
   },
-  async privatIndex(req, res) {
-
+  async privateIndex(req, res) {
+    if(req.query.page == 1){
+      const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
+      const count = privateCategories.privateEntries.length;
+      const remainder = count - 9;
+      res.render('index-all', {
+        categories: privateCategories.privateEntries.slice(0 , 9), 
+        user: req.user,
+        adminStatus: req.user.isAdmin,
+        remainder: remainder,
+        page: parseInt(req.query.page),
+        isPrivate: true,
+      })
+    } else {
+      const offset = req.query.page * 9;
+      if(offset) {
+        const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
+        const count = privateCategories.privateEntries.length;
+        res.render('index-all', {
+          categories: privateCategories.privateEntries.slice((offset - 9) , offset), 
+          user: req.user,
+          adminStatus: req.user.isAdmin,
+          remainder: (count - offset),
+          page: parseInt(req.query.page),
+          isPrivate: true,
+        })
+      }
+    }
   },
   async newPost(req, res) {
     try{
