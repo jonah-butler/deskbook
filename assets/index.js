@@ -17,4 +17,17 @@ if(linkCopy){
   animatingStateInit(linkCopy, document.querySelector('article'));
 }
 
-modalClickListener(modalBtnArr, submitReference);
+Array.
+from(modalBtnArr).
+forEach((node) => {
+  node.addEventListener('click', function(e) {
+    modalClickListener(submitReference);
+  })
+})
+
+document.
+querySelector('#submitReference').
+addEventListener('click', function(e) {
+  submitReference(this);
+})
+// modalClickListener(modalBtnArr, submitReference);

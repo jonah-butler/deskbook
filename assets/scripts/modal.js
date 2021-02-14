@@ -1,10 +1,4 @@
-function modalClickListener(buttonArr, callback) {
-  if(buttonArr){
-    Array.
-    from(buttonArr).
-    forEach((node) => {
-    node.
-    addEventListener('click', function(e) {
+function modalClickListener() {
       const modal = document.querySelector('#Modal');
       const modalContentCont = modal.querySelector('.modal-content-container');
 
@@ -14,10 +8,8 @@ function modalClickListener(buttonArr, callback) {
           modal.style.display = "none";
         }
       }
-        callback();
-    })
-  })
-  }
+        // callback(modal);
+        // modal.style.display = "none";
 }
 
 export { modalClickListener };
