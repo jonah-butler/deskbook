@@ -26,9 +26,9 @@
     
             <h3 class="section-name"><%= heading.title %></h3>
             <% let date = new Date(heading.createdAt); %>
-            <p><%= date.toDateString(); %></p>
+            <p style="font-size: 11px;"><%= date.toDateString(); %></p>
             <div class="caption">
-              <p><%- heading.description.slice(0, 100) %>...</p>
+              <p style="font-size: 12px; font-style: italic;"><%- heading.description.slice(0, 100) %>...</p>
             </div>
             <p>
               <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
@@ -56,9 +56,9 @@
   
           <h3 class="section-name"><%= heading.title %></h3>
           <% let date = new Date(heading.createdAt); %>
-          <p><%= date.toDateString(); %></p>
+          <p style="font-size: 11px;"><%= date.toDateString(); %></p>
           <div class="caption">
-            <p><%- heading.description.slice(0, 100) %>...</p>
+            <p style="font-size: 12px; font-style: italic;"><%- heading.description.slice(0, 100) %>...</p>
           </div>
           <p>
             <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
