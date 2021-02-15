@@ -188,5 +188,8 @@ module.exports = {
   },
   async newParent(req, res) {
     res.render('new-category-parent');
+  },
+  async newPrivateParent(req, res) {
+    res.render('new-category-parent-private');
   }
 }

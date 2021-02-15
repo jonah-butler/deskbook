@@ -36,7 +36,7 @@
     <% } %>
     <div class="faq-description"><%- values[0].description %></div>
   </div>
-  <% if(user != null && user.isAdmin == true) { %>
+  <% if(user != null && user.isAdmin == true || user != null && user._id == values[0].user) { %>
   <div class="edit-container">
     <a href="/entries/<%= parentCategory._id %>/<%= values[0]._id %>/edit/">
       <button class="button-main-sm">Edit</button>

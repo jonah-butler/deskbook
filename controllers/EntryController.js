@@ -82,6 +82,7 @@ module.exports = {
               category: category,
               parentCategory: parentCategory,
               adminStatus: req.user.isAdmin,
+              user: req.user,
             });
           });
         } else {
