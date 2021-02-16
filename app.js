@@ -118,6 +118,7 @@ require('./routes/reference')(app);
 require('./routes/search')(app);
 require('./routes/category')(app);
 require('./routes/home')(app);
+require('./routes/user')(app);
 
 
 app.post("/user/print-tracker-update", isLoggedIn, (req, res) => {
@@ -143,11 +144,11 @@ app.post("/user/print-tracker-update", isLoggedIn, (req, res) => {
 // 	});
 // })
 
-app.get("/user", isLoggedIn, (req, res) =>{
-	res.render("user", {
-		user: req.user
-	})
-} )
+// app.get("/user", isLoggedIn, (req, res) =>{
+// 	res.render("user", {
+// 		user: req.user
+// 	})
+// } )
 
 app.get("/calendarClient", isLoggedIn, (req, res) => {
 	const clientSecret = "baf5b3e12d05125f5d7e277d04ffc6ca";

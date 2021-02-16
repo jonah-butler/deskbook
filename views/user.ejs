@@ -4,6 +4,7 @@
     <header class="jumbotron">
 	  <div class="container">
 		<h1 class="jumbo-header">User Panel</h1>
+    <p class="jumbo-header"><%= user.username %></p>
 		<p></p>
 		<!-- <a href="/entries/new"><button class="button-main">Add A New FAQ</button></a> -->
 	  </div>
@@ -13,12 +14,12 @@
     <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
       <div class="thumbnail">
 
-        <h3 class="section-name">Print Tracker</h3>
+        <h3 class="section-name">Change Password</h3>
         <div class="caption">
 
         </div>
         <p>
-          <a href="/user/print-tracker/<%= user._id %>" class="button-main-sm">Open</a>
+          <a href="/user/<%= user._id %>/change-password" class="button-main-sm">Edit</a>
         </p>
       </div>
     </div>
