@@ -1129,3 +1129,6 @@ button{
   display: none;
 }
 
+.faq-description > [data-f-id="pbf"] {
+  opacity: 0 !important;
+}
