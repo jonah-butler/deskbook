@@ -11,7 +11,7 @@ module.exports = {
   },
   async post(req, res) {
     try{
-      console.log('yoooo');
+      req.body.user = req.user._id;
       const question = await ReferenceQuestion.create(req.body);
       res.send(question);
     } catch(err) {

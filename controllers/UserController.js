@@ -8,12 +8,12 @@ module.exports = {
     res.redirect(`/user/${req.user._id}`);
   },
   async indexLookup(req, res){
-    res.render('user', {
+    res.render('user/landing', {
       user: req.user,
     });
   },
   async changePwdIndex(req, res){
-    res.render('change-password', {
+    res.render('user/change-password', {
       user: req.user,
       message: req.flash('message'),
     });
@@ -33,5 +33,8 @@ module.exports = {
       req.flash('message', 'Your new password did not match on reenter');
       res.redirect(`/user/${req.user_id}/change-password`);
     }
+  },
+  async referenceIndex(req, res){
+    res.render('user/reference');
   },
 }

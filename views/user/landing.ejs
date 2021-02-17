@@ -1,4 +1,4 @@
-<%- include ('partials/header') %>
+<%- include ('../partials/header') %>
 
 <div class="container">
     <header class="jumbotron">
@@ -23,9 +23,21 @@
         </p>
       </div>
     </div>
+    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+      <div class="thumbnail">
+
+        <h3 class="section-name">Manage Reference Entries</h3>
+        <div class="caption">
+          Browse, modify, delete reference entries
+        </div>
+        <p>
+          <a href="/user/<%= user._id %>/reference" class="button-main-sm">Edit</a>
+        </p>
+      </div>
+    </div>
 
   </div>
 </div>
 
 
-<%- include ('partials/footer') %>
+<%- include ('../partials/footer') %>

@@ -13,4 +13,7 @@ module.exports = (app) => {
 
   app.post('/user/:userId/change-password', helpers.isLoggedIn,
   UserController.changePwdPost);
+
+  app.get('/user/:userId/reference', helpers.isLoggedIn,
+  UserController.referenceIndex);
 }

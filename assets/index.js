@@ -30,4 +30,3 @@ querySelector('#submitReference').
 addEventListener('click', function(e) {
   submitReference(this);
 })
-// modalClickListener(modalBtnArr, submitReference);
