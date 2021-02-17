@@ -15,6 +15,7 @@ module.exports = {
   async changePwdIndex(req, res){
     res.render('change-password', {
       user: req.user,
+      message: req.flash('message'),
     });
   },
   async changePwdPost(req, res){
@@ -25,9 +26,11 @@ module.exports = {
         await updatedUser.save();
         res.redirect('/entries');
       } catch(err) {
-        console.log(err);
+        req.flash('message', 'Your old password is incorrect');
+        res.redirect(`/user/${req.user_id}/change-password`);
       }
     } else {
+      req.flash('message', 'Your new password did not match on reenter');
       res.redirect(`/user/${req.user_id}/change-password`);
     }
   },

@@ -1,5 +1,6 @@
 const express 				  = require('express'),
 		  app 						  = express(),
+			flash             = require('connect-flash'),
 			ejs 						  = require('ejs'),
  			bodyParser 			  = require('body-parser'),
 			session           = require('express-session'),
@@ -63,6 +64,7 @@ mongoose.connect(process.env.DB_URL,
 	app.use(express.json({limit: '1mb'}));
 	app.use(expressSanitizer());
 	app.use(methodOverride("_method"));
+	app.use(flash());
 
 	//**********
 	// Passport Config
