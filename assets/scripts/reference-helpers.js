@@ -10,7 +10,13 @@ async function fetchApi(url = '', data = {}) {
   return await response.json();
 }
 
-function buildData(data, parentElement, labels, chartData) {
+function queryDeleteListener(closeBtn){
+  closeBtn.addEventListener('click', function(e) {
+    console.log(e.target.getAttribute('data-id'));
+  })
+}
+
+function buildData(data, parentElement, labels, chartData, edit) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
@@ -33,9 +39,16 @@ function buildData(data, parentElement, labels, chartData) {
     if(question.overFiveMinutes){
       innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-ok"></span><span class="time">Over 5 Minutes</span></span>`)
       li.appendChild(innerDiv);
-    } else {
-      innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-remove"></span><span class="time">Not Over 5 Minutes</span></span>`)
-      li.appendChild(innerDiv);
+    }
+    if(edit == true){
+      let closeSpan = document.createElement('span');
+      closeSpan.classList.add('query-delete');
+      closeSpan.classList.add('glyphicon');
+      closeSpan.classList.add('glyphicon-remove');
+      closeSpan.setAttribute('data-id', question._id);
+      innerDiv.append(closeSpan);
+      queryDeleteListener(closeSpan);
+      // innerDiv.insertAdjacentHTML('beforeend', `<span data-id="${question._id}" class="query-delete glyphicon glyphicon-remove"></span>`)
     }
     li.appendChild(innerDiv);
     //build description
@@ -105,4 +118,4 @@ function initializeDatePickers(fromEle, toEle) {
 }
 
 
-export{ initializeDatePickers, fetchApi, gatherData, buildData }
+export{ initializeDatePickers, fetchApi, gatherData, buildData, queryDeleteListener }

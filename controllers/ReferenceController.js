@@ -28,7 +28,7 @@ module.exports = {
         }}
       )
       res.send(questions);
-    } else {
+    } else if(req.body.library){
       const questions = await ReferenceQuestion.find(
         {
           $and: [
@@ -38,6 +38,21 @@ module.exports = {
             }},
             {library: {
               $in: req.body.library,
+            }}
+          ],
+        }
+      )
+      res.send(questions);
+    } else {
+      const questions = await ReferenceQuestion.find(
+        {
+          $and: [
+            {createdAt: {
+              $gte: new Date(req.body.createdAt[0]),
+              $lte: new Date(req.body.createdAt[1]),
+            }},
+            {user: {
+              $in: req.user._id,
             }}
           ],
         }
