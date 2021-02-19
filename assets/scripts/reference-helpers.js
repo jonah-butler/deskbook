@@ -1,3 +1,5 @@
+import { animateFlashBox } from './link-copy.js';
+
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
     method: 'POST',
@@ -17,11 +19,12 @@ async function queryDeleteListener(closeBtn, queryBox){
       try{
         const response = await fetchApi(`${document.location.protocol}//${document.location.host}/user/reference`, data);
         if(response.success){
+          animateFlashBox('reference question deleted successfully');
           e.target.offsetParent.offsetParent.remove();
           queryBox.innerText = parseInt(queryBox.innerText) - 1;
         }
       } catch(err) {
-
+        animateFlashBox('an error occurred in deleting');
       }
     }
   })

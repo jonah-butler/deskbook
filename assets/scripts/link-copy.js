@@ -5,16 +5,32 @@ function linkCopy() {
   // .catch((error) => { alert(`Copy failed! ${error}`) })
 }
 
-function animatingStateInit(btn, parent) {
+function animateFlashBox(text){
+  let animating = false;
+  if(animating == false) {
+    animating = true;
+    let flashBox = createFlashBox(text);
+    document.body.appendChild(flashBox);
+    flashBox.style.top = `${window.scrollY + 50}px`;
+    flashBox.classList.add('show');
+    setTimeout(function() {
+    //  flashBox.classList.remove('show');
+     flashBox.remove();
+     animating = false;
+    }, 2000);
+  }
+}
+
+function animatingStateInit(btn, parent, text) {
   let animating = false;
   btn.addEventListener('click', (e) => {
     if(animating == false) {
       linkCopy();
       animating = true;
-      let flashBox = createFlashBox('text copied to cliboard');
+      let flashBox = createFlashBox(text);
       console.log(flashBox);
       document.body.appendChild(flashBox);
-      flashBox.style.top = `${window.scrollY}px`;
+      flashBox.style.top = `${window.scrollY + 50}px`;
       flashBox.classList.add('show');
       setTimeout(function() {
       //  flashBox.classList.remove('show');
@@ -32,4 +48,4 @@ function createFlashBox(text) {
   return flashBox;
 }
 
-export { animatingStateInit }
+export { animatingStateInit, linkCopy, animateFlashBox }
