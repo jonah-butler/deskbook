@@ -72,28 +72,34 @@ module.exports = {
     })
   },
   async categoryIndex(req, res) {
-    MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories").exec((err, category) => {
-      if(err){
-        console.log(err);
-      } else {
-        if(category.section != 'parent'){
-          MainCategory.findOne({_id: category.section}, (err, parentCategory) => {
-            res.render("header-list", {
-              category: category,
-              parentCategory: parentCategory,
-              adminStatus: req.user.isAdmin,
-              user: req.user,
-            });
-          });
-        } else {
+    try{
+      const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
+
+      if(category.section != 'parent'){
+        let sectionArray = [];
+        let section = category.section
+        while(section != 'parent'){
+          section = await MainCategory.findOne({_id: section});
+          sectionArray.push({title: section.title, _id: section._id});
+          section = section.section;
+        }
           res.render("header-list", {
             category: category,
+            sectionArray: sectionArray,
             adminStatus: req.user.isAdmin,
-            user: req.user || null,
+            user: req.user,
           });
-        }
+      } else {
+        res.render("header-list", {
+          category: category,
+          sectionArray: undefined,
+          adminStatus: req.user.isAdmin,
+          user: req.user || null,
+        });
       }
-    })
+    } catch(err) {
+      console.log(err);
+    }
   },
   async faqIndex(req, res) {
     	// const categoryName = req.params.id;

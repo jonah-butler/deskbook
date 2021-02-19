@@ -5,9 +5,18 @@
   <header class="jumbotron">
   <div class="container">
   <h1 class="jumbo-header"><%= category.title %></h1>
-  <% if(category.section != 'parent') {%>
-  <h4><a href="/entries/<%= parentCategory._id %>"><%= parentCategory.title %></a> > <%= category.title %></h4>
+  <% if(sectionArray != undefined) { %>
+    <span>
+    <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
+      <% if(i == 0) {%>
+        <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
+        <% } else { %>
+        <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
+        <% } %>
   <% } %>
+  </span>
+  <% } %>
+  <h4><%= category.title %></h4>
   <div class="category-container">
   <% category.category.forEach((category) => { %>
       <a href="/search/?query=<%= category %>"><span class="category"> <%= category %> </span> </a>
