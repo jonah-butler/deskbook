@@ -1068,20 +1068,22 @@ button{
   right: 0px;
   bottom: 0px;
   border-radius: 5px;
-  border: 2px solid transparent;
+  /* border: 2px solid transparent; */
   /* min-width: 330px; */
+  border-top: 4px solid #006599;
   max-width: 550px;
 }
 
 .entry.private{
-  background-color: #fdbe14;
+  border-top: 4px solid #cc262d !important;
+
 }
 
 .entry:hover{
   box-shadow: 0px 0px 0px 0px #4b3742;
   right: -10px;
   bottom: -6px;
-  border: 2px solid darkblue;
+  /* border: 2px solid darkblue; */
 }
 
 .show-link{
