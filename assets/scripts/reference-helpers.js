@@ -10,9 +10,20 @@ async function fetchApi(url = '', data = {}) {
   return await response.json();
 }
 
-function queryDeleteListener(closeBtn){
-  closeBtn.addEventListener('click', function(e) {
-    console.log(e.target.getAttribute('data-id'));
+async function queryDeleteListener(closeBtn, queryBox){
+  closeBtn.addEventListener('click', async function(e) {
+    const data = {id: e.target.getAttribute('data-id')};
+    if(confirm('Are you sure you want to delete this entry?')){
+      try{
+        const response = await fetchApi(`${document.location.protocol}//${document.location.host}/user/reference`, data);
+        if(response.success){
+          e.target.offsetParent.offsetParent.remove();
+          queryBox.innerText = parseInt(queryBox.innerText) - 1;
+        }
+      } catch(err) {
+
+      }
+    }
   })
 }
 
@@ -21,6 +32,7 @@ function buildData(data, parentElement, labels, chartData, edit) {
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
   ul.classList.add('reference-query');
+  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container">Query Total:<p class="query-total">${data.length}</p></div></header>`);
   data.forEach((question) => {
     //build li container
     let li = document.createElement('li');
@@ -47,7 +59,7 @@ function buildData(data, parentElement, labels, chartData, edit) {
       closeSpan.classList.add('glyphicon-remove');
       closeSpan.setAttribute('data-id', question._id);
       innerDiv.append(closeSpan);
-      queryDeleteListener(closeSpan);
+      queryDeleteListener(closeSpan, document.querySelector('.query-total'));
       // innerDiv.insertAdjacentHTML('beforeend', `<span data-id="${question._id}" class="query-delete glyphicon glyphicon-remove"></span>`)
     }
     li.appendChild(innerDiv);
@@ -68,7 +80,7 @@ function buildData(data, parentElement, labels, chartData, edit) {
     ul.appendChild(li);
   })
   parentElement.appendChild(ul);
-  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><p>Query Total: ${data.length}</p></div></header>`);
+  // parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><p>Query Total: ${data.length}</p></div></header>`);
   // parentElement.appendChild(document.createElement('canvas'));
   // let canvas = createCanvas('canvas', parentElement);
   // createChart(canvas, labels, chartData);

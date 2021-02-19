@@ -1,6 +1,7 @@
 const MainCategory = require('../models/category.js');
 const Entry = require('../models/entry.js');
 const User = require('../models/user.js');
+const Reference = require('../models/question.js');
 const helpers = require('../assets/helpers/helpers.js');
 
 module.exports = {
@@ -37,4 +38,14 @@ module.exports = {
   async referenceIndex(req, res){
     res.render('user/reference');
   },
+  async referenceDelete(req, res){
+    try{
+      const reference = await Reference.deleteOne({_id: req.body.id});
+      if(reference.deletedCount == 1){
+        res.send({success: 'deleted'});
+      }
+    } catch(err) {
+      res.send({error: 'oops looks like an error'});
+    }
+  }
 }

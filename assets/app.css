@@ -1140,3 +1140,12 @@ button{
 .faq-description > [data-f-id="pbf"] {
   opacity: 0 !important;
 }
+
+.pos-absolute{
+  position: absolute;
+}
+
+.top-right{
+  top: 5px !important;
+  right: 5px;
+}

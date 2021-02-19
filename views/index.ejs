@@ -23,7 +23,7 @@
         <% categories.forEach((heading) =>{ %>
         <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
           <div class="entry">
-    
+            <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-eye-open pos-absolute top-right"></span>
             <h3 class="section-name"><%= heading.title %></h3>
             <% let date = new Date(heading.createdAt); %>
             <p style="font-size: 11px;"><%= date.toDateString(); %></p>
@@ -53,7 +53,7 @@
       <% privateCategories.forEach((heading) =>{ %>
       <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
         <div class="entry private">
-  
+          <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-lock pos-absolute top-right"></span>
           <h3 class="section-name"><%= heading.title %></h3>
           <% let date = new Date(heading.createdAt); %>
           <p style="font-size: 11px;"><%= date.toDateString(); %></p>

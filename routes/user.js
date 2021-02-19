@@ -16,4 +16,7 @@ module.exports = (app) => {
 
   app.get('/user/:userId/reference', helpers.isLoggedIn,
   UserController.referenceIndex);
+
+  app.post('/user/reference', helpers.isLoggedIn,
+  UserController.referenceDelete);
 }
