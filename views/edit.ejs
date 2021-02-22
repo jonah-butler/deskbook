@@ -44,10 +44,25 @@
         <textarea class="form-control tag-input" id="comment" name="entry[description]" rows="8" cols="80" ><%= entry.description %></textarea>
       </div>
     </div>
-		<!-- <div class="form-group cost-field">
-			<label for="costField">Enter the Cost</label>
-			<input id="costField" type="text" name="entry[cost]" value="<%= entry.cost %>"></input>
-		</div> -->
+    <div class="form-group form-group-select">
+      <div class="tag-input-container">
+        <div class="headline">
+          FAQ Privacy
+        </div>
+        <div class="sub-headline">
+          Make FAQ private?
+        </div>
+        <select name="entry[isPrivate]">
+          <% if(entry.isPrivate) {%>
+          <option selected value="<%= entry.isPrivate %>"><%= entry.isPrivate %></option>
+          <option value="false">false</option>
+          <% } else { %>
+            <option selected value="<%= entry.isPrivate %>"><%= entry.isPrivate %></option>
+            <option value="true">true</option>
+            <% } %>
+        </select>
+      </div>
+    </div>
     <div class="form-group title-field">
       <div class="tag-input-container">
         <div class="headline">
@@ -101,9 +116,9 @@
 <script>
   new FroalaEditor('textarea', {
     theme: 'dark',
-    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|', 
-      'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', 'textColor', 'backgroundColor', '|', 'paragraphFormat', 'align', 
-      'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|', 
+    toolbarButtons: ['fullscreen', 'bold', 'italic', 'underline', 'strikeThrough', '|',
+      'fontFamily', 'fontSize', 'color', 'inlineStyle', 'paragraphStyle', 'textColor', 'backgroundColor', '|', 'paragraphFormat', 'align',
+      'formatOL', 'formatUL', 'outdent', 'indent', 'quote', '-', 'insertLink', 'insertTable', '|',
       'emoticons', 'specialCharacters', 'insertHR', 'selectAll', 'clearFormatting', '|']
   });
 </script>

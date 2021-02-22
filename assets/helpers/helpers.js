@@ -50,7 +50,7 @@ function isAdmin(req, res, next){
 
 function isPublic(req, res, next){
   Entry.findOne({_id: req.params.id}, (err, entry) => {
-    if(entry.isPrivate && req.user._id != entry.user){
+    if(entry.isPrivate && !req.isAuthenticated()){
       res.redirect('/login');
     } else {
       req.entry = entry;
