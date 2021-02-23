@@ -22,17 +22,17 @@
   <% }) %>
   </div>
   <p><%- category.description %></p>
-  <% if(category.section == 'parent') { %>
+  <% if(category.section == 'parent' && user !== null) { %>
   <a href="/entries"><button class="button-main">Go Back</button></a>
   <% } %>
-  <% if(adminStatus || category.user == user._id) { %>
+  <% if(user !== null && user.isAdmin || user !== null && category.user == user._id) { %>
   <a href="/entries/<%= category._id %>/new"><button class="button-main">Add a new FAQ</button></a>
   <% } %>
-  <% if(adminStatus || category.user == user._id) { %>
+  <% if(user !== null && user.isAdmin || user !== null && category.user == user._id) { %>
   <a href="/category/<%= category._id %>/new"><button class="button-main">Add a new Subcategory</button></a>
   <% } %>
   <a href="/category/<%= category._id %>/edit/">
-    <% if(adminStatus || category.user == user._id) { %>
+    <% if(user !== null && user.isAdmin || user != null && category.user == user._id) { %>
     <button style="display: block; margin-top: 3px;" class="button-main-sm">Edit</button>
     <% } %>
   </a>
@@ -44,7 +44,11 @@
         <p>No available data yet. Start building this information repository by adding an FAQ or SubCategory.</p>
       <% } else { %>
         <% category.faqs.forEach((entry) =>{ %>
-        <a class = "entry-link" href="/entries/<%= category._id %>/<%=entry._id%>"><li class="list-group-item"><%= entry.title %></li></a>
+          <% if(entry.isPrivate && user == null) { %>
+        <a class = "entry-link" href="/entries/<%= category._id %>/<%=entry._id%>"><li class="list-group-item"><%= entry.title %><span class="glyphicon glyphicon-lock"></span></li></a>
+        <% } else {%>
+          <a class = "entry-link" href="/entries/<%= category._id %>/<%=entry._id%>"><li class="list-group-item"><%= entry.title %></li></a>
+          <% } %>
         <% }); %>
       <% } %>
       <% if(category.subCategories.length) { %>

@@ -48,7 +48,7 @@ function isAdmin(req, res, next){
 	res.redirect("/entries");
 }
 
-function isPublic(req, res, next){
+function isPublicEntry(req, res, next){
   Entry.findOne({_id: req.params.id}, (err, entry) => {
     if(entry.isPrivate && !req.isAuthenticated()){
       res.redirect('/login');
@@ -59,9 +59,22 @@ function isPublic(req, res, next){
   });
 }
 
+async function isPublicCategory(req, res, next){
+  const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
+  // MainCategory.findOne({_id: req.params.id}, (err, category) => {
+    if(category.isPrivate && !req.isAuthenticated()){
+      res.redirect('/login');
+    } else {
+      req.category = category;
+      return next();
+    }
+  // });
+}
+
 module.exports.recursiveCollectEntries = recursiveCollectEntries;
 module.exports.findNextDay = findNextDay;
 module.exports.isLoggedIn = isLoggedIn;
 module.exports.isAdmin = isAdmin;
-module.exports.isPublic = isPublic;
+module.exports.isPublicEntry = isPublicEntry;
+module.exports.isPublicCategory = isPublicCategory;
 module.exports.canSubmit = canSubmit;

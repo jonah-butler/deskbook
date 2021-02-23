@@ -73,7 +73,8 @@ module.exports = {
   },
   async categoryIndex(req, res) {
     try{
-      const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
+
+      const category = req.category;
 
       if(category.section != 'parent'){
         let sectionArray = [];
@@ -86,14 +87,14 @@ module.exports = {
           res.render("header-list", {
             category: category,
             sectionArray: sectionArray,
-            adminStatus: req.user.isAdmin,
-            user: req.user,
+            // adminStatus: req.user.isAdmin,
+            user: req.user || null,
           });
       } else {
         res.render("header-list", {
           category: category,
           sectionArray: undefined,
-          adminStatus: req.user.isAdmin,
+          // adminStatus: req.user.isAdmin || null,
           user: req.user || null,
         });
       }

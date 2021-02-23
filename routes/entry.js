@@ -11,10 +11,10 @@ module.exports = (app) => {
   app.get('/entries/:id/new', helpers.isLoggedIn,
   EntryController.new);
 
-  app.get('/entries/:id', helpers.isLoggedIn,
+  app.get('/entries/:id', helpers.isPublicCategory,
   EntryController.categoryIndex);
 
-  app.get('/entries/:categoryId/:id', helpers.isPublic,
+  app.get('/entries/:categoryId/:id', helpers.isPublicEntry,
   EntryController.faqIndex);
 
   app.get("/entries/:headerCategory/:id/edit", helpers.isLoggedIn,
