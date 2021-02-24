@@ -34,7 +34,7 @@ import { createChart } from './scripts/chart-helpers.js';
           this.disabled = false;
           return;
         } else {
-          fullRender(parentContainer, response, false);
+          fullRender(parentContainer, response, false, true);
           this.disabled = false;
         }
       } catch(err) {

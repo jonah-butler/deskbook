@@ -1,8 +1,7 @@
-import { initializeDatePickers, gatherData, fetchApi, buildData } from './scripts/reference-helpers.js';
+import { initializeDatePickers, gatherData, fetchApi, buildData, fullRender } from './scripts/reference-helpers.js';
 import { clearResults, submitAnimationInit } from './scripts/dom-helpers.js';
-import { sortData, setupDataForChart } from './scripts/client-helpers.js';
 import { createCanvasAndAppend } from './scripts/canvas-helpers.js';
-import { createChart } from './scripts/chart-helpers.js';
+// import { createChart } from './scripts/chart-helpers.js';
 
 let branchBtn = document.querySelector('#branchDropdown');
 let branchMenu = document.querySelector('.dropdown-menu');
@@ -34,9 +33,7 @@ document.querySelector('.icon-circle').addEventListener('click', async function(
         this.disabled = false;
         return;
       } else {
-        clearResults(parentContainer);
-        chartDataObj = setupDataForChart(response);
-        buildData(response, parentContainer, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), true);
+        fullRender(parentContainer, response, true, false);
         this.disabled = false;
       }
     } catch(err) {

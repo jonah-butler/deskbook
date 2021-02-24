@@ -17,7 +17,7 @@ async function fetchApi(url = '', data = {}) {
   return await response.json();
 }
 
-async function queryDeleteListener(closeBtn, queryBox){
+async function queryDeleteListener(closeBtn, queryBox, data){
   closeBtn.addEventListener('click', async function(e) {
     const data = {id: e.target.getAttribute('data-id')};
     if(confirm('Are you sure you want to delete this entry?')){
@@ -46,7 +46,7 @@ function buildUl() {
   return ul;
 }
 
-function buildLi(data, edit) {
+function buildLi(data, edit, arr) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
 
   let li = document.createElement('li');
@@ -75,7 +75,7 @@ function buildLi(data, edit) {
     closeSpan.classList.add('glyphicon-remove');
     closeSpan.setAttribute('data-id', data._id);
     innerDiv.append(closeSpan);
-    queryDeleteListener(closeSpan, document.querySelector('.query-total'));
+    queryDeleteListener(closeSpan, document.querySelector('.query-total'), arr);
   }
 
   li.appendChild(innerDiv);
@@ -98,7 +98,7 @@ function buildLi(data, edit) {
 function renderData(data, parentElement, edit) {
   const ul = buildUl();
   data.forEach((question) => {
-    let li = buildLi(question, edit);
+    let li = buildLi(question, edit, data);
     ul.appendChild(li);
   })
   parentElement.appendChild(ul);
@@ -158,13 +158,15 @@ function printBranchTotals(header, sortedObj) {
   })
 }
 
-function fullRender(parentContainer, response, edit) {
+function fullRender(parentContainer, response, edit, sort) {
   clearResults(parentContainer);
   let chartDataObj = setupDataForChart(response);
   buildData(response, parentContainer, edit);
   let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
   printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
-  sortDropDown(document.querySelector('.totals-container'), response, parentContainer, false);
+  if(sort){
+    sortDropDown(document.querySelector('.totals-container'), response, parentContainer, false);
+  }
   createChart(canvas, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), 'pie');
 }
 
@@ -183,11 +185,11 @@ function sortDropDown(parentElement, data, parentContainer, edit) {
   const sort2 = document.createElement('li');
   sort1.innerText = "A - Z";
   sort1.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataAZ(data), edit);
+    fullRender(parentContainer, sortDataAZ(data), edit, true);
   })
   sort2.innerText = "Z - A";
   sort2.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataZA(data), edit);
+    fullRender(parentContainer, sortDataZA(data), edit, true);
   })
   menu.append(sort1);
   menu.append(sort2);
