@@ -17,7 +17,7 @@ function animateFlashBox(text){
     //  flashBox.classList.remove('show');
      flashBox.remove();
      animating = false;
-    }, 2000);
+   }, 5000);
   }
 }
 
@@ -36,7 +36,7 @@ function animatingStateInit(btn, parent, text) {
       //  flashBox.classList.remove('show');
        flashBox.remove();
        animating = false;
-      }, 2000);
+     }, 4000);
     }
   })
 }

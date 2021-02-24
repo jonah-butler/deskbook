@@ -1,12 +1,16 @@
+import { closeModal, resetModalForms } from './modal.js';
+import { animateFlashBox } from './link-copy.js';
+
 async function submitReference(btn) {
-  // document.
-  // querySelector('#submitReference').
-  // addEventListener('click', async function() {
     btn.disabled = true;
+
+    const modal = document.querySelector('#Modal');
     const library = document.querySelector('select').value;
     const overFiveMinutes = document.querySelector('#questionLength').checked;
     const description = document.querySelector('#referenceDescription').value;
+
     let post = {library, overFiveMinutes, description};
+
     if(library != ""){
       const response = await fetch(`${document.location.protocol}//${document.location.host}/reference`, {
         method: 'POST',
@@ -16,24 +20,18 @@ async function submitReference(btn) {
         },
       });
       const data = await response.json();
-      console.log(data);
-      console.log(post);
       if(data.error){
-        this.insertAdjacentHTML('afterend', '<h1>please login</h1>');
+        animateFlashBox('Please Login to add reference queries');
         post = {};
       } else {
+        resetModalForms(modal);
+        closeModal(modal);
+        animateFlashBox('Question submitted successfully!');
         post = {};
         btn.disabled = false;
         confetti.start(2000);
-        // modal.style.display = 'none';
       }
-      // if(data){
-      //   console.log(data);
-      //   this.disabled = false;
-      //   confetti.start(2000);
-      // }
     }
-  // })
 }
 
 export { submitReference };

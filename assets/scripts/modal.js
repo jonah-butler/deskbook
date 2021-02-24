@@ -8,8 +8,18 @@ function modalClickListener() {
           modal.style.display = "none";
         }
       }
-        // callback(modal);
-        // modal.style.display = "none";
 }
 
-export { modalClickListener };
+function closeModal(modal) {
+    modal.style.display = "none";
+    modal.querySelector('#defaultBranchSelect').setAttribute('selected', true);
+}
+
+function resetModalForms(modal) {
+  modal.querySelector('#defaultBranchSelect').removeAttribute('selected');
+  modal.querySelector('#defaultBranchSelect').setAttribute('selected', 'selected');
+  modal.querySelector('#questionLength').checked = false;
+  modal.querySelector('#referenceDescription').value = '';
+}
+
+export { modalClickListener, closeModal, resetModalForms };
