@@ -1038,7 +1038,7 @@ button{
   height: 0px;
   overflow: hidden;
   transition: all .3s ease;
-  padding: 0px;
+  padding: 0 0 0 20px;
   background-color: rgba(0,79,112,0.1);
   border-radius: 5px;
 }

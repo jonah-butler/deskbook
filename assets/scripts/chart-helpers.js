@@ -8,7 +8,7 @@ function createChart(chartElement, labels, data, type, options = {}) {
         labels: labels,
         datasets: [{
             label: 'My First dataset',
-            backgroundColor: ['#0267c1', '#0075c4', '#efa00b', '#d65108', '#591f0a', '#fcf300', '#2f1847', '#c62e65'],
+            backgroundColor: ['#003652', '#fdbe12', '#ff7236', '#54b247', '#591f0a', '#006599', '#004765', '#cf343f', '#f7976e'],
             borderColor: '#fff',
             data: data,
         }]

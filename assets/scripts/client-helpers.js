@@ -1,9 +1,21 @@
-function sortData(data) {
+function sortDataAZ(data) {
   return data.sort(function(a,b) {
     if(a.library.toUpperCase() < b.library.toUpperCase()){
       return -1;
     }
     if(a.library.toUpperCase() > b.library.toUpperCase()){
+      return 1;
+    }
+    return 0;
+  })
+}
+
+function sortDataZA(data) {
+  return data.sort(function(a,b) {
+    if(a.library.toUpperCase() > b.library.toUpperCase()){
+      return -1;
+    }
+    if(a.library.toUpperCase() < b.library.toUpperCase()){
       return 1;
     }
     return 0;
@@ -22,4 +34,4 @@ function setupDataForChart(response) {
   return valueObj;
 }
 
-export { sortData, setupDataForChart };
+export { sortDataAZ, sortDataZA, setupDataForChart };

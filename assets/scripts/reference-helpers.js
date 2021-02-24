@@ -1,4 +1,9 @@
 import { animateFlashBox } from './link-copy.js';
+import  { sortDataAZ, sortDataZA, setupDataForChart } from './client-helpers.js';
+import { clearResults } from './dom-helpers.js';
+import { createCanvasAndAppend } from './canvas-helpers.js';
+import { createChart } from './chart-helpers.js';
+
 
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
@@ -30,63 +35,78 @@ async function queryDeleteListener(closeBtn, queryBox){
   })
 }
 
-function buildData(data, parentElement, labels, chartData, edit) {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+function buildHeader(data, parentElement) {
+  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><div class="row"><div class="totals-container col-sm-4"><h3 style="display:inline-block;">Query Total: </h3><h2 style="display: inline-block; padding-left: 5px;" class="query-total">${data.length}</h2></div><div class="chart-container col-sm-8"></div></div></div></header>`);
+}
+
+function buildUl() {
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
   ul.classList.add('reference-query');
-  parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container">Query Total:<p class="query-total">${data.length}</p></div></header>`);
+  return ul;
+}
+
+function buildLi(data, edit) {
+  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+
+  let li = document.createElement('li');
+  li.classList.add('list-group-item');
+  li.setAttribute('data-id', data._id);
+
+  let innerDiv = document.createElement('div');
+  innerDiv.classList.add('inner-flex');
+
+  let date = new Date(data.createdAt);
+  date = date.toLocaleString('en-US', options);
+
+  innerDiv.insertAdjacentHTML('afterbegin', `<span><span class="glyphicon glyphicon-calendar"></span><span>${date}</span></span>`);
+  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${data.library}</span></span>`)
+  li.appendChild(innerDiv);
+
+  if(data.overFiveMinutes){
+    innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-ok"></span><span class="time">Over 5 Minutes</span></span>`)
+    li.appendChild(innerDiv);
+  }
+
+  if(edit == true){
+    let closeSpan = document.createElement('span');
+    closeSpan.classList.add('query-delete');
+    closeSpan.classList.add('glyphicon');
+    closeSpan.classList.add('glyphicon-remove');
+    closeSpan.setAttribute('data-id', data._id);
+    innerDiv.append(closeSpan);
+    queryDeleteListener(closeSpan, document.querySelector('.query-total'));
+  }
+
+  li.appendChild(innerDiv);
+
+  if(data.description){
+    let descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('description-query');
+    descriptionDiv.innerText = data.description;
+    li.appendChild(descriptionDiv);
+    li.style.borderLeft = '3px solid green';
+    li.addEventListener('click', (e) => {
+      descriptionDiv.classList.toggle('open');
+    })
+  } else {
+    li.style.borderLeft = '3px solid red';
+  }
+  return li;
+}
+
+function renderData(data, parentElement, edit) {
+  const ul = buildUl();
   data.forEach((question) => {
-    //build li container
-    let li = document.createElement('li');
-    li.classList.add('list-group-item');
-    li.setAttribute('data-id', question._id);
-    let innerDiv = document.createElement('div');
-    innerDiv.classList.add('inner-flex');
-    //build date and icon
-    let date = new Date(question.createdAt);
-    date = date.toLocaleString('en-US', options);
-    innerDiv.insertAdjacentHTML('afterbegin', `<span><span class="glyphicon glyphicon-calendar"></span><span>${date}</span></span>`);
-    //build branch and icon
-    innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${question.library}</span></span>`)
-    li.appendChild(innerDiv);
-    //build over 5 Minutes
-    if(question.overFiveMinutes){
-      innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-ok"></span><span class="time">Over 5 Minutes</span></span>`)
-      li.appendChild(innerDiv);
-    }
-    if(edit == true){
-      let closeSpan = document.createElement('span');
-      closeSpan.classList.add('query-delete');
-      closeSpan.classList.add('glyphicon');
-      closeSpan.classList.add('glyphicon-remove');
-      closeSpan.setAttribute('data-id', question._id);
-      innerDiv.append(closeSpan);
-      queryDeleteListener(closeSpan, document.querySelector('.query-total'));
-      // innerDiv.insertAdjacentHTML('beforeend', `<span data-id="${question._id}" class="query-delete glyphicon glyphicon-remove"></span>`)
-    }
-    li.appendChild(innerDiv);
-    //build description
-    if(question.description){
-      let descriptionDiv = document.createElement('div');
-      descriptionDiv.classList.add('description-query');
-      descriptionDiv.innerText = question.description;
-      // li.insertAdjacentHTML('beforeend', `<div class="description-query">${question.description}</div>`);
-      li.appendChild(descriptionDiv);
-      li.style.borderLeft = '3px solid green';
-      li.addEventListener('click', (e) => {
-        descriptionDiv.classList.toggle('open');
-      })
-    } else {
-      li.style.borderLeft = '3px solid red';
-    }
+    let li = buildLi(question, edit);
     ul.appendChild(li);
   })
   parentElement.appendChild(ul);
-  // parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><p>Query Total: ${data.length}</p></div></header>`);
-  // parentElement.appendChild(document.createElement('canvas'));
-  // let canvas = createCanvas('canvas', parentElement);
-  // createChart(canvas, labels, chartData);
+}
+
+function buildData(data, parentElement, edit) {
+  buildHeader(data, parentElement);
+  renderData(data, parentElement, edit);
 }
 
 function gatherData(){
@@ -132,5 +152,48 @@ function initializeDatePickers(fromEle, toEle) {
   }
 }
 
+function printBranchTotals(header, sortedObj) {
+  Object.keys(sortedObj).forEach(key => {
+    header.insertAdjacentHTML('beforeend', `<p style="font-size: 12px;">${key}: <span style="color: red;">${sortedObj[key]}<span></p>`);
+  })
+}
 
-export{ initializeDatePickers, fetchApi, gatherData, buildData, queryDeleteListener }
+function fullRender(parentContainer, response, edit) {
+  clearResults(parentContainer);
+  let chartDataObj = setupDataForChart(response);
+  buildData(response, parentContainer, edit);
+  let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
+  printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
+  sortDropDown(document.querySelector('.totals-container'), response, parentContainer, false);
+  createChart(canvas, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), 'pie');
+}
+
+function sortDropDown(parentElement, data, parentContainer, edit) {
+  const dropDown = document.createElement('div');
+  dropDown.classList.add('dropdown');
+  dropDown.insertAdjacentHTML('afterbegin', `<button class="btn btn-default dropdown-toggle" type="button" id="sortDropDown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+    Sort Data
+  <span class="caret"></span>
+  </button>`);
+  const menu = document.createElement('ul');
+  menu.classList.add('dropdown-menu');
+  menu.setAttribute('aria-labelledby', 'sortDropDown');
+  // const menu = `<ul class="dropdown-menu" aria-labelledby="sortDropDown"></ul>`;
+  const sort1 = document.createElement('li');
+  const sort2 = document.createElement('li');
+  sort1.innerText = "A - Z";
+  sort1.addEventListener('click', () => {
+    fullRender(parentContainer, sortDataAZ(data), edit);
+  })
+  sort2.innerText = "Z - A";
+  sort2.addEventListener('click', () => {
+    fullRender(parentContainer, sortDataZA(data), edit);
+  })
+  menu.append(sort1);
+  menu.append(sort2);
+  dropDown.append(menu);
+  parentElement.append(dropDown);
+}
+
+
+export{ fullRender, initializeDatePickers, fetchApi, gatherData, buildData, queryDeleteListener, printBranchTotals, sortDropDown }

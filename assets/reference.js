@@ -1,6 +1,5 @@
-import { initializeDatePickers, gatherData, fetchApi, buildData } from './scripts/reference-helpers.js';
+import { fullRender, initializeDatePickers, gatherData, fetchApi, buildData, printBranchTotals, sortDropDown } from './scripts/reference-helpers.js';
 import { clearResults, submitAnimationInit } from './scripts/dom-helpers.js';
-import { sortData, setupDataForChart } from './scripts/client-helpers.js';
 import { createCanvasAndAppend } from './scripts/canvas-helpers.js';
 import { createChart } from './scripts/chart-helpers.js';
 
@@ -31,15 +30,11 @@ import { createChart } from './scripts/chart-helpers.js';
         const response = await fetchApi(`${document.location.protocol}//${document.location.host}/reference/search`, data);
         if(!response.length){
           clearResults(parentContainer);
-          document.querySelector('.view-container').innerHTML = 'no data for this selected data range!';
+          parentContainer.innerHTML = 'no data for this selected data range!';
           this.disabled = false;
           return;
         } else {
-          clearResults(parentContainer);
-          chartDataObj = setupDataForChart(response);
-          buildData(response, parentContainer, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]));
-          let canvas = createCanvasAndAppend('canvas', parentContainer);
-          createChart(canvas, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), 'pie',);
+          fullRender(parentContainer, response, false);
           this.disabled = false;
         }
       } catch(err) {
