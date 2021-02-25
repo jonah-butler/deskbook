@@ -103,31 +103,22 @@ module.exports = {
     }
   },
   async faqIndex(req, res) {
-    	// const categoryName = req.params.id;
-	const entry = await Entry.find({_id: req.params.id});
+
+	const entry = await Entry.findOne({_id: req.params.id});
 	const parentCategory = await MainCategory.findOne({_id: req.params.categoryId});
-	// console.log(entry);
-	// MainCategory.findOne({title: req.params.headerCategory}).populate("faqs").exec((err, categories) => {
-	// 	if(err){
-	// 		console.log(err);
-	// 	} else {
-	//
-	// 	}
-	// })
 	Promise.all([
 		Entry.find({_id: req.params.id}),
 	  // Entry.findOne({_id: { $gt: req.params.id } }, { section: entry.section } ),
 		// Entry.findOne({_id: { $lt: req.params.id } }, { section: entry.section } )
+    Entry.find({
+      _id: { "$lt": entry._id},
+      "section": {"$in": entry.section}
+    }).sort({_id: -1}).limit(1),
 		Entry.find({
-			"_id": { "$gt": req.params.id},
-			"section": {"$in": entry[0].section}
-		}),
-		Entry.find({
-			"_id": { "$lt": req.params.id},
-			"section": {"$in": entry[0].section}
-		})
+			_id: { "$gt": entry._id},
+			"section": {"$in": entry.section}
+		}).sort({_id: 1}).limit(1)
 	]).then((data) => {
-		console.log('received data', data);
 		const newObj = data.map((obj) => {
 			if(obj != undefined){
 					return obj[0];
