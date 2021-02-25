@@ -4,6 +4,8 @@ import { clearResults } from './dom-helpers.js';
 import { createCanvasAndAppend } from './canvas-helpers.js';
 import { createChart } from './chart-helpers.js';
 
+let _referenceQueries;
+let _viewContainer;
 
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
@@ -17,7 +19,7 @@ async function fetchApi(url = '', data = {}) {
   return await response.json();
 }
 
-async function queryDeleteListener(closeBtn, queryBox, data){
+async function queryDeleteListener(closeBtn, queryBox, arr){
   closeBtn.addEventListener('click', async function(e) {
     const data = {id: e.target.getAttribute('data-id')};
     if(confirm('Are you sure you want to delete this entry?')){
@@ -25,8 +27,14 @@ async function queryDeleteListener(closeBtn, queryBox, data){
         const response = await fetchApi(`${document.location.protocol}//${document.location.host}/user/reference`, data);
         if(response.success){
           animateFlashBox('reference question deleted successfully');
-          e.target.offsetParent.offsetParent.remove();
-          queryBox.innerText = parseInt(queryBox.innerText) - 1;
+          arr.forEach((query, i, arr) => {
+            if(query._id == data.id){
+              arr.splice(i, 1);
+              console.log(arr);
+              return;
+            }
+          })
+          fullRender(_viewContainer, arr, true, false);
         }
       } catch(err) {
         animateFlashBox('an error occurred in deleting');
@@ -48,7 +56,6 @@ function buildUl() {
 
 function buildLi(data, edit, arr) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
-
   let li = document.createElement('li');
   li.classList.add('list-group-item');
   li.setAttribute('data-id', data._id);
@@ -97,8 +104,8 @@ function buildLi(data, edit, arr) {
 
 function renderData(data, parentElement, edit) {
   const ul = buildUl();
-  data.forEach((question) => {
-    let li = buildLi(question, edit, data);
+  data.forEach((question, i, arr) => {
+    let li = buildLi(question, edit, arr);
     ul.appendChild(li);
   })
   parentElement.appendChild(ul);
@@ -159,13 +166,15 @@ function printBranchTotals(header, sortedObj) {
 }
 
 function fullRender(parentContainer, response, edit, sort) {
+  _referenceQueries = response;
+  _viewContainer = parentContainer;
   clearResults(parentContainer);
-  let chartDataObj = setupDataForChart(response);
-  buildData(response, parentContainer, edit);
+  let chartDataObj = setupDataForChart(_referenceQueries);
+  buildData(_referenceQueries, _viewContainer, edit);
   let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
   printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
   if(sort){
-    sortDropDown(document.querySelector('.totals-container'), response, parentContainer, false);
+    sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
   }
   createChart(canvas, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), 'pie');
 }
