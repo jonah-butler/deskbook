@@ -17,7 +17,8 @@ const express 				  = require('express'),
 			MainCategory      = require("./models/category"),
 			ReferenceQuestion = require("./models/question"),
 			MongoStore        = require('connect-mongo')(session),
-			passportLocalMongoose = require("passport-local-mongoose")
+			passportLocalMongoose = require("passport-local-mongoose"),
+			cors                  = require('cors');
 
 const router = express.Router();
 require('dotenv').config()
@@ -34,6 +35,7 @@ mongoose.connect(process.env.DB_URL,
 	app.use(bodyParser.urlencoded({extended: true}));
 	//express setup with ejs
 	app.set("view engine", "ejs");
+	app.use(cors());
 	//linking assets directory
 	app.use(express.static("assets"));
 	app.use(express.static("assets/imgs"));
