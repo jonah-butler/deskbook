@@ -2,7 +2,7 @@ import Categorical from './scripts/categorical.js';
 import { animateFlashBox } from './scripts/link-copy.js';
 
 async function getHash(){
-  let response = await fetch('http://localhost:3000/get-signature');
+  let response = await fetch(`${document.location.protocol}//${document.location.host}/get-signature`);
   response = await response.json();
   // response.region = 's3-us-east-1';
     console.log(response);
@@ -10,7 +10,7 @@ async function getHash(){
 }
 
 async function sendImgDataForDelete(data = {}){
-  let response = await fetch('http://localhost:3000/delete-img', {
+  let response = await fetch(`${document.location.protocol}//${document.location.host}/delete-img`, {
     method: 'POST',
     body: JSON.stringify(data),
     headers: {
