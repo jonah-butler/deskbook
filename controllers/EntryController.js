@@ -146,7 +146,10 @@ module.exports = {
     })
   },
   async editDelete(req, res) {
-    await MainCategory.update({title: req.params.category}, { $pull: { faqs: req.params.id }});
+    // await MainCategory.updateOne({title: req.params.category}, { $pull: { faqs: req.params.id }});
+    let category = await MainCategory.findOne({_id: req.params.category});
+    category.faqs.pull(req.params.id);
+    await category.save();
     await Entry.deleteOne({_id: req.params.id});
     res.redirect(`/entries/${req.params.category}`);
   },

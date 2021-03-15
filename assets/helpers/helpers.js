@@ -1,5 +1,6 @@
-Entry             = require("../../models/entry");
-MainCategory      = require("../../models/category");
+const Entry             = require("../../models/entry");
+const MainCategory      = require("../../models/category");
+const passport          = require('passport');
 
 async function recursiveCollectEntries(subCategoryArr, staging) {
   if(!subCategoryArr.length){
@@ -71,6 +72,19 @@ async function isPublicCategory(req, res, next){
   // });
 }
 
+async function passportAuthentication() {
+  try{
+    passport.authenticate("local", {
+      successRedirect: "/entries",
+      failureRedirect: "/login"
+    }), (req, res) => {
+
+    };
+  } catch(err){
+    console.log(err);
+  }
+}
+
 module.exports.recursiveCollectEntries = recursiveCollectEntries;
 module.exports.findNextDay = findNextDay;
 module.exports.isLoggedIn = isLoggedIn;
@@ -78,3 +92,4 @@ module.exports.isAdmin = isAdmin;
 module.exports.isPublicEntry = isPublicEntry;
 module.exports.isPublicCategory = isPublicCategory;
 module.exports.canSubmit = canSubmit;
+module.exports.passportAuthentication = passportAuthentication;

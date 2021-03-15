@@ -1,5 +1,5 @@
 import { animateFlashBox } from './link-copy.js';
-import  { sortDataAZ, sortDataZA, setupDataForChart } from './client-helpers.js';
+import { sortDataAZ, sortDataZA, setupDataForChart } from './client-helpers.js';
 import { clearResults } from './dom-helpers.js';
 import { createCanvasAndAppend } from './canvas-helpers.js';
 import { createChart } from './chart-helpers.js';

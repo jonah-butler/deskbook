@@ -48,4 +48,4 @@ function createFlashBox(text) {
   return flashBox;
 }
 
-export { animatingStateInit, linkCopy, animateFlashBox }
+export { animatingStateInit, linkCopy, animateFlashBox };
