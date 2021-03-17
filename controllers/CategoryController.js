@@ -182,7 +182,6 @@ module.exports = {
     const category = await MainCategory.findOne({_id: req.params.categoryId}).populate("faqs").populate("subCategories");
     let stagingArray = [];
     let arr = await helpers.recursiveCollectEntries(category.subCategories, stagingArray);
-    console.log(arr);
     await MainCategory.deleteOne({_id: req.params.categoryId});
     if(category.section === 'parent' && category.isPrivate === true){
       category.user.forEach( async (userId) => {
