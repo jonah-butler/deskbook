@@ -38,7 +38,7 @@ module.exports = {
       ).sort({'createdAt': -1}).limit(9);
       const remainder = count - 9;
       res.render('index-all', {
-        categories: publicCategories, 
+        categories: publicCategories,
         user: req.user,
         adminStatus: req.user.isAdmin,
         remainder: remainder,
@@ -61,7 +61,7 @@ module.exports = {
           }
         ).sort({'createdAt': -1}).limit(9).skip(offset - 9);
         res.render('index-all', {
-          categories: publicCategories, 
+          categories: publicCategories,
           user: req.user,
           adminStatus: req.user.isAdmin,
           remainder: (count - offset),
@@ -77,7 +77,7 @@ module.exports = {
       const count = privateCategories.privateEntries.length;
       const remainder = count - 9;
       res.render('index-all', {
-        categories: privateCategories.privateEntries.slice(0 , 9), 
+        categories: privateCategories.privateEntries.slice(0 , 9),
         user: req.user,
         adminStatus: req.user.isAdmin,
         remainder: remainder,
@@ -90,7 +90,7 @@ module.exports = {
         const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
         const count = privateCategories.privateEntries.length;
         res.render('index-all', {
-          categories: privateCategories.privateEntries.slice((offset - 9) , offset), 
+          categories: privateCategories.privateEntries.slice((offset - 9) , offset),
           user: req.user,
           adminStatus: req.user.isAdmin,
           remainder: (count - offset),
@@ -140,9 +140,18 @@ module.exports = {
   async editGet(req, res) {
     try{
       const category = await MainCategory.findOne({_id: req.params.categoryId});
-      if(category){
+      if(category.isPrivate){
+        const users = await User.find({});
         res.render('category-edit', {
           category: category,
+          users: users,
+          loggedUser: req.user,
+          private: true,
+        });
+      } else {
+        res.render('category-edit', {
+          category: category,
+          private: false,
         });
       }
     } catch(err) {
@@ -158,7 +167,15 @@ module.exports = {
       category[prop] = req.body.entry[prop];
     }
     await category.save();
-
+    if(category.section == "parent"){
+      for(const userId of req.body.entry.user){
+        let user = await User.findOne({_id: userId});
+        if(user.privateEntries.indexOf(category._id) == -1){
+          user.privateEntries.push(category._id);
+          await user.save();
+        }
+      }
+    }
     res.redirect(`/entries/${req.params.categoryId}`);
   },
   async delete(req, res) {
@@ -168,10 +185,12 @@ module.exports = {
     console.log(arr);
     await MainCategory.deleteOne({_id: req.params.categoryId});
     if(category.section === 'parent' && category.isPrivate === true){
-      await User.update(
-        {_id: req.user._id},
-        {$pull: {'privateEntries': category._id}}
-      )
+      category.user.forEach( async (userId) => {
+        await User.updateOne(
+          {_id: userId},
+          {$pull: {'privateEntries': category._id}}
+        )
+      })
     }
     await Entry.deleteMany({section: req.params.categoryId});
     if(arr != undefined){

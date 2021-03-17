@@ -28,10 +28,16 @@ const DeskBookSchema = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
-	user: {
-		type: String,
-		required: false,
-	},
+	// user: {
+	// 	type: String,
+	// 	required: false,
+	// },
+	user: [
+		{
+			type: String,
+			required: false,
+		},
+	],
 }, {
 	timestamps: true,
 })

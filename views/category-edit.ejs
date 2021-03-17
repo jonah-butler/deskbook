@@ -27,6 +27,31 @@
 			</div>
 		</div>
 
+		<% if(private) { %>
+		<div class="form-group">
+			<div class="tag-input-container-large">
+				<div class="headline">
+					Add a teammate to collaborate on this private category
+				</div>
+				<div class="sub-headline">Teammates can only be added 1 at a time.</div>
+				<div class="checkbox" style="visibility: hidden">
+					<label><input checked type="checkbox" name="entry[user]" value="<%= loggedUser._id %>"><%= loggedUser.username %></label>
+				</div>
+				<% users.forEach(user => { %>
+					<% if(user.username != loggedUser.username){ %>
+				<div class="checkbox">
+					<% if(category.user.indexOf(user.id) == -1) { %>
+  				<label><input type="checkbox" name="entry[user]" value="<%= user._id %>"><%= user.username %></label>
+					<% } else { %>
+						<label><input checked type="checkbox" name="entry[user]" value="<%= user._id %>"><%= user.username %></label>
+					<% } %>
+				</div>
+				<% } %>
+				<% }) %>
+			</div>
+		</div>
+		<% }%>
+
 		<div class="tag-input-container">
 			<div class="headline">Add/Edit Category</div>
 		<div id="spanContainer">
@@ -61,4 +86,3 @@
 
 <%- include ('partials/footer') %>
 <script src="/category.js"></script>
-

@@ -34,6 +34,10 @@ function isLoggedIn(req, res, next){
   }
 }
 
+function cachePreviousRoute(req, res, next) {
+  req.previousRoute = req.headers.referer;
+}
+
 function canSubmit(req, res, next){
   if(req.isAuthenticated()){
     return next();
@@ -63,11 +67,23 @@ function isPublicEntry(req, res, next){
 async function isPublicCategory(req, res, next){
   const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
   // MainCategory.findOne({_id: req.params.id}, (err, category) => {
-    if(category.isPrivate && !req.isAuthenticated()){
-      res.redirect('/login');
-    } else {
+    if(!category.isPrivate){
       req.category = category;
       return next();
+      if(category.user.indexOf(req.user._id) !== -1){
+        req.category = category;
+        return next();
+      }
+      // res.redirect('/login');
+    } else {
+      if(category.user.indexOf(req.user._id) !== -1){
+        req.category = category;
+        return next();
+      } else
+      // res.redirect('/login');
+      res.redirect(req.headers.referer);
+      // req.category = category;
+      // return next();
     }
   // });
 }
