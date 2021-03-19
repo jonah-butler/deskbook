@@ -75,7 +75,9 @@ module.exports = {
     try{
 
       const category = req.category;
-
+      // const userList = category.user.forEach( async(id) => {
+      //
+      // })
       if(category.section != 'parent'){
         let sectionArray = [];
         let section = category.section
