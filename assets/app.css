@@ -1171,3 +1171,11 @@ body.stop-scrolling{
   height: 100%;
   overflow: hidden;
 }
+
+.input-group{
+  margin: 15px 0px;
+}
+
+.input-group > .list-group{
+  margin-bottom: 0px;
+}

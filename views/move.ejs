@@ -1,0 +1,55 @@
+<%- include ('partials/header') %>
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Move a Category</h1>
+		<p>Choose another destination for your category or set it as its own parent category. This operation will effectively remove your category from its old location.</p>
+		<hr>
+		<div class="container">
+			<p>Moving Category...</p>
+			<p style="font-size: 14px; color: #cc262d; font-weight: 600;"><%= categorytoMove.title %></p>
+		</div>
+		<form class="" action="/category/<%=categorytoMove._id%>/move" method="post">
+			<% if(categorytoMove.section != 'parent'){ %>
+				<div class="input-group">
+					<span class="input-group-addon">
+						<input name="category" type="radio" value="parent" aria-label="...">
+					</span>
+					<div class="list-group">
+						<li class="list-group-item ">
+							<h4 class="list-group-item-heading">Make Public Parent Category</h4>
+							<p class="list-group-item-text">Choose this option if you would like to move this nested sub-category to the top level, making it a parent category for housing other sub categories.</p>
+						</li>
+					</div>
+				</div><!-- /input-group -->
+				<% } %>
+		<% publicCategories.forEach((category) => { %>
+			<% if(category.title !== categorytoMove.title && category._id != categorytoMove._id) { %>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<input name="categoryId" type="radio" value="<%= category._id %>" aria-label="...">
+				</span>
+				<div class="list-group">
+					<li class="list-group-item ">
+						<h4 class="list-group-item-heading"><%= category.title%></h4>
+						<p class="list-group-item-text"><%= category.description %></p>
+					</li>
+				</div>
+			</div><!-- /input-group -->
+			<% } %>
+	<% }) %>
+	<div class="form-group">
+		<button class="button-main">
+			Submit
+		</button>
+	</div>
+</form>
+	</div>
+
+	<a href="/entries/<%=categorytoMove._id%>"><button class="button-main-sm">Go Back</button></a>
+	</div>
+	</div>
+	</div>
+	</div>
+
+<%- include ('partials/footer') %>

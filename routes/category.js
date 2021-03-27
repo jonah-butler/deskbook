@@ -5,6 +5,12 @@ module.exports = (app) => {
   app.get('/category/:id/new', helpers.isLoggedIn,
   CategoryController.newGet);
 
+  app.get('/category/:id/move', helpers.isLoggedIn,
+  CategoryController.getMove);
+
+  app.post('/category/:id/move', helpers.isLoggedIn,
+  CategoryController.move);
+
   app.get('/category/new-parent', helpers.isLoggedIn,
   CategoryController.newParent);
 
@@ -23,7 +29,7 @@ module.exports = (app) => {
   app.get('/category/:categoryId/edit', helpers.isLoggedIn,
   CategoryController.editGet);
 
-  app.put('/category/:categoryId/edit', helpers.isLoggedIn, 
+  app.put('/category/:categoryId/edit', helpers.isLoggedIn,
   CategoryController.editUpdate);
 
   app.delete('/category/:categoryId/edit', helpers.isLoggedIn,

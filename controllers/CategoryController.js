@@ -10,6 +10,30 @@ module.exports = {
       category: category,
     });
   },
+  async getMove(req, res) {
+    const category = await MainCategory.findOne({_id: req.params.id});
+    const publicCategories = await MainCategory.find(
+      { $and: [
+        {isPrivate: {
+          $in: false,
+        }},
+      ],
+     }
+   ).sort({title: 1});
+    res.render("move", {
+      publicCategories: publicCategories,
+      categorytoMove: category,
+      id: category._id,
+    });
+  },
+  async move(req, res) {
+    let categoryToMove = await MainCategory.findOne({_id: req.params.id});
+    if(categoryToMove){
+      console.log();
+    }
+    //If req.body.categoryId is not equal to 'parent'
+
+  },
   async publicIndex(req, res) {
     const count = await MainCategory.countDocuments(
       {
@@ -167,7 +191,7 @@ module.exports = {
       category[prop] = req.body.entry[prop];
     }
     await category.save();
-    if(category.section == "parent"){
+    if(category.section == "parent" && category.isPrivate){
       for(const userId of req.body.entry.user){
         let user = await User.findOne({_id: userId});
         if(user.privateEntries.indexOf(category._id) == -1){

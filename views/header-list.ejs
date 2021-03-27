@@ -36,6 +36,11 @@
     <button style="display: block; margin-top: 3px;" class="button-main-sm">Edit</button>
     <% } %>
   </a>
+  <a href="/category/<%= category._id %>/move/">
+    <% if(user !== null && user.isAdmin || user != null && category.user == user._id) { %>
+    <button style="display: block; margin-top: 3px;" class="button-main-sm">Move</button>
+    <% } %>
+  </a>
   </div>
   </header>
   <div class="container">
