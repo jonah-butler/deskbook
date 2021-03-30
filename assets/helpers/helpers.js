@@ -53,38 +53,46 @@ function isAdmin(req, res, next){
 	res.redirect("/entries");
 }
 
-function isPublicEntry(req, res, next){
-  Entry.findOne({_id: req.params.id}, (err, entry) => {
-    if(entry.isPrivate && !req.isAuthenticated()){
-      res.redirect('/login');
-    } else {
-      req.entry = entry;
-      return next();
-    }
-  });
+async function isPublicEntry(req, res, next){
+  try{
+    let entry = await Entry.findOne({_id: req.params.id});
+      if(entry && entry.isPrivate && !req.isAuthenticated()){
+        res.redirect('/login');
+      } else {
+        req.entry = entry;
+        return next();
+      }
+  } catch(err) {
+    res.redirect('/404');
+  }
 }
 
 async function isPublicCategory(req, res, next){
-  const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
-  // MainCategory.findOne({_id: req.params.id}, (err, category) => {
-    if(!category.isPrivate){
-      req.category = category;
-      return next();
-      if(category.user.indexOf(req.user._id) !== -1){
+  try{
+    const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
+    // MainCategory.findOne({_id: req.params.id}, (err, category) => {
+      if(!category.isPrivate){
         req.category = category;
         return next();
+        if(category.user.indexOf(req.user._id) !== -1){
+          req.category = category;
+          return next();
+        }
+        // res.redirect('/login');
+      } else {
+        if(category.user.indexOf(req.user._id) !== -1){
+          req.category = category;
+          return next();
+        } else
+        // res.redirect('/login');
+        res.redirect(req.headers.referer);
+        // req.category = category;
+        // return next();
       }
-      // res.redirect('/login');
-    } else {
-      if(category.user.indexOf(req.user._id) !== -1){
-        req.category = category;
-        return next();
-      } else
-      // res.redirect('/login');
-      res.redirect(req.headers.referer);
-      // req.category = category;
-      // return next();
-    }
+  } catch(err) {
+    res.redirect('/404');
+  }
+
   // });
 }
 
