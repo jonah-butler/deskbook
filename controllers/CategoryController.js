@@ -12,24 +12,33 @@ module.exports = {
   },
   async getMove(req, res) {
     const category = await MainCategory.findOne({_id: req.params.id});
-    const publicCategories = await MainCategory.find(
-      { $and: [
-        {isPrivate: {
-          $in: false,
-        }},
-      ],
-     }
-   ).sort({title: 1});
-    res.render("move", {
-      publicCategories: publicCategories,
-      categorytoMove: category,
-      id: category._id,
-    });
+
+    if (category.isPrivate) {
+      res.redirect(`/entries/${category._id}`);
+    } else {
+      const publicCategories = await MainCategory.find(
+        { $and: [
+          {isPrivate: {
+            $in: false,
+          }},
+        ],
+       }
+     ).sort({title: 1});
+      res.render("move", {
+        publicCategories: publicCategories,
+        categorytoMove: category,
+        id: category._id,
+      });
+    }
   },
   async move(req, res) {
 
     try {
       let categoryToMove = await MainCategory.findOne({_id: req.params.id});
+
+      if (categoryToMove.isPrivate) {
+        res.redirect(`/entries/${categoryToMove._id}`);
+      }
       // if moving the subcategory to become a parent and removing its child status
       if (req.body.categoryId === 'parent') {
         let parentCategory = await MainCategory.findOne({_id: categoryToMove.section});
@@ -39,7 +48,7 @@ module.exports = {
         await categoryToMove.save();
       } else {
         if (categoryToMove.section !== 'parent') {
-          
+
           let newParentCategory = await MainCategory.findOne({_id: req.body.categoryId});
           let oldParentCategory = await MainCategory.findOne({_id: categoryToMove.section});
 

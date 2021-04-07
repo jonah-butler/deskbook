@@ -37,7 +37,7 @@
     <% } %>
   </a>
   <a href="/category/<%= category._id %>/move/">
-    <% if(user !== null && user.isAdmin || user != null && category.user == user._id) { %>
+    <% if(user !== null && user.isAdmin && !category.isPrivate || user != null && category.user == user._id && !category.isPrivate) { %>
     <button style="display: block; margin-top: 3px;" class="button-main-sm">Move</button>
     <% } %>
   </a>
