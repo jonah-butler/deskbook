@@ -27,11 +27,44 @@ module.exports = {
     });
   },
   async move(req, res) {
-    let categoryToMove = await MainCategory.findOne({_id: req.params.id});
-    if(categoryToMove){
-      console.log();
+
+    try {
+      let categoryToMove = await MainCategory.findOne({_id: req.params.id});
+      // if moving the subcategory to become a parent and removing its child status
+      if (req.body.categoryId === 'parent') {
+        let parentCategory = await MainCategory.findOne({_id: categoryToMove.section});
+        parentCategory.subCategories.splice(parentCategory.subCategories.indexOf(categoryToMove._id), 1);
+        categoryToMove.section = 'parent';
+        await parentCategory.save()
+        await categoryToMove.save();
+      } else {
+        if (categoryToMove.section !== 'parent') {
+          
+          let newParentCategory = await MainCategory.findOne({_id: req.body.categoryId});
+          let oldParentCategory = await MainCategory.findOne({_id: categoryToMove.section});
+
+          oldParentCategory.subCategories.splice(oldParentCategory.subCategories.indexOf(categoryToMove._id), 1);
+          categoryToMove.section = req.body.categoryId;
+          newParentCategory.subCategories.push(categoryToMove._id);
+
+          await oldParentCategory.save();
+          await categoryToMove.save();
+          await newParentCategory.save();
+        } else {
+
+          let newParentCategory = await MainCategory.findOne({_id: req.body.categoryId});
+
+          categoryToMove.section = req.body.categoryId;
+          newParentCategory.subCategories.push(categoryToMove._id);
+
+          await categoryToMove.save();
+          await newParentCategory.save();
+        }
+      }
+      res.redirect(`/entries/${categoryToMove._id}`);
+    } catch (error) {
+      console.log(error);
     }
-    //If req.body.categoryId is not equal to 'parent'
 
   },
   async publicIndex(req, res) {
