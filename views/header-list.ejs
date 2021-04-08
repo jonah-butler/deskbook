@@ -42,6 +42,11 @@
     <% } %>
   </a>
   </div>
+  <% if(!category.isPrivate) { %>
+  <div>
+    <div class="show-link glyphicon glyphicon-link absolute-top-right"></div>
+  </div>
+  <% } %>
   </header>
   <div class="container">
     <ul class="list-group">

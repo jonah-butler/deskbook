@@ -10,6 +10,16 @@ li{
   color: #126a9d;
 }
 
+.jumbotron{
+  position: relative;
+}
+
+.absolute-top-right{
+  position: absolute;
+  top: 20px;
+  right: 10px;
+}
+
 .nav-card-header{
   color: #cf3540;
 }
