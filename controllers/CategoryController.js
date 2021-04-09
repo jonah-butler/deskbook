@@ -234,12 +234,16 @@ module.exports = {
     }
     await category.save();
     if(category.section == "parent" && category.isPrivate){
-      for(const userId of req.body.entry.user){
-        let user = await User.findOne({_id: userId});
-        if(user.privateEntries.indexOf(category._id) == -1){
-          user.privateEntries.push(category._id);
-          await user.save();
+      if(Array.isArray(req.body.entry.user)){
+        for(const userId of req.body.entry.user){
+          let user = await User.findOne({_id: userId});
+          if(user.privateEntries.indexOf(category._id) == -1){
+            user.privateEntries.push(category._id);
+            await user.save();
+          }
         }
+      } else {
+        // define delete controller for users not present - push above the property swap loop
       }
     }
     res.redirect(`/entries/${req.params.categoryId}`);
