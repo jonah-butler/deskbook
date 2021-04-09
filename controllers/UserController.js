@@ -3,6 +3,8 @@ const Entry = require('../models/entry.js');
 const User = require('../models/user.js');
 const Reference = require('../models/question.js');
 const helpers = require('../assets/helpers/helpers.js');
+const fs = require('fs');
+const path = require('path');
 
 module.exports = {
   async index(req, res){
@@ -46,6 +48,28 @@ module.exports = {
       }
     } catch(err) {
       res.send({error: 'oops looks like an error'});
+    }
+  },
+  async changeAvatarGet(req, res){
+    const avatarDirectory = path.join(__dirname, '..', 'assets', 'imgs', 'avatars', 'choices');
+    fs.readdir(avatarDirectory, (err, files) => {
+      if(err){
+        console.log(err);
+      } else {
+        res.render('user/change-avatar', {
+          avatars: files,
+          userId: req.user.id,
+        });
+      }
+    })
+  },
+  async changeAvatar(req, res){
+    try{
+      let user = await User.findOneAndUpdate({_id: req.params.userId}, {avatar: req.body.avatar});
+      console.log(user);
+      res.redirect(`/user/${req.params.userId}`);
+    } catch(err) {
+      console.log(err);
     }
   }
 }

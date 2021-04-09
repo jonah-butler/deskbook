@@ -1,10 +1,16 @@
 const  mongoose = require("mongoose");
 const passportLocalMongoose = require("passport-local-mongoose");
+const fs = require('fs');
+const path = require('path');
 
 const UserSchema = new mongoose.Schema({
   username: {
     type: String,
     required: true,
+  },
+  avatar: {
+    type: String,
+    required: false,
   },
   email: {
     type: String,
@@ -31,6 +37,14 @@ const UserSchema = new mongoose.Schema({
       ref: "JobSeeker"
     }
   ]
+})
+
+UserSchema.pre("save", async function(next) {
+  const user = this;
+  const defaultAvatarDir = path.join(__dirname, '..', 'assets', 'imgs', 'avatars', 'default');
+  const defaultAvatar = fs.readdirSync(defaultAvatarDir);
+  user.avatar = defaultAvatar[0];
+  next();
 })
 
 UserSchema.plugin(passportLocalMongoose);

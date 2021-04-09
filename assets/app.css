@@ -1189,3 +1189,21 @@ body.stop-scrolling{
 .input-group > .list-group{
   margin-bottom: 0px;
 }
+
+.avatar{
+  display: inline-flex;
+  position: relative;
+  bottom: -10px;
+  margin-right: 15px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #f5f2eb;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 1px 1px 12px 1px rgb(0 0 0 / 50%);
+}
+
+.avatar > img {
+  height: 85%;
+}

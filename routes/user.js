@@ -19,4 +19,10 @@ module.exports = (app) => {
 
   app.post('/user/reference', helpers.isLoggedIn,
   UserController.referenceDelete);
+
+  app.get('/user/:userId/change-avatar', helpers.isLoggedIn,
+  UserController.changeAvatarGet);
+
+  app.post('/user/:userId/change-avatar', helpers.isLoggedIn,
+  UserController.changeAvatar);
 }

@@ -1,0 +1,33 @@
+<%- include ('../partials/header') %>
+
+<div class="container">
+	<div class="jumbotron">
+		<h1>Change Your Avatar</h1>
+		<hr>
+		<div class="container">
+		</div>
+	<form class="" action="/user/<%=userId%>/change-avatar" method="post">
+    <% avatars.forEach(avatar => { %>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<input name="avatar" type="radio" value="<%=avatar%>" aria-label="...">
+				</span>
+				<div class="list-group">
+					<li class="list-group-item ">
+	           <img style="max-height: 100px;" src="/imgs/avatars/choices/<%=avatar%>" alt="">
+					</li>
+				</div>
+			</div><!-- /input-group -->
+      <% }) %>
+      <div class="form-group">
+	     <button class="button-main">
+		        Submit
+	     </button>
+      </div>
+    </form>
+  </div>
+	<a href="/entries/"><button class="button-main-sm">Go Back</button></a>
+</div>
+
+
+<%- include ('../partials/footer') %>

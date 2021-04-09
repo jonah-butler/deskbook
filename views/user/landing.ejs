@@ -4,7 +4,7 @@
     <header class="jumbotron">
 	  <div class="container">
 		<h1 class="jumbo-header">User Panel</h1>
-    <p class="jumbo-header"><%= user.username %></p>
+    <p class="jumbo-header"><span class="avatar"><img src="/imgs/avatars/choices/<%=user.avatar%>"></span><%= user.username %></p>
 		<p></p>
 		<!-- <a href="/entries/new"><button class="button-main">Add A New FAQ</button></a> -->
 	  </div>
@@ -35,7 +35,18 @@
         </p>
       </div>
     </div>
+    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+      <div class="thumbnail">
 
+        <h3 class="section-name">Change Avatar</h3>
+        <div class="caption">
+
+        </div>
+        <p>
+          <a href="/user/<%= user._id %>/change-avatar" class="button-main-sm">Change</a>
+        </p>
+      </div>
+    </div>
   </div>
 </div>
 
