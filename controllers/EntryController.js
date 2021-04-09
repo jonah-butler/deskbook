@@ -16,8 +16,7 @@ module.exports = {
           }},
         ],
       }
-    ).sort({'createdAt': -1}).limit(6);
-    // console.log(publicCategories);
+    ).populate('owner').sort({'createdAt': -1}).limit(6);
     let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
     // console.log(privateCategories);
     res.render('index', {

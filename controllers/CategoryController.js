@@ -168,9 +168,9 @@ module.exports = {
   },
   async newPost(req, res) {
     try{
-      console.log(req.body);
+      let user = await User.findOne({_id: req.user._id});
+      req.body.entry.owner = user;
       if(req.body.entry.isPrivate == 'true'){
-        let user = await User.findOne({_id: req.user._id});
         if(req.body.entry.section){
           req.body.entry.user = user._id;
           const newCategory = await MainCategory.create(req.body.entry);

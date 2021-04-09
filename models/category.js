@@ -32,6 +32,10 @@ let EntryCategory = new mongoose.Schema({
 		type: Boolean,
 		default: false,
 	},
+	owner: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User',
+	},
 	// user: {
 	// 	type: String,
 	// 	required: false,

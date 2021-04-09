@@ -19,22 +19,54 @@
     <a href="/category/public/?page=1"><button class="button-main">View All</button></a>
     <hr>
     <% if(categories.length != 0) { %>
-      <div class="row text-center" style="display: flex; flex-wrap: wrap">
+      <div class="row" style="display: flex; flex-wrap: wrap">
         <% categories.forEach((heading) =>{ %>
-        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
-          <div class="entry">
-            <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-eye-open pos-absolute top-right"></span>
-            <h3 class="section-name"><%= heading.title %></h3>
-            <% let date = new Date(heading.createdAt); %>
-            <p style="font-size: 11px;"><%= date.toDateString(); %></p>
-            <div class="caption">
-              <p style="font-size: 12px; font-style: italic;"><%- heading.description.slice(0, 100) %>...</p>
+          <div class="card">
+          <div class="slanted-header">
+          <div class="avatar-container">
+            <% if(!heading.owner){ %>
+            <span>not owned</span>
+            <div class="card-avatar">
+              <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
             </div>
-            <p>
-              <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
-            </p>
+            <% } else { %>
+            <span><%=heading.owner.username%></span>
+            <div class="card-avatar">
+              <img src="/imgs/avatars/choices/<%=heading.owner.avatar%>" alt="">
+            </div>
+            <% } %>
           </div>
-        </div>
+          <i class="fas fa-lock-open"></i>
+          </div>
+          <div class="body">
+          <div class="date">
+            <% let created = new Date(heading.createdAt); %>
+            <% let edited = new Date(heading.updatedAt); %>
+            <i class="far fa-clock"></i><span><%= created.toDateString(); %></span>
+          </div>
+          <div class="title">
+            <%= heading.title %>
+          </div>
+          <div class="description">
+            <%- heading.description.slice(0, 50) %>...
+          </div>
+          <div class="info">
+            <div class="info-tab">
+              <i class="far fa-file-alt"></i>
+              <span><%= heading.faqs.length %></span>
+            </div>
+            <div class="info-tab">
+              <i class="far fa-folder"></i>
+              <span><%= heading.subCategories.length %></span>
+            </div>
+          </div>
+          <div class="last-update">
+            <i class="far fa-edit"></i>
+            <span>last update on <span><%= edited.toDateString(); %></span></span>
+          </div>
+          <a href="/entries/<%= heading._id %>" class="btn-chevron"><i class="fas fa-chevron-right"></i></a>
+          </div>
+          </div>
         <% }); %>
       </div>
       <% } else {%>
@@ -49,22 +81,51 @@
     <p>Most Recently Added</p>
     <a href="/category/private/?page=1"><button class="button-main">View All</button></a>
     <hr>
-    <div class="row text-center" style="display: flex; flex-wrap: wrap">
+    <div class="row" style="display: flex; flex-wrap: wrap">
       <% privateCategories.forEach((heading) =>{ %>
-      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
-        <div class="entry private">
-          <span style="font-size: 12px; top: -20px;" class="glyphicon glyphicon-lock pos-absolute top-right"></span>
-          <h3 class="section-name"><%= heading.title %></h3>
-          <% let date = new Date(heading.createdAt); %>
-          <p style="font-size: 11px;"><%= date.toDateString(); %></p>
-          <div class="caption">
-            <p style="font-size: 12px; font-style: italic;"><%- heading.description.slice(0, 100) %>...</p>
-          </div>
-          <p>
-            <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
-          </p>
+        <div class="card">
+        <div class="slanted-header private">
+        <div class="avatar-container">
+        <span><%=user.username%></span>
+        <div class="card-avatar">
+          <% if(user.avatar) {%>
+          <img src="/imgs/avatars/choices/<%=user.avatar%>" alt="">
+          <% } else { %>
+          <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+          <% } %>
         </div>
-      </div>
+        </div>
+        <i class="fas fa-lock"></i>
+        </div>
+        <div class="body">
+        <div class="date">
+          <% let created = new Date(heading.createdAt); %>
+          <% let edited = new Date(heading.updatedAt); %>
+          <i class="far fa-clock"></i><span><%= created.toDateString(); %></span>
+        </div>
+        <div class="title">
+          <%= heading.title %>
+        </div>
+        <div class="description">
+          <%- heading.description.slice(0, 50) %>...
+        </div>
+        <div class="info">
+          <div class="info-tab">
+            <i class="far fa-file-alt"></i>
+            <span><%= heading.faqs.length %></span>
+          </div>
+          <div class="info-tab">
+            <i class="far fa-folder"></i>
+            <span><%= heading.subCategories.length %></span>
+          </div>
+        </div>
+        <div class="last-update">
+          <i class="far fa-edit"></i>
+          <span>last update on <span><%= edited.toDateString(); %></span></span>
+        </div>
+        <a href="/entries/<%= heading._id %>" class="btn-chevron"><i class="fas fa-chevron-right"></i></a>
+        </div>
+        </div>
       <% }); %>
     </div>
   </div>
