@@ -16,6 +16,18 @@
   <% } %>
   </span>
   <% } %>
+  <% if(category.owner) { %>
+    <div class="avatar-container">
+    <span style="color: black; text-shadow: 0 0 0 transparent;"><%=category.owner.username%></span>
+    <div class="card-avatar">
+      <% if(category.owner.avatar) {%>
+      <img src="/imgs/avatars/choices/<%=category.owner.avatar%>" alt="">
+      <% } else { %>
+      <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+      <% } %>
+    </div>
+    </div>
+  <% } %>
   <div class="category-container">
   <% category.category.forEach((category) => { %>
       <a href="/search/?query=<%= category %>"><span class="category"> <%= category %> </span> </a>

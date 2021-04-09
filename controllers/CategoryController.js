@@ -206,8 +206,8 @@ module.exports = {
   async editGet(req, res) {
     try{
       const category = await MainCategory.findOne({_id: req.params.categoryId});
+      const users = await User.find({});
       if(category.isPrivate){
-        const users = await User.find({});
         res.render('category-edit', {
           category: category,
           users: users,
@@ -218,6 +218,8 @@ module.exports = {
         res.render('category-edit', {
           category: category,
           private: false,
+          users: users,
+          loggedUser: req.user,
         });
       }
     } catch(err) {
@@ -230,7 +232,13 @@ module.exports = {
       req.body.entry.category = [];
     }
     for(const prop in req.body.entry){
-      category[prop] = req.body.entry[prop];
+      if(prop === "owner"){
+        let owner = await User.findOne({_id: req.body.entry.owner});
+        console.log(owner);
+        category.owner = owner;
+      } else {
+        category[prop] = req.body.entry[prop];
+      }
     }
     await category.save();
     if(category.section == "parent" && category.isPrivate){

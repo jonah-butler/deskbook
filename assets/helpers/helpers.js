@@ -69,7 +69,7 @@ async function isPublicEntry(req, res, next){
 
 async function isPublicCategory(req, res, next){
   try{
-    const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories");
+    const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories").populate('owner');
     // MainCategory.findOne({_id: req.params.id}, (err, category) => {
       if(!category.isPrivate){
         req.category = category;

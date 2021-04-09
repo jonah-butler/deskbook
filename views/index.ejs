@@ -30,10 +30,17 @@
               <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
             </div>
             <% } else { %>
+              <% if(heading.owner.avatar){ %>
             <span><%=heading.owner.username%></span>
             <div class="card-avatar">
               <img src="/imgs/avatars/choices/<%=heading.owner.avatar%>" alt="">
             </div>
+              <% } else { %>
+                <span><%=heading.owner.username%></span>
+                <div class="card-avatar">
+                  <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+                </div>
+              <% } %>
             <% } %>
           </div>
           <i class="fas fa-lock-open"></i>
