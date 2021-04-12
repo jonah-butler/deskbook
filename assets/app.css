@@ -1208,6 +1208,23 @@ body.stop-scrolling{
   height: 85%;
 }
 
+.admin-panel{
+  min-height: 87vh;
+}
+
+.admin-panel-main-card{
+  margin-top: 20px;
+  padding: 20px 10px;
+}
+
+.smooth-border{
+  border-radius: 5px;
+}
+
+.shadow{
+  box-shadow: 1px 1px 3px 0px rgb(0 0 0 / 50%);
+}
+
 
 /*
 ------------------
@@ -1226,6 +1243,10 @@ body.stop-scrolling{
   flex-wrap: wrap;
 }
 
+.card:hover{
+  box-shadow: 1px 1px 12px 10px rgb(0 0 0 / 50%);
+}
+
 .card{
   display: flex;
   flex-direction: column;
@@ -1238,6 +1259,7 @@ body.stop-scrolling{
   border-radius: 7px;
   padding-bottom: 10px;
   color: black;
+  transition: box-shadow .2s ease;
 }
 
 .slanted-header.private{
@@ -1366,4 +1388,20 @@ body.stop-scrolling{
 
 .btn-chevron{
   color: black !important;
+}
+
+/*
+------------------
+| ***************
+| BG Colors
+| ***************
+------------------
+*/
+
+.bg-linen{
+  background-color: #f5f2eb;
+}
+
+.bg-white{
+  background-color: white;
 }

@@ -47,27 +47,67 @@
     <!-- <p>Most Recently Added</p> -->
     <hr>
     <% if(categories.length != 0) { %>
-      <div class="row text-center" style="display: flex; flex-wrap: wrap">
+      <div class="row" style="display: flex; flex-wrap: wrap">
         <% categories.forEach((heading) =>{ %>
-        <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
-          <% if(isPrivate) { %>
-          <div class="entry private">
+          <div class="card">
+          <% if(!isPrivate){ %>
+          <div class="slanted-header">
+            <i class="fas fa-lock-open"></i>
           <% } else { %>
-          <div class="entry">
+          <div class="slanted-header private">
+            <i class="fas fa-lock"></i>
           <% } %>
-            <h3 class="section-name"><%= heading.title %></h3>
-            <% let date = new Date(heading.createdAt); %>
-            <p style="font-size: 11px;"><%= date.toDateString(); %></p>
-            <div class="caption">
-              <p style="font-size: 12px; font-style: italic;"><%= heading.description.slice(0, 100) %>...</p>
+          <div class="avatar-container">
+            <% if(!heading.owner){ %>
+            <span>not owned</span>
+            <div class="card-avatar">
+              <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
             </div>
-            <p>
-              <a href="/entries/<%= heading._id %>" class="button-main-sm">More Info</a>
-            </p>
+            <% } else { %>
+              <% if(heading.owner.avatar){ %>
+            <span><%=heading.owner.username%></span>
+            <div class="card-avatar">
+              <img src="/imgs/avatars/choices/<%=heading.owner.avatar%>" alt="">
+            </div>
+              <% } else { %>
+                <span><%=heading.owner.username%></span>
+                <div class="card-avatar">
+                  <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+                </div>
+              <% } %>
+            <% } %>
           </div>
-        </div>
+          </div>
+          <div class="body">
+          <div class="date">
+            <% let created = new Date(heading.createdAt); %>
+            <% let edited = new Date(heading.updatedAt); %>
+            <i class="far fa-clock"></i><span><%= created.toDateString(); %></span>
+          </div>
+          <div class="title">
+            <%= heading.title %>
+          </div>
+          <div class="description">
+            <%- heading.description.slice(0, 50) %>...
+          </div>
+          <div class="info">
+            <div class="info-tab">
+              <i class="far fa-file-alt"></i>
+              <span><%= heading.faqs.length %></span>
+            </div>
+            <div class="info-tab">
+              <i class="far fa-folder"></i>
+              <span><%= heading.subCategories.length %></span>
+            </div>
+          </div>
+          <div class="last-update">
+            <i class="far fa-edit"></i>
+            <span>last update on <span><%= edited.toDateString(); %></span></span>
+          </div>
+          <a href="/entries/<%= heading._id %>" class="btn-chevron"><i class="fas fa-chevron-right"></i></a>
+          </div>
+          </div>
         <% }); %>
-      </div>
       <% } else {%>
         <div class="container">
           <h4 class="jumbo-header">This section is loney! Add some knowledge to the deskbook to get started!</h4>
