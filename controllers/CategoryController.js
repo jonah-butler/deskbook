@@ -101,7 +101,7 @@ module.exports = {
             }},
           ],
         }
-      ).sort({'createdAt': -1}).limit(9);
+      ).populate('owner').sort({'createdAt': -1}).limit(9);
       const remainder = count - 9;
       res.render('index-all', {
         categories: publicCategories,
@@ -125,7 +125,7 @@ module.exports = {
               }},
             ],
           }
-        ).sort({'createdAt': -1}).limit(9).skip(offset - 9);
+        ).sort({'createdAt': -1}).populate('owner').limit(9).skip(offset - 9);
         res.render('index-all', {
           categories: publicCategories,
           user: req.user,
