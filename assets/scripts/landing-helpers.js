@@ -2,7 +2,7 @@ async function getLibcalEvents() {
   try{
     let response = await fetch("/calendarClient");
     response = await response.json();
-
+    console.log(response);
     let tokenResponse = await fetch('https://rvalibrary.libcal.com/1.1/oauth/token', {
       method: 'POST',
       body: JSON.stringify({
@@ -16,17 +16,17 @@ async function getLibcalEvents() {
     });
     tokenResponse = await tokenResponse.json();
 
-    let events = await fetch(`https://rvalibrary.libcal.com/1.1/events?cal_id=14747&days=0`, {
+    const events = await fetch(`https://rvalibrary.libcal.com/1.1/events?cal_id=14747&days=0`, {
       headers: {
         'Authorization': `Bearer ${tokenResponse.access_token}`
       }
     });
-    events = await events.json();
-    return events;
-  } catch(e){
-    return e;
-  }
-}
+    const jsonEvents = await events.json();
+    return jsonEvents;
+  } catch(error){
+    console.log(error);
+  };
+};
 
 function buildEventCards(event, gradientName, gradient) {
 
@@ -51,8 +51,7 @@ function buildEventCards(event, gradientName, gradient) {
         ${start} - ${end}
       </div>
       <a target="blank" href="${event.url.public}" class="btn-chevron color-white absolute-bottom-right"><i class="fas fa-chevron-right"></i></a>
-    </div>
-`;
-}
+    </div>`;
+};
 
 export { getLibcalEvents, buildEventCards };

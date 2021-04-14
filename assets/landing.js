@@ -15,23 +15,28 @@ const svgs = [
 const eventContainer = document.querySelector('.event-card-container');
 const loader = document.querySelector('.loader');
 
-const events = (await getLibcalEvents()).events;
-let cardHTML = '';
-let counter = 1;
+async function fetchAndBuild() {
+  let events = await getLibcalEvents();
+  events = events.events;
+  let cardHTML = '';
+  let counter = 1;
 
 
-events.forEach((event) => {
+  events.forEach((event) => {
 
-  let gradientStr = 'gradient' + counter;
+    let gradientStr = 'gradient' + counter;
 
-  if(counter === 3){
-    cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
-    counter === 1;
-  } else {
-    cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
-    counter++;
-  }
-})
+    if(counter === 3){
+      cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
+      counter === 1;
+    } else {
+      cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
+      counter++;
+    }
+  })
 
-loader.remove();
-eventContainer.insertAdjacentHTML('afterbegin', cardHTML);
+  loader.remove();
+  eventContainer.insertAdjacentHTML('afterbegin', cardHTML);
+}
+fetchAndBuild();
+
