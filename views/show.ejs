@@ -35,6 +35,27 @@
     <p> Cabinet: <%= values[0].cabinet %> </p>
     <% } %>
     <div class="faq-description"><%- values[0].description %></div>
+    <div class="container-fluid" style="margin-top: 40px; padding-left: 0px;">
+      <hr>
+      <h3 class="">
+        Maintained by:
+      </h3>
+      <% if(values[0].owner) { %>
+      <span class="avatar">
+        <% if(values[0].owner.avatar) { %>
+        <img src="/imgs/avatars/choices/<%=values[0].owner.avatar%>">
+        <% } else { %>
+        <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+        <% } %>
+      </span>
+      <span class="" style="position: relative; left: -15px;"><%=values[0].owner.username%></span>
+        <% } else { %>
+        <span class="avatar">
+          <img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+        </span>
+        <span style="position: relative; left: -15px;">not owned</span>
+        <% } %>
+    </div>
   </div>
   <% if(user != null && user.isAdmin == true || user != null && user._id == values[0].user) { %>
   <div class="edit-container">
