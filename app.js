@@ -212,7 +212,7 @@ app.post("/register", isAdmin, (req, res) => {
 			console.log(err);
 			return res.render("register");
 		}
-		passport.authenticate("local")(req, res, () => {
+		passport.authenticate("/")(req, res, () => {
 			res.redirect("/entries");
 		})
 	})
@@ -241,7 +241,7 @@ function isAdmin(req, res, next){
 	if(req.isAuthenticated() && req.user.isAdmin == true){
 		return next();
 	}
-	res.redirect("/entries");
+	res.redirect("/");
 }
 
 

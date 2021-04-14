@@ -24,7 +24,7 @@ async function getLibcalEvents() {
     events = await events.json();
     return events;
   } catch(e){
-    console.log(e);
+    return e;
   }
 }
 

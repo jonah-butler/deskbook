@@ -50,7 +50,7 @@ function isAdmin(req, res, next){
 	if(req.isAuthenticated() && req.user.isAdmin == true){
 		return next();
 	}
-	res.redirect("/entries");
+	res.redirect("/");
 }
 
 async function isPublicEntry(req, res, next){
@@ -99,7 +99,7 @@ async function isPublicCategory(req, res, next){
 async function passportAuthentication() {
   try{
     passport.authenticate("local", {
-      successRedirect: "/entries",
+      successRedirect: "/",
       failureRedirect: "/login"
     }), (req, res) => {
 

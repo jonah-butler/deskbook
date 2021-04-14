@@ -18,7 +18,7 @@ const loader = document.querySelector('.loader');
 const events = (await getLibcalEvents()).events;
 let cardHTML = '';
 let counter = 1;
-console.log(`${svgs}`);
+
 
 events.forEach((event) => {
 
