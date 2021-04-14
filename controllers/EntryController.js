@@ -108,7 +108,7 @@ module.exports = {
 	const entry = await Entry.findOne({_id: req.params.id});
 	const parentCategory = await MainCategory.findOne({_id: req.params.categoryId});
 	Promise.all([
-		Entry.find({_id: req.params.id}),
+		Entry.find({_id: req.params.id}).populate('owner'),
 	  // Entry.findOne({_id: { $gt: req.params.id } }, { section: entry.section } ),
 		// Entry.findOne({_id: { $lt: req.params.id } }, { section: entry.section } )
     Entry.find({
@@ -133,7 +133,8 @@ module.exports = {
 	})
   },
   async editIndex(req, res) {
-    let category = req.params.headerCategory;
+    const category = req.params.headerCategory;
+    const users = await User.find();
     Entry.findById(req.params.id, (err, entry) => {
       if(err){
         redirect("/entries");
@@ -141,6 +142,7 @@ module.exports = {
         res.render("edit", {
           entry: entry,
           category: category,
+          users: users,
           // categories: mainCategories
         });
       }
