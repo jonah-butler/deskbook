@@ -76,7 +76,7 @@ li{
   text-transform: uppercase;
   padding: .5em 1em;
   background: none;
-  color:darkblue;
+  color:#37268e;
   font-weight: bold;
   position: relative;
   transition:color 0.25s ease;
@@ -96,7 +96,7 @@ li{
   right: 0;
   width: 0;
   height: 100%;
-  background-color: #014e98;
+  background-color: #37268e;
   transform-origin:right;
   transition:width 0.25s ease;
   z-index: -1;
@@ -174,6 +174,12 @@ article{
   float: left;
   position: relative;
   margin-right: 20px;
+}
+
+.top{
+  position: absolute;
+  top: -10px;
+  right: 10px;
 }
 
 .sz-lg{
@@ -844,7 +850,7 @@ label{
 .category{
   border-radius: 15px;
   background-color: #d5d5d5;
-  padding: 5px;
+  padding: 6px 10px;
   opacity: 1;
   color: darkblue;
   transition: .3s ease;
@@ -862,8 +868,9 @@ label{
 }
 
 .category-container > a {
+  display: inline-block;
   text-decoration: none;
-  margin: 3px 3px 3px 0px;
+  margin: 3px 5px 17px 0px;
 }
 
 .tag-input-container > textarea, .tag-input-container-large > textarea{
@@ -1224,6 +1231,10 @@ body.stop-scrolling{
   box-shadow: 1px 1px 3px 0px rgb(0 0 0 / 50%);
 }
 
+a:hover{
+  text-decoration: none;
+}
+
 
 /*
 ------------------
@@ -1243,7 +1254,7 @@ body.stop-scrolling{
 }
 
 .card:hover{
-  box-shadow: 1px 1px 12px 10px rgb(0 0 0 / 50%);
+  box-shadow: 1px 1px 6px 4px rgb(0 0 0 / 30%);
 }
 
 .card{
@@ -1253,7 +1264,7 @@ body.stop-scrolling{
   min-width: 320px;
   max-width: 520px;
   flex: 1 1 20%;
-  box-shadow: 1px 1px 12px 1px rgb(0 0 0 / 50%);
+  box-shadow: 1px 1px 3px 2px rgb(0 0 0 / 20%);
   height: fit-content;
   border-radius: 7px;
   padding-bottom: 10px;
@@ -1403,4 +1414,186 @@ body.stop-scrolling{
 
 .bg-white{
   background-color: white;
+}
+
+/*
+------------------
+| ***************
+| Dashboard
+| ***************
+------------------
+*/
+
+.flex-row{
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+}
+
+.fg2{
+  flex-grow: 2;
+}
+
+.fg1{
+  flex-grow: 1;
+}
+
+.fg3{
+  flex-grow: 3;
+}
+
+.db-container{
+  animation-name: fadeIn;
+  animation-duration: .8s;
+}
+
+.db-panel{
+  background-color: white;
+  margin: 5px;
+  min-width: 200px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.1);
+  transition: box-shadow .3s ease;
+}
+
+.db-panel:hover{
+  box-shadow: 1px 1px 20px 2px rgba(0,0,0,0.2);
+}
+
+.big-number{
+  font-size: 55px;
+  color: #37268e;
+}
+
+.event-panel{
+  display: inline-block;
+  margin: 10px;
+  min-height: 150px;
+  min-width: 250px;
+  color: white;
+  background: linear-gradient(130deg, #ec4887, #b954a4);
+  border-radius: 10px;
+  padding: 15px;
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+}
+
+.event-panel > svg{
+  position: absolute;
+  width: 350px;
+  z-index: -1;
+  left: -40px;
+  transform: rotate(270deg);
+}
+
+.event-panel > svg > path{
+  opacity: 0.2;
+}
+
+.gradient1{
+  background: linear-gradient(130deg, #ec4887, #b954a4);
+}
+
+.gradient2{
+  background: linear-gradient(130deg, #48c6ec, #2a99d1);
+}
+
+.gradient3{
+  background: linear-gradient(130deg, #ec7948, #d1622a);
+}
+
+.event-panel-title{
+  /* margin: 10px; */
+}
+
+.event-panel-date{
+  font-weight: 300;
+  font-size: 18px;
+}
+
+.event-card-container{
+  min-height: 170px;
+}
+
+/*
+------------------
+| ***************
+| Loader
+| ***************
+------------------
+*/
+
+
+.loader{
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader-inner{
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+/*   border: 5px solid transparent;
+  border-top: 3px solid #659ba0; */
+  position: relative;
+}
+
+.loader-inner div{
+  box-sizing: border-box;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 2px solid transparent;
+  border-top: 2px solid #37268e;
+  border-radius: 50%;
+  animation: spin 1s infinite;
+}
+
+.loader-inner div:nth-child(1){
+  animation-delay: -0.25s;
+}
+
+.loader-inner div:nth-child(2){
+  animation-delay: -0.40s;
+}
+
+.loader-inner div:nth-child(3){
+  animation-delay: -0.60s;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+/*   10%{
+    transform: rotate(100deg);
+  }
+  20%{
+    transform: rotate(200deg);
+  }
+   35%{
+    transform: rotate(300deg);
+  }
+  45% {
+    transform: rotate(400deg);
+  }
+  55% {
+    transform: rotate(500deg);
+  }
+ 65% {
+    transform: rotate(1100deg);
+ }
+  84% {
+    transform: rotate(1300deg);
+ } */
+  100%{
+    transform: rotate(1440deg);
+  }
 }
