@@ -32,6 +32,19 @@
       <input class="tag-input" id="titleField" type="text" name="entry[title]" value="<%= entry.title %>" placeholder=""></input>
     </div>
   </div>
+  <!-- Owner Radio Input -->
+  <% if(!entry.owner) { %>
+  <div class="form-group">
+    <div class="sub-headline">
+      Add Owner
+    </div>
+    <% users.forEach(user => { %>
+    <div class="radio">
+      <label><input type="radio" name="entry[owner]" value="<%=user._id%>"><%= user.username %></label>
+    </div>
+    <% }) %>
+  </div>
+  <% } %>
 		<!-- input for text -->
 		<!-- <div class="form-group">
 			<textarea class="form-control" id="comment" name="entry[description]" rows="8" cols="80"> <%= entry.description %> </textarea>
