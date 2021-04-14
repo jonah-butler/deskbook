@@ -24,6 +24,12 @@ li{
   right: 10px;
 }
 
+.absolute-bottom-right{
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+}
+
 .nav-card-header{
   color: #cf3540;
 }

@@ -38,18 +38,21 @@ function buildEventCards(event, gradientName, gradient) {
   let end = new Date(event.end);
   end = new Intl.DateTimeFormat('en-us', {timeStyle: 'short'}).format(end);
 
-  return `<div class="event-panel fg1 ${gradientName}">
-    ${gradient}
-    <div class="event-panel-title">
-      <h5>${event.title}</h5>
+  return `
+    <div class="event-panel fg1 ${gradientName}">
+      ${gradient}
+      <div class="event-panel-title">
+        <h5>${event.title}</h5>
+      </div>
+      <div class="event-panel-date">
+        ${date.toDateString()}
+      </div>
+      <div class="event-panel-time">
+        ${start} - ${end}
+      </div>
+      <a target="blank" href="${event.url.public}" class="btn-chevron color-white absolute-bottom-right"><i class="fas fa-chevron-right"></i></a>
     </div>
-    <div class="event-panel-date">
-      ${date.toDateString()}
-    </div>
-    <div class="event-panel-time">
-      ${start} - ${end}
-    </div>
-  </div>`;
+`;
 }
 
 export { getLibcalEvents, buildEventCards };
