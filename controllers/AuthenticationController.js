@@ -8,7 +8,7 @@ module.exports = {
   },
   async loginPost(req, res) {
     passport.authenticate("local", {
-      successRedirect: "/entries",
+      successRedirect: "/",
       failureRedirect: "/login"
     }), (req, res) => {
     }
