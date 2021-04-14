@@ -45,7 +45,8 @@ const calendarModule = {
     'Main': 7469,
     'North Avenue': 7402,
     'West End': 7751,
-    'Westover Hills': 7403
+    'Westover Hills': 7403,
+    'Virtual': 14747,
   },
 
   inputFields: {
