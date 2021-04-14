@@ -2,20 +2,114 @@
 
 
 <div class="container jumbotron">
-	<h1 class="jumbo-header">
-		Landing Page!
-	</h1>
+	<div class="avatar-container top" style="margin-top: 40px; padding-left: 0px;">
+		<% if(user.avatar) { %>
+		<span class="" style="text-shadow: none; color: black; position: relative; left: 10px;"><%=user.username%></span>
+		<span class="avatar">
+			<% if(user.avatar) { %>
+			<img src="/imgs/avatars/choices/<%=user.avatar%>">
+			<% } else { %>
+			<img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+			<% } %>
+		</span>
+		<% } %>
+	</div>
+	<div class="container">
+		<h1 class="jumbo-header">
+			Dashboard
+		</h1>
+		<p>
+			Welcome to RVALibrary Deskbook <%= bookEmoji %>
+		</p>
+	</div>
+	<div class="container-fluid db-container">
+		<div class="flex-row">
+			<div class="db-panel fg1">
+				<div class="sub-headline">
+					public category contributions
+				</div>
+				<div class="big-number">
+					<%= publicCategoriesTotal %>
+				</div>
+				<div class="link-container">
+					<a href="https://rvalibrary-deskbook.herokuapp.com/category/new-parent">
+						<button type="button" class="button-main-sm" name="button">Add</button>
+					</a>
+				</div>
+			</div>
+			<div class="db-panel fg1">
+				<div class="sub-headline">
+					private category contributions
+				</div>
+				<div class="big-number">
+					<%= privateCategoriesTotal %>
+				</div>
+				<div class="link-container">
+					<a href="https://rvalibrary-deskbook.herokuapp.com/category/new-parent-private">
+						<button type="button" class="button-main-sm" name="button">Add</button>
+					</a>
+				</div>
+			</div>
+			<div class="db-panel fg1">
+				<div class="sub-headline">
+					FAQ contributions
+				</div>
+				<div class="big-number">
+					<%= faqsTotal %>
+				</div>
+				<div class="link-container">
+				</div>
+			</div>
+		</div>
+		<div class="container" style="margin-top: 20px;">
+			<div class="row">
+				<div class="col-xs-12">
+					<div class="sub-headline">
+						Recently Added Tags
+					</div>
+					<div class="category-container">
+						<% categoryArr.forEach(category => { %>
+						<a href="/search/?query=<%=category%>"><span class="category"> <%= category %> </span> </a>
+						<% }) %>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="container">
+			<div class="sub-headline">
+				Today's Events
+			</div>
+			<div class="flex-row event-card-container">
+				<div class="loader">
+					<div class="loader-inner">
+						<div></div><div></div><div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- <div class="flex-row">
+			<div class="db-panel fg1">
+				asdf
+			</div>
+			<div class="db-panel fg1">
+				asdfasf
+			</div>
+		</div>
+		<div class="flex-row">
+			<div class="db-panel fg1">
+				asdfasf
+			</div>
+		</div>
+		<div class="flex-row">
+			<div class="db-panel fg1">
+				asdfasf
+			</div>
+			<div class="db-panel fg3">
+				asdf
+			</div>
+		</div> -->
+	</div>
 
-	<p>
-		Welcome to RVALibrary Deskbook <%= bookEmoji %>
-		<%= user.username %>
-	</p>
-	<ul>
-	<li><a href="/entries">View all FAQs</a></li>
-	<li><a href="/reference">Browse Reference Questions</a></li>
-	<li><a href="/calendar">Browse Events</a></li>
-	<li id="modalListener"><a>Submit Reference</a></li>
-	</ul>
 </div>
 
 
@@ -31,3 +125,4 @@
 
 
 <%- include ('partials/footer') %>
+<script type="module" src="/landing.js"></script>
