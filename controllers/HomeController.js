@@ -56,6 +56,8 @@ module.exports = {
       privateCategoriesTotal: privateCategoriesTotal,
       faqsTotal: faqsTotal,
       categoryArr: categoryArr,
+      newestCategory: [categories[0], categories[1],categories[2]],
+      newestFAQ: [entries[0],entries[1],entries[2]],
     });
   }
 }

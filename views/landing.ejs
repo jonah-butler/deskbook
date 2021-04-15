@@ -77,7 +77,7 @@
 		</div>
 		<div class="container">
 			<div class="sub-headline">
-				Today's Events
+				Today at the Library
 			</div>
 			<div class="flex-row event-card-container">
 				<div class="loader">
@@ -87,20 +87,50 @@
 				</div>
 			</div>
 		</div>
+		<div class="flex-row">
+			<div class="db-panel chart1 fg1">
+				<li class="absolute-top-right glyphicon glyphicon-plus" aria-hidden="true" id="modalListener"></li>
+				<div class="sub-headline">
+					<% const today = new Date();%>
+					Reference Submissions: <strong><%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
+				</div>
+			</div>
+			<div class="db-panel chart2 fg1">
+				<% const weekAgo = new Date(Date.now() - 604800000); %>
+				<div class="sub-headline">
+					Reference Submissions: <strong><%= `${weekAgo.getMonth() + 1}/${weekAgo.getDate()}/${weekAgo.getFullYear()}` %> - <%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
+				</div>
+			</div>
+		</div>
+		<div class="flex-row">
+			<div class="db-panel fg1">
+				<div class="sub-headline">Newest Categories</div>
+				<% newestCategory.forEach(category => { %>
+				<% let catCreated = new Date(category.createdAt); %>
+				<% let catEdited = new Date(category.updatedAt); %>
+				<a href="/entries/<%=category._id%>">
+					<div class="title">
+						<%= category.title %>
+					</div>
+				</a>
+				<i class="far fa-clock"></i><span><%= catCreated.toDateString(); %></span>
+				<% }) %>
+			</div>
+			<div class="db-panel fg1">
+				<div class="sub-headline">Newest FAQS</div>
+				<% newestFAQ.forEach(faq => { %>
+				<% let faqCreated = new Date(faq.createdAt); %>
+				<a href="/entries/<%=faq.section%>/<%=faq._id%>">
+					<div class="title">
+						<%= faq.title %>
+					</div>
+				</a>
+				<i class="far fa-clock"></i><span><%= faqCreated.toDateString(); %></span>
+				<% }) %>
+			</div>
+		</div>
+	</div>
 		<!-- <div class="flex-row">
-			<div class="db-panel fg1">
-				asdf
-			</div>
-			<div class="db-panel fg1">
-				asdfasf
-			</div>
-		</div>
-		<div class="flex-row">
-			<div class="db-panel fg1">
-				asdfasf
-			</div>
-		</div>
-		<div class="flex-row">
 			<div class="db-panel fg1">
 				asdfasf
 			</div>

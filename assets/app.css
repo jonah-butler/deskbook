@@ -1460,6 +1460,7 @@ a:hover{
   border-radius: 5px;
   box-shadow: 1px 1px 10px 1px rgba(0,0,0,0.1);
   transition: box-shadow .3s ease;
+  position: relative;
 }
 
 .db-panel:hover{

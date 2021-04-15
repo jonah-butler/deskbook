@@ -1,4 +1,4 @@
-import { getLibcalEvents, buildEventCards } from './scripts/landing-helpers.js';
+import { getLibcalEvents, buildEventCards, getReferenceData } from './scripts/landing-helpers.js';
 
 const svgs = [
   `<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
@@ -14,6 +14,8 @@ const svgs = [
 
 const eventContainer = document.querySelector('.event-card-container');
 const loader = document.querySelector('.loader');
+const chart1 = document.querySelector('.chart1');
+const chart2 = document.querySelector('.chart2');
 
 async function fetchAndBuild() {
   let events = await getLibcalEvents();
@@ -37,6 +39,6 @@ async function fetchAndBuild() {
 
   loader.remove();
   eventContainer.insertAdjacentHTML('afterbegin', cardHTML);
+  getReferenceData(chart1, chart2);
 }
 fetchAndBuild();
-
