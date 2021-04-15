@@ -210,7 +210,8 @@ module.exports = {
   async newPost(req, res) {
     try{
       let user = await User.findOne({_id: req.user._id});
-      req.body.entry.owner = user;
+      req.body.entry.owner = user._id;
+      req.body.entry.user = user._id;
       if(req.body.entry.isPrivate == 'true'){
         if(req.body.entry.section){
           req.body.entry.user = user._id;
@@ -223,8 +224,10 @@ module.exports = {
           req.body.entry.section = 'parent';
           req.body.entry.user = user._id;
           let newCategory = await MainCategory.create(req.body.entry);
-          user.privateEntries.push(newCategory);
-          await user.save();
+          await User.update(
+            {_id: req.user._id},
+            {$push: {privateEntries: newCategory}}
+          );
           res.redirect(`/entries/${newCategory._id}`);
         }
       } else {
