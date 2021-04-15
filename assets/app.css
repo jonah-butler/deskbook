@@ -1176,6 +1176,10 @@ button{
   opacity: 0 !important;
 }
 
+.faq-description{
+  word-break: break-all;
+}
+
 .pos-absolute{
   position: absolute;
 }
