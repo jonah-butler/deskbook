@@ -1180,6 +1180,10 @@ button{
   word-break: break-all;
 }
 
+.faq-description img{
+  width: 100% !important;
+}
+
 .pos-absolute{
   position: absolute;
 }
