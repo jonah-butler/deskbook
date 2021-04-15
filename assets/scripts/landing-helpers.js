@@ -2,7 +2,6 @@ async function getLibcalEvents() {
   try{
     let response = await fetch("/calendarClient");
     response = await response.json();
-    console.log(response);
     let tokenResponse = await fetch('https://rvalibrary.libcal.com/1.1/oauth/token', {
       method: 'POST',
       body: JSON.stringify({
