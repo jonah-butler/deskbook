@@ -29,7 +29,6 @@ async function submitReference(btn) {
         animateFlashBox('Question submitted successfully!');
         post = {};
         btn.disabled = false;
-        confetti.start(2000);
       }
     }
 }

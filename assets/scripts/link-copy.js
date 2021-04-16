@@ -17,7 +17,7 @@ function animateFlashBox(text){
     //  flashBox.classList.remove('show');
      flashBox.remove();
      animating = false;
-   }, 5000);
+   }, 4000);
   }
 }
 
