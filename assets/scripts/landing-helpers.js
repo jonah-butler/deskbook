@@ -72,7 +72,6 @@ async function getReferenceData(container1, container2) {
   const canvas2 = createCanvasAndAppend('canvas2', container2);
   console.log('chart1', chartDataToday);
   console.log('chart2', chartDataWeekly);
-  console.log(todayData);
   if(Object.keys(chartDataToday).length === 0){
     chartDataToday = {'No data today': -1};
     createChart(canvas1, Object.keys(chartDataToday), Object.keys(chartDataToday).map(key => chartDataToday[key]), 'pie', {scaleBeginAtZero: true}, '#cc262d');
