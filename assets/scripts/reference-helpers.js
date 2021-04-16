@@ -6,6 +6,7 @@ import { createChart } from './chart-helpers.js';
 
 let _referenceQueries;
 let _viewContainer;
+let _numOfItems = 15;
 
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
@@ -54,6 +55,51 @@ function buildUl() {
   return ul;
 }
 
+function navigatePagination(num, e, parent) {
+  document.querySelector('.reference-query').remove();
+  Array.from(parent.children).
+  forEach(child => {
+    if(child.classList.contains('active')){
+      child.classList.remove('active');
+    }
+  })
+  e.target.parentElement.classList.add('active');
+  let offsetData;
+  if(num === 1){
+    offsetData = _referenceQueries.slice(0, _numOfItems);
+  } else {
+    offsetData = _referenceQueries.slice((_numOfItems * (num - 1)), (_numOfItems * (num - 1) + _numOfItems))
+  }
+  renderData(offsetData, _viewContainer, false);
+}
+
+function buildPagination(data, parentElement) {
+  const ul = document.createElement('ul');
+  ul.classList.add('pagination');
+
+  const numOfPages = Math.ceil(data.length / _numOfItems);
+
+  for(let i = 1; i < numOfPages+1; i++){
+    const li = document.createElement('li');
+    li.classList.add('page-item');
+    if(i === 1){
+      li.classList.add('active');
+      let activeEle = li;
+    }
+
+    const a = document.createElement('a');
+    a.classList.add('page-link');
+    a.innerText = i;
+
+    li.appendChild(a);
+    a.addEventListener('click', (e) => {
+      navigatePagination(i, e, ul);
+    });
+    ul.appendChild(li);
+  }
+  parentElement.appendChild(ul);
+}
+
 function buildLi(data, edit, arr) {
   const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
   let li = document.createElement('li');
@@ -72,6 +118,9 @@ function buildLi(data, edit, arr) {
 
   if(data.overFiveMinutes){
     innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-ok"></span><span class="time">Over 5 Minutes</span></span>`)
+    li.appendChild(innerDiv);
+  } else {
+    innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-remove"></span><span class="time">Over 5 Minutes</span></span>`)
     li.appendChild(innerDiv);
   }
 
@@ -111,9 +160,10 @@ function renderData(data, parentElement, edit) {
   parentElement.appendChild(ul);
 }
 
-function buildData(data, parentElement, edit) {
+function buildData(data, parentElement, edit, currentPage) {
   buildHeader(data, parentElement);
-  renderData(data, parentElement, edit);
+  buildPagination(data, parentElement);
+  renderData(currentPage, parentElement, edit);
 }
 
 function gatherData(){
@@ -168,9 +218,10 @@ function printBranchTotals(header, sortedObj) {
 function fullRender(parentContainer, response, edit, sort) {
   _referenceQueries = response;
   _viewContainer = parentContainer;
+  let currentPage = _referenceQueries.slice(0, _numOfItems);
   clearResults(parentContainer);
   let chartDataObj = setupDataForChart(_referenceQueries);
-  buildData(_referenceQueries, _viewContainer, edit);
+  buildData(_referenceQueries, _viewContainer, edit, currentPage);
   let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
   printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
   if(sort){

@@ -3,9 +3,6 @@
 
 <div class="view-container">
   <div class="empty-view">
-    <h1>No data</h1>
-    <h3>Choose a date range to get started</h3>
-    <img class="empty-events-img" src="imgs/undraw_no_data.svg" alt="">
   </div>
   <div class="container-fluid data-reference">
     <ul class="list-group">
@@ -19,16 +16,18 @@
     <div class="row">
       <div class="flex-container-row">
     <div class="">
+      <% const today = new Date();%>
+      <% const yesterday = new Date();%>
+      <% const weekAgo = new Date(Date.now() - 604800000); %>
       <button class="icon-circle slate-grey"><i class="fas fa-search"></i></button>
-      <input id="date-input-start" class="slate-grey" type="text" placeholder="From">
+      <input id="date-input-start" class="slate-grey" type="text" value="<%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %>" placeholder="From">
       <i class="fas fa-angle-double-right"></i>
-      <input id="date-input-end" class="slate-grey" type="text" placeholder="To">
+      <input id="date-input-end" class="slate-grey" value="<%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %>" type="text" placeholder="To">
     </div>
     <!-- Default dropup button -->
     <div class="dropup padding-sm">
       <button class="btn btn-default dropdown-toggle" type="button" id="branchDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        Branch
-        <span class="caret"></span>
+        All<span class="caret"></span>
       </button>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
         <li>All</>
@@ -43,10 +42,14 @@
         <li>Westover Hills</li>
       </ul>
     </div>
-    <!-- <div class="padding-sm">
-      Over 5 Minutes?
-      <input name="question" id="questionLength" value="true" type="checkbox" aria-label="...">
-    </div> -->
+    <div class="padding-sm">
+      <button class="btn btn-default dropdown-toggle" id="today" type="button">
+        Today
+      </button>
+      <button class="btn btn-default dropdown-toggle" id="tomorrow" type="button">
+        Yesterday
+      </button>
+    </div>
     </div>
     </div>
   </div>
