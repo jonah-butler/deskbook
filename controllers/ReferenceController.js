@@ -10,12 +10,18 @@ module.exports = {
     }
   },
   async post(req, res) {
+    // try{
+    //   req.body.user = req.user._id;
+    //   const question = await ReferenceQuestion.create(req.body);
+    //   res.send(question);
+    // } catch(err) {
+    //   console.log('new reference post', err);
+    // }
     try{
-      req.body.user = req.user._id;
-      const question = await ReferenceQuestion.create(req.body);
-      res.send(question);
+      console.log(req.body);
+      res.send({received: 'received'});
     } catch(err) {
-      console.log('new reference post', err);
+      console.log(err);
     }
   },
   async postSearch(req, res) {

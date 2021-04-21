@@ -73,29 +73,37 @@ function navigatePagination(num, e, parent) {
   renderData(offsetData, _viewContainer, false);
 }
 
-function buildPagination(data, parentElement) {
+function buildPagination(data, parentElement, selectedTab = 1) {
   const ul = document.createElement('ul');
   ul.classList.add('pagination');
 
   const numOfPages = Math.ceil(data.length / _numOfItems);
+  const maxTabs = 4
+  const currentTab = selectedTab;
 
   for(let i = 1; i < numOfPages+1; i++){
-    const li = document.createElement('li');
-    li.classList.add('page-item');
-    if(i === 1){
-      li.classList.add('active');
-      let activeEle = li;
+    if(i <= numOfPages){
+      const li = document.createElement('li');
+      li.classList.add('page-item');
+      if(i === 1){
+        li.classList.add('active');
+        let activeEle = li;
+      }
+
+      const a = document.createElement('a');
+      a.classList.add('page-link');
+      a.innerText = i;
+      // if(i === maxTabs && numOfPages > currentTab){
+      //   a.innerText = i + '...';
+      // } else {
+      //   a.innerText = i;
+      // }
+      li.appendChild(a);
+      a.addEventListener('click', (e) => {
+        navigatePagination(i, e, ul);
+      });
+      ul.appendChild(li);
     }
-
-    const a = document.createElement('a');
-    a.classList.add('page-link');
-    a.innerText = i;
-
-    li.appendChild(a);
-    a.addEventListener('click', (e) => {
-      navigatePagination(i, e, ul);
-    });
-    ul.appendChild(li);
   }
   parentElement.appendChild(ul);
 }

@@ -13,8 +13,21 @@ const ReferenceQuestionSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  user: {
+  subLocation: {
     type: String,
+    required: false,
+  },
+  refType: {
+    type: String,
+    required: true,
+  },
+  answeredHow: {
+    type: String,
+    required: true,
+  },
+  user: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
     required: true,
   }
 }, {

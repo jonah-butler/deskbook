@@ -33,9 +33,9 @@
 							<div class="form-group form-group-select">
 								<div class="tag-input-container">
 									<div class="headline">
-										Branch
+										Location
 									</div>
-									<select name="question[branch]">
+									<select id="branchLocation" name="question[library]">
 										<option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
 										<option value="belmont">Belmont</option>
 										<option value="broad rock">Broad Rock</option>
@@ -50,12 +50,67 @@
 								</div>
 							</div>
 
+							<div id="mainSubContainer" class="form-group form-group-select hidden">
+								<div class="tag-input-container">
+									<div class="headline">
+										Location in Main
+									</div>
+									<select id="mainSubLocation" name="question[subLocation]">
+										<option id="defaultSubSelect" hidden disabled selected="true" value>location in main</option>
+										<option value="circulation">Main Circ</option>
+										<option value="reference">Main Ref</option>
+										<option value="law">Main Law</option>
+									</select>
+								</div>
+							</div>
+
+
 							<div class="form-group form-group-select">
 								<div class="tag-input-container">
 									<div class="headline">
 										Question Over 5 Minutes?
 									</div>
-									<input name="question[length]" id="questionLength" type="checkbox" aria-label="...">
+									<input name="question[overFiveMinutes]" id="questionLength" type="checkbox" aria-label="...">
+								</div>
+							</div>
+
+							<div class="form-group form-group-select">
+								<div class="tag-input-container">
+									<div class="headline">
+										Type
+									</div>
+									<div>
+										<label for="">Reference</label>
+										<input name="question[refType]" type="radio" value="reference">
+									</div>
+									<div>
+										<label for="">Circulation</label>
+										<input name="question[refType]" type="radio" value="circulation">
+									</div>
+									<div>
+										<label for="">Directional</label>
+										<input name="question[refType]" type="radio" value="directional">
+									</div>
+								</div>
+							</div>
+
+							<div class="form-group form-group-select">
+								<div class="tag-input-container">
+									<div class="headline">
+										Answered How
+									</div>
+									<div>
+										<label for="">In person</label>
+										<input name="question[answeredHow]" type="radio" value="person">
+									</div>
+									<div>
+										<label for="">Phone</label>
+										<input name="question[answeredHow]" type="radio" value="phone">
+									</div>
+									<div>
+										<label for="">Email</label>
+										<input name="question[answeredHow]" type="radio" value="email">
+									</div>
 								</div>
 							</div>
 

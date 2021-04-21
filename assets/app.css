@@ -809,6 +809,27 @@ content-align: center;
   cursor: pointer;
 }
 
+.tag-input-container > div > label{
+  display: inline-block;
+}
+
+.tag-input-container > div > input[type=radio]{
+  display: inline-block;
+}
+
+#questionLength{
+  width: 100% !important;
+  text-align: center !important;
+}
+
+.hidden{
+  display: none;
+}
+
+.show{
+  display: block;
+}
+
 .tag-input-container, .tag-input-container-large{
   display: inline-block;
   width: 100%;
@@ -828,7 +849,7 @@ content-align: center;
   border: none;
   border-bottom: 1px solid rgba(0,0,0,0.3);
   outline: none;
-  width: 100%;
+  /* width: 100%; */
 }
 
 .tag-input{
@@ -1048,6 +1069,13 @@ button{
 
 .reference-query {
   width: 90% !important;
+  min-height: 600px;
+}
+
+.total-container{
+  position: absolute;
+  bottom: 5px;
+  left: 5px;
 }
 
 .list-group-item > .inner-flex{
@@ -1055,6 +1083,10 @@ button{
   justify-content: space-between;
   width: 100%;
   position: relative;
+}
+
+.inner-flex > span{
+  width: 33%;
 }
 
 .query-delete{

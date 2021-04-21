@@ -59,6 +59,10 @@ function buildEventCards(event, gradientName, gradient) {
     </div>`;
 };
 
+function appendTotals(parentContainer, data) {
+  parentContainer.querySelector('.total-container').innerText = data.length;
+};
+
 async function getReferenceData(container1, container2) {
   const today = new Date();
   const weekAgo = new Date(Date.now() - 604800000);
@@ -82,6 +86,8 @@ async function getReferenceData(container1, container2) {
   } else {
     createChart(canvas2, Object.keys(chartDataWeekly), Object.keys(chartDataWeekly).map(key => chartDataWeekly[key]), 'doughnut', {scaleBeginAtZero: true})
   }
+  appendTotals(container1, todayData);
+  appendTotals(container2, weeklyData);
   // createChart(canvas1, Object.keys(chartDataToday), Object.keys(chartDataToday).map(key => chartDataToday[key]), 'pie', {scaleBeginAtZero: true})
   // createChart(canvas2, Object.keys(chartDataWeekly), Object.keys(chartDataWeekly).map(key => chartDataWeekly[key]), 'doughnut', {scaleBeginAtZero: true})
 };

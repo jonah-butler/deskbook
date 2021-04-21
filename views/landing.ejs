@@ -94,12 +94,14 @@
 					<% const today = new Date();%>
 					Reference Submissions: <strong><%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
 				</div>
+				<div class="total-container big-number"></div>
 			</div>
 			<div class="db-panel chart2 fg1">
 				<% const weekAgo = new Date(Date.now() - 604800000); %>
 				<div class="sub-headline">
 					Reference Submissions: <strong><%= `${weekAgo.getMonth() + 1}/${weekAgo.getDate()}/${weekAgo.getFullYear()}` %> - <%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
 				</div>
+				<div class="total-container big-number"></div>
 			</div>
 		</div>
 		<div class="flex-row">
