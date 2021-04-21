@@ -133,13 +133,13 @@ function buildLi(data, edit, arr) {
   }
 
   if(edit == true){
-    let closeSpan = document.createElement('span');
-    closeSpan.classList.add('query-delete');
-    closeSpan.classList.add('glyphicon');
-    closeSpan.classList.add('glyphicon-remove');
-    closeSpan.setAttribute('data-id', data._id);
-    innerDiv.append(closeSpan);
-    queryDeleteListener(closeSpan, document.querySelector('.query-total'), arr);
+    let closeDiv = document.createElement('div');
+    closeDiv.classList.add('query-delete');
+    closeDiv.classList.add('glyphicon');
+    closeDiv.classList.add('glyphicon-remove');
+    closeDiv.setAttribute('data-id', data._id);
+    innerDiv.append(closeDiv);
+    queryDeleteListener(closeDiv, document.querySelector('.query-total'), arr);
   }
 
   li.appendChild(innerDiv);
