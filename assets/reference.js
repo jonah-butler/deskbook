@@ -10,7 +10,7 @@ import { createChart } from './scripts/chart-helpers.js';
   let todayBtn = document.querySelector('#today');
   let tomorrowBtn = document.querySelector('#tomorrow');
   const inputStart = document.querySelector('#date-input-start');
-  const inputEnd = document.querySelector('#date-input-end')
+  const inputEnd = document.querySelector('#date-input-end');
 
   let data;
   let chartDataObj;
