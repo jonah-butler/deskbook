@@ -121,7 +121,11 @@ function buildLi(data, edit, arr) {
   date = date.toLocaleString('en-US', options);
 
   innerDiv.insertAdjacentHTML('afterbegin', `<span><span class="glyphicon glyphicon-calendar"></span><span>${date}</span></span>`);
-  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${data.library}</span></span>`)
+  if(data.subLocation){
+    innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${data.library} - ${data.subLocation}</span></span>`);
+  } else {
+    innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${data.library}</span></span>`)
+  }
   li.appendChild(innerDiv);
 
   if(data.overFiveMinutes){
