@@ -16,24 +16,28 @@ module.exports = {
     });
   },
   async changePwdIndex(req, res){
+    const users = await User.find({});
     res.render('user/change-password', {
-      user: req.user,
+      users: users,
+      loggedUser: req.user,
       message: req.flash('message'),
     });
   },
   async changePwdPost(req, res){
-    if(req.body.password1 == req.body.password2){
+    if(req.body.password1 === req.body.password2){
       try{
-        const user = await User.findById(req.params.userId);
-        const updatedUser = await user.changePassword(req.body.oldpassword, req.body.password1);
+        const user = await User.findById(req.body.user);
+        const updatedUser = await user.setPassword( req.body.password1 );
+        console.log(updatedUser);
         await updatedUser.save();
+        console.log(updatedUser);
         res.redirect('/entries');
       } catch(err) {
-        req.flash('message', 'Your old password is incorrect');
+        req.flash('message', 'there was an error, try updating again');
         res.redirect(`/user/${req.user_id}/change-password`);
       }
     } else {
-      req.flash('message', 'Your new password did not match on reenter');
+      req.flash('message', 'Your new passwords did not match');
       res.redirect(`/user/${req.user_id}/change-password`);
     }
   },
