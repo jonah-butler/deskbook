@@ -41,10 +41,12 @@ const UserSchema = new mongoose.Schema({
 
 UserSchema.pre("save", async function(next) {
   const user = this;
-  const defaultAvatarDir = path.join(__dirname, '..', 'assets', 'imgs', 'avatars', 'default');
-  const defaultAvatar = fs.readdirSync(defaultAvatarDir);
-  user.avatar = defaultAvatar[0];
-  next();
+  if(!user.avatar){
+    const defaultAvatarDir = path.join(__dirname, '..', 'assets', 'imgs', 'avatars', 'default');
+    const defaultAvatar = fs.readdirSync(defaultAvatarDir);
+    user.avatar = defaultAvatar[0];
+    next();
+  }
 })
 
 UserSchema.plugin(passportLocalMongoose);
