@@ -25,23 +25,12 @@ module.exports = {
       user: req.user,
       adminStatus: req.user.isAdmin
     })
-    // MainCategory.find({section: 'parent'}, (err, categories) => {
-    //   if(err){
-    //     console.log(err);
-    //   } else {
-    //     res.render("index", {
-    //       categories: publicCategories,
-    //       privateCategories: privateCategories,
-    //       user: req.user,
-    //       adminStatus: req.user.isAdmin
-    //     });
-    //   }
-    // })
   },
   async post(req, res) {
     if(req.body.entry.isPrivate == 'true'){
       req.body.entry.user = req.user._id;
     }
+    req.body.entry.owner = req.user._id;
     Entry.create(req.body.entry, (err, newEntry) => {
       if(err){
         console.log(err);
