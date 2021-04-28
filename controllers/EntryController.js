@@ -17,9 +17,21 @@ module.exports = {
         ],
       }
     ).populate('owner').sort({'createdAt': -1}).limit(6);
-    let privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
-    // console.log(privateCategories);
+    const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
+    const publicParentTotal = await MainCategory.countDocuments(
+      {
+        $and: [
+          {section: {
+            $in: 'parent',
+          }},
+          {isPrivate: {
+            $in: false,
+          }},
+        ],
+      }
+    )
     res.render('index', {
+      publicParentTotal: publicParentTotal,
       categories: publicCategories,
       privateCategories: privateCategories.privateEntries.slice(0, 6),
       user: req.user,
