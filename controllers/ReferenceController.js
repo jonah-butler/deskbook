@@ -26,7 +26,7 @@ module.exports = {
           $gte: new Date(req.body.createdAt[0]),
           $lte: new Date(req.body.createdAt[1]),
         }}
-      )
+      ).populate('user');
       res.send(questions);
     } else if(req.body.library){
       const questions = await ReferenceQuestion.find(
@@ -41,7 +41,7 @@ module.exports = {
             }}
           ],
         }
-      )
+      ).populate('user');
       res.send(questions);
     } else {
       const questions = await ReferenceQuestion.find(
@@ -56,7 +56,7 @@ module.exports = {
             }}
           ],
         }
-      )
+      ).populate('user');
       res.send(questions);
     }
   },

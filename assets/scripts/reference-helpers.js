@@ -109,7 +109,7 @@ function buildPagination(data, parentElement, selectedTab = 1) {
 }
 
 function buildLi(data, edit, arr) {
-  const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  const options = { year: 'numeric', month: 'short', day: 'numeric' };
   let li = document.createElement('li');
   li.classList.add('list-group-item');
   li.setAttribute('data-id', data._id);
@@ -118,9 +118,12 @@ function buildLi(data, edit, arr) {
   innerDiv.classList.add('inner-flex');
 
   let date = new Date(data.createdAt);
+  let time = new Date(data.createdAt);
   date = date.toLocaleString('en-US', options);
-
+  time = time.toLocaleString('en-US', {timeStyle: 'short'});
+console.log(time);
   innerDiv.insertAdjacentHTML('afterbegin', `<span><span class="glyphicon glyphicon-calendar"></span><span>${date}</span></span>`);
+  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-time"></span><span>${time}</span></span>`);
   if(data.subLocation){
     innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-home"></span><span class="library">${data.library} - ${data.subLocation}</span></span>`);
   } else {
@@ -135,6 +138,10 @@ function buildLi(data, edit, arr) {
     innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-remove"></span><span class="time">Over 5 Minutes</span></span>`)
     li.appendChild(innerDiv);
   }
+  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-question-sign"></span><span class="time">${data.refType}</span></span>`);
+  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-info-sign"></span><span class="time">${data.answeredHow}</span></span>`);
+  innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-user"></span><span class="time">${data.user.username}</span></span>`);
+  li.appendChild(innerDiv);
 
   if(edit == true){
     let closeDiv = document.createElement('div');
