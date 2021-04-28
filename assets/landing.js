@@ -28,9 +28,9 @@ async function fetchAndBuild() {
 
     let gradientStr = 'gradient' + counter;
 
-    if(counter === 3){
+    if(counter >= 3){
       cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
-      counter === 1;
+      counter = 1;
     } else {
       cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
       counter++;
