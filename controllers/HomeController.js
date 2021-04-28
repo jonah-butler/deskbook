@@ -37,8 +37,8 @@ module.exports = {
       }
     )
     const categoryArr = [];
-    const categories = await MainCategory.find().sort({'createdAt': -1}).limit(5);
-    const entries = await Entry.find().sort({'createdAt': -1}).limit(5);
+    const categories = await MainCategory.find({isPrivate: false}).sort({'createdAt': -1}).limit(5);
+    const entries = await Entry.find({isPrivate: false}).sort({'createdAt': -1}).limit(5);
     categories.forEach(category => {
       category.category.forEach(tag => {
         if(categoryArr.indexOf(tag) == -1) categoryArr.push(tag);

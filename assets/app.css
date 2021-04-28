@@ -1063,8 +1063,8 @@ button{
   border: none;
 }
 
-.list-group-item > .glyphicon-calendar, .glyphicon-home, .glyphicon-ok {
-  padding-right: 5px;
+.list-group-item .glyphicon {
+  padding-right: 2px;
 }
 
 .reference-query {
@@ -1087,6 +1087,9 @@ button{
 
 .inner-flex > span{
   width: 15%;
+  overflow: hidden;
+  text-align: center;
+  font-size: 13px;
 }
 
 .query-delete{

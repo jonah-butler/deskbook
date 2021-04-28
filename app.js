@@ -53,7 +53,9 @@ mongoose.connect(process.env.DB_URL,
 	const store = new MongoStore({
 		url: process.env.DB_URL,
 		secret,
-		touchAfter: 24 * 60 * 60
+		touchAfter: 24 * 60 * 60,
+		autoRemove: 'interval',
+		autoRemoveInterval: 10
 	})
 
 	store.on("error", function(e) {
