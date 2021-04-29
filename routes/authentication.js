@@ -9,9 +9,21 @@ module.exports = (app) => {
   AuthenticationController.loginIndex);
 
   app.post("/login",
-  passport.authenticate('local', {
-    successRedirect: "/",
-    failureRedirect: "/login"
-  })
+    passport.authenticate('local', {
+      successRedirect: "/",
+      failureRedirect: "/login"
+    })
   );
+
+  app.get("/forgot",
+    AuthenticationController.forgotIndex);
+
+  app.post("/forgot-email",
+    AuthenticationController.forgot);
+
+  app.get("/reset/:token",
+    AuthenticationController.tokenIndex);
+
+  app.post("/reset/:token",
+    AuthenticationController.tokenPost);
 }
