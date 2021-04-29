@@ -23,6 +23,12 @@
         <input type="password" class="form-control" id="formGroupExampleInput2" placeholder="password" name="password">
       </div>
       <button class="button-main">Submit</button>
+      <% if(message.length) { %>
+        <p style="color: #cc262d"><%= message %></p>
+      <% } %>
+      <div>
+        <a href="/forgot">Forgot Password?</a>
+      </div>
     </form>
   </div>
 </div>
