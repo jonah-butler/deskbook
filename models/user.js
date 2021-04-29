@@ -36,7 +36,9 @@ const UserSchema = new mongoose.Schema({
       type: mongoose.Schema.Types.ObjectId,
       ref: "JobSeeker"
     }
-  ]
+  ],
+  resetPasswordToken: String,
+  resetPasswordExpires: Date,
 })
 
 UserSchema.pre("save", async function(next) {
@@ -47,6 +49,7 @@ UserSchema.pre("save", async function(next) {
     user.avatar = defaultAvatar[0];
     next();
   }
+  return next();
 })
 
 UserSchema.plugin(passportLocalMongoose);
