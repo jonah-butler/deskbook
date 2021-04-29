@@ -4,6 +4,7 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "@sendgrid/mail": "^7.4.2",
     "amazon-s3-uri": "^0.1.0",
     "aws-sdk": "^2.863.0",
     "body-parser": "^1.19.0",
