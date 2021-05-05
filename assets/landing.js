@@ -23,22 +23,30 @@ async function fetchAndBuild() {
   let cardHTML = '';
   let counter = 1;
 
+  if(events.length){
+    events.forEach((event) => {
 
-  events.forEach((event) => {
+      let gradientStr = 'gradient' + counter;
 
-    let gradientStr = 'gradient' + counter;
+      if(counter >= 3){
+        cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
+        counter = 1;
+      } else {
+        cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
+        counter++;
+      }
+    })
 
-    if(counter >= 3){
-      cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
-      counter = 1;
-    } else {
-      cardHTML += buildEventCards(event, `gradient${counter}`, svgs[counter-1]);
-      counter++;
-    }
-  })
-
-  loader.remove();
-  eventContainer.insertAdjacentHTML('afterbegin', cardHTML);
+    loader.remove();
+    eventContainer.insertAdjacentHTML('afterbegin', cardHTML);
+  } else {
+    const noEventsImg = document.createElement('img');
+    noEventsImg.src = '/imgs/dog-meme.jpeg';
+    noEventsImg.classList.add('no-events-default');
+    console.log(noEventsImg);
+    loader.remove();
+    eventContainer.appendChild(noEventsImg);
+  }
   getReferenceData(chart1, chart2);
 }
 fetchAndBuild();
