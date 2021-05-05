@@ -18,6 +18,11 @@ li{
   position: relative;
 }
 
+.no-events-default{
+  max-width: 100%;
+  margin: 15px 10px;
+}
+
 .absolute-top-right{
   position: absolute;
   top: 20px;
