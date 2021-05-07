@@ -43,7 +43,6 @@ async function fetchAndBuild() {
     const noEventsImg = document.createElement('img');
     noEventsImg.src = '/imgs/dog-meme.jpeg';
     noEventsImg.classList.add('no-events-default');
-    console.log(noEventsImg);
     loader.remove();
     eventContainer.appendChild(noEventsImg);
   }
