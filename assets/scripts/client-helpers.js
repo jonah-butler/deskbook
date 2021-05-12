@@ -34,4 +34,16 @@ function setupDataForChart(response) {
   return valueObj;
 }
 
-export { sortDataAZ, sortDataZA, setupDataForChart };
+function sortDataTimeAsc(data) {
+  return data.sort((a, b) => {
+    return new Date(a.createdAt) - new Date(b.createdAt);
+  })
+}
+
+function sortDataTimeDesc(data) {
+  return data.sort((a, b) => {
+    return new Date(b.createdAt) - new Date(a.createdAt);
+  })
+}
+
+export { sortDataAZ, sortDataZA, setupDataForChart, sortDataTimeAsc, sortDataTimeDesc };
