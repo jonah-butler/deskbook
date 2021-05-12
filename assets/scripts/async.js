@@ -24,6 +24,10 @@ async function submitReference(btn) {
       isTypeCorrect = true;
     }
 
+    if(library === "main" && subLocation === ""){
+      isTypeCorrect = false;
+    }
+
     if(library != "" && isRefCorrect && isTypeCorrect){
       let post;
       if(subLocation === ''){
