@@ -1,5 +1,5 @@
 import { animateFlashBox } from './link-copy.js';
-import { sortDataAZ, sortDataZA, setupDataForChart } from './client-helpers.js';
+import { sortDataAZ, sortDataZA, setupDataForChart, sortDataTimeAsc, sortDataTimeDesc } from './client-helpers.js';
 import { clearResults } from './dom-helpers.js';
 import { createCanvasAndAppend } from './canvas-helpers.js';
 import { createChart } from './chart-helpers.js';
@@ -121,7 +121,6 @@ function buildLi(data, edit, arr) {
   let time = new Date(data.createdAt);
   date = date.toLocaleString('en-US', options);
   time = time.toLocaleString('en-US', {timeStyle: 'short'});
-console.log(time);
   innerDiv.insertAdjacentHTML('afterbegin', `<span><span class="glyphicon glyphicon-calendar"></span><span>${date}</span></span>`);
   innerDiv.insertAdjacentHTML('beforeend', `<span><span class="glyphicon glyphicon-time"></span><span>${time}</span></span>`);
   if(data.subLocation){
@@ -262,6 +261,8 @@ function sortDropDown(parentElement, data, parentContainer, edit) {
   // const menu = `<ul class="dropdown-menu" aria-labelledby="sortDropDown"></ul>`;
   const sort1 = document.createElement('li');
   const sort2 = document.createElement('li');
+  const sort3 = document.createElement('li');
+  const sort4 = document.createElement('li');
   sort1.innerText = "A - Z";
   sort1.addEventListener('click', () => {
     fullRender(parentContainer, sortDataAZ(data), edit, true);
@@ -270,8 +271,18 @@ function sortDropDown(parentElement, data, parentContainer, edit) {
   sort2.addEventListener('click', () => {
     fullRender(parentContainer, sortDataZA(data), edit, true);
   })
+  sort3.innerText = "Time <";
+  sort3.addEventListener('click', () => {
+    fullRender(parentContainer, sortDataTimeAsc(data), edit, true);
+  })
+  sort4.innerText = "Time >";
+  sort4.addEventListener('click', () => {
+    fullRender(parentContainer, sortDataTimeDesc(data), edit, true);
+  })
   menu.append(sort1);
   menu.append(sort2);
+  menu.append(sort3);
+  menu.append(sort4);
   dropDown.append(menu);
   parentElement.append(dropDown);
 }
