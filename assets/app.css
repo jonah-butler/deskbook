@@ -1076,7 +1076,7 @@ a > button{
   cursor: pointer;
 }
 
-.glyphicon-bookmark.checked{
+.jumbotron > div > .glyphicon-bookmark.checked{
   color: #001c8b;
 }
 
