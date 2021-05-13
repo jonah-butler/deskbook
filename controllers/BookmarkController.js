@@ -3,6 +3,16 @@ const Category = require('../models/category.js');
 const Entry = require('../models/entry.js');
 
 module.exports = {
+  async indexRedirect(req, res) {
+    res.redirect(`/user/${req.user._id}/bookmarks`);
+  },
+  async bookmarkIndex(req, res) {
+    const categoryBookmarks = (await User.findOne({_id: req.user._id}).populate('categoryBookmarks')).categoryBookmarks;
+    res.render('user/bookmarks', {
+      user: req.user,
+      categoryBookmarks: categoryBookmarks,
+    });
+  },
   async postBookMark(req, res) {
     try{
       if(req.body.type === 'category'){
