@@ -57,6 +57,12 @@
   <% if(!category.isPrivate) { %>
   <div>
     <div class="show-link glyphicon glyphicon-link absolute-top-right"></div>
+    <% if(bookmarked) { %>
+    <div  data-type="category" data-id="<%= category._id %>" class="glyphicon glyphicon-bookmark checked absolute-top-left"></div>
+    <% } else if(bookmarked === false) { %>
+      <div  data-type="category" data-id="<%= category._id %>" class="glyphicon glyphicon-bookmark absolute-top-left"></div>
+    <% } else {%>
+    <% }%>
   </div>
   <% } %>
   </header>
@@ -85,3 +91,4 @@
 
 
 <%- include ('partials/footer') %>
+<script type="module" src="/bookmark.js"></script>
