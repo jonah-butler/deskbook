@@ -31,6 +31,18 @@ const UserSchema = new mongoose.Schema({
       ref: "MainCategory",
     }
   ],
+  categoryBookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "MainCategory",
+    }
+  ],
+  entryBookmarks: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Entry",
+    }
+  ],
   jobseekers: [
     {
       type: mongoose.Schema.Types.ObjectId,
