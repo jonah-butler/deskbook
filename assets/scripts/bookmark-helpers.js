@@ -4,7 +4,6 @@ function bookmarkClickListener() {
   const bookmark = document.querySelector('#bookmark');
   if(bookmark){
     bookmark.addEventListener('click', async function(e) {
-      console.log(e);
       this.classList.toggle('checked');
       const bookMarkData = gatherBookmarkData(this);
       const response = await postBookmark(bookMarkData);
