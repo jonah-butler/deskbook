@@ -4,12 +4,15 @@
 <div class="container jumbotron">
 	<div class="avatar-container top" style="margin-top: 40px; padding-left: 0px;">
 		<% if(user.avatar) { %>
-		<span class="" style="text-shadow: none; color: black; position: relative; left: 10px;"><%=user.username%></span>
 		<span class="avatar">
 			<% if(user.avatar) { %>
-			<img src="/imgs/avatars/choices/<%=user.avatar%>">
+			<a href="/user">
+				<img src="/imgs/avatars/choices/<%=user.avatar%>">
+			</a>
 			<% } else { %>
-			<img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+			<a href="/user">
+				<img src="/imgs/avatars/default/otter-pixel-trans.png" alt="">
+			</a>
 			<% } %>
 		</span>
 		<% } %>

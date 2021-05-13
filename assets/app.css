@@ -16,6 +16,7 @@ li{
 
 .jumbotron{
   position: relative;
+  padding-top: 60px !important;
 }
 
 .no-events-default{
