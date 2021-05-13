@@ -1,4 +1,4 @@
-const BookMarkController = require('../controllers/BookMarkController.js');
+const BookMarkController = require('../controllers/BookmarkController.js');
 const helpers = require('../assets/helpers/helpers.js');
 
 module.exports = (app) => {
