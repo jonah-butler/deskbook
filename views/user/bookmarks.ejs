@@ -1,0 +1,67 @@
+<%- include ('../partials/header') %>
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <h1 class="jumbo-header">Bookmarks</h1>
+      <div class="avatar-container top" style="margin-top: 40px; padding-left: 0px;">
+        <span style="text-shadow: none; color: black; position: relative; left: 10px;">
+          <%=user.username%>
+        </span>
+        <span class="avatar">
+          <img src="/imgs/avatars/choices/<%=user.avatar%>">
+        </span>
+      </div>
+    </div> <!-- inner container -->
+  </header>
+  <div class="row" style="display: flex; justify-content: center; flex-wrap: wrap;">
+    <% if(categoryBookmarks.length) { %>
+    <% categoryBookmarks.forEach(category => { %>
+      <% const randomColor = Math.floor(Math.random()*16777215).toString(16); %>
+      <div class="bookmark-card-container">
+        <div class="bookmark-card">
+          <% let edited = new Date(category.updatedAt); %>
+          <div class="front">
+            <div class="slanted-header" style="background:#<%= randomColor %>"></div>
+            <div class="bookmark-details">
+              <div class="title">
+                <%= category.title %>
+              </div>
+              <div class="description">
+                <%- category.description.slice(0, 50) %>...
+              </div>
+              <a style="position: relative; bottom: 0px;" href="/entries/<%= category._id %>" class="btn-chevron"><i class="fas fa-chevron-right"></i></a>
+            </div>
+          </div>
+          <div class="back">
+              <div class="bookmark-back-details-container">
+                <div class="back-bookmark-details">
+                  <h3 class="back-details-header">Details</h3>
+                  <div class="info-tab">
+                    <i class="far fa-file-alt"></i>
+                    <span><%= category.faqs.length %></span>
+                  </div>
+                  <div class="info-tab">
+                    <i class="far fa-folder"></i>
+                    <span><%= category.subCategories.length %></span>
+                  </div>
+                  <div class="back-details-date">
+                    <span>last update on <span><%= edited.toDateString(); %></span></span>
+                  </div>
+                </div>
+              </div>
+          </div>
+        </div>
+      </div>
+      <% }) %>
+      <% } else { %>
+      <div class="container">
+        <h4 class="jumbo-header">No bookmarks added just yet.</h4>
+      </div>
+      <% } %>
+  </div>
+
+</div><!-- outer container -->
+
+
+<%- include ('../partials/footer') %>
+<script type="module" src="/user-bookmark.js"></script>
