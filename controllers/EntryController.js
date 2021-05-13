@@ -75,9 +75,16 @@ module.exports = {
     try{
 
       const category = req.category;
-      // const userList = category.user.forEach( async(id) => {
-      //
-      // })
+      let bookmarked = null;
+
+      if(req.user){
+        if(req.user.categoryBookmarks.indexOf(category._id) == -1){
+          bookmarked = false;
+        } else {
+          bookmarked = true;
+        }  
+      }
+
       if(category.section != 'parent'){
         let sectionArray = [];
         let section = category.section
@@ -89,6 +96,7 @@ module.exports = {
           res.render("header-list", {
             category: category,
             sectionArray: sectionArray,
+            bookmarked: bookmarked,
             // adminStatus: req.user.isAdmin,
             user: req.user || null,
           });
@@ -96,6 +104,7 @@ module.exports = {
         res.render("header-list", {
           category: category,
           sectionArray: undefined,
+          bookmarked: bookmarked,
           // adminStatus: req.user.isAdmin || null,
           user: req.user || null,
         });
