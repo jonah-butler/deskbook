@@ -4,6 +4,27 @@
   <header class="jumbotron">
     <div class="container">
       <h1 class="jumbo-header">Account Details</h1>
+      <h4>
+        <% if(message) {%>
+        <div class="message">
+          <%= message %>
+        </div>
+        <% } %>
+      </h4>
+      <h4>
+        <% if(locals.isLocationUndefined) {%>
+        <div style="color: red;" class="alert">
+          It looks like some changes have happened since your account was created!
+          <br>
+          You haven't selected a location for your account. No problem though.
+          <br>
+          Just use the Library Location dropdown in the form below to choose your location and hit Update. That's all!
+          <br>
+          <br>
+          One of the benefits of this is a new auto-fill feature on Deskbook forms whenever a location is needed. Set your location and the computer will do the magic.
+        </div>
+        <% } %>
+      </h4>
       <div class="avatar-container top" style="margin-top: 40px; padding-left: 0px;">
         <span class="avatar">
           <img src="/imgs/avatars/choices/<%=user.avatar%>">
@@ -95,11 +116,6 @@
           </div>
         </div>
         <button style="margin-left: 5px;" class="button-main-sm">Update</button>
-        <% if(message) {%>
-        <div class="message">
-          <%= message %>
-        </div>
-        <% } %>
       </div>
       </form>
       <div class="margin-top-big">
