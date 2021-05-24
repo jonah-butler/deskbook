@@ -122,7 +122,9 @@ app.get("/calendarClient", isLoggedIn, (req, res) => {
 })
 
 app.get("/calendar", isLoggedIn, (req, res) => {
-	res.render("calendar");
+	res.render("calendar", {
+		user: req.user,
+	});
 })
 
 

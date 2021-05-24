@@ -17,16 +17,20 @@ if(linkCopyBtn){
   animatingStateInit(linkCopyBtn, document.querySelector('article'), 'link copied!');
 }
 
-Array.
-from(modalBtnArr).
-forEach((node) => {
-  node.addEventListener('click', function(e) {
-    modalClickListener(submitReference);
+if(modalBtnArr[0] != null){
+  Array.
+  from(modalBtnArr).
+  forEach((node) => {
+    node.addEventListener('click', function(e) {
+      modalClickListener(submitReference);
+    })
   })
-})
+}
 
-document.
-querySelector('#submitReference').
-addEventListener('click', function(e) {
-  submitReference(this);
-})
+if(document.querySelector('#submitReference')){
+  document.
+  querySelector('#submitReference').
+  addEventListener('click', function(e) {
+    submitReference(this);
+  })
+}

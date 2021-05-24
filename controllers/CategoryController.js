@@ -7,6 +7,7 @@ module.exports = {
   async newGet(req, res) {
     const category = await MainCategory.findOne({_id: req.params.id});
     res.render("new-category", {
+      user: req.user,
       category: category,
     });
   },
@@ -327,9 +328,13 @@ module.exports = {
       res.redirect('/entries');
   },
   async newParent(req, res) {
-    res.render('new-category-parent');
+    res.render('new-category-parent', {
+      user: req.user,
+    });
   },
   async newPrivateParent(req, res) {
-    res.render('new-category-parent-private');
+    res.render('new-category-parent-private', {
+      user: req.user,
+    });
   }
 }

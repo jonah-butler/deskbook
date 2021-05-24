@@ -38,6 +38,7 @@ module.exports = {
                     console.log(err);
                   } else {
                     res.render('search', {
+                      user: req.user,
                       query: req.query.query,
                       categoryResults: categoryResults,
                       entryResults: entryResults,
@@ -69,6 +70,7 @@ module.exports = {
                     console.log(err);
                   } else {
                     res.render('search', {
+                      user: req.user || null,
                       query: req.params.category,
                       categoryResults: categoryResults,
                       entryResults: entryResults,

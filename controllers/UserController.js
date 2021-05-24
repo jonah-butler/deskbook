@@ -19,7 +19,7 @@ module.exports = {
     const users = await User.find({});
     res.render('user/change-password', {
       users: users,
-      loggedUser: req.user,
+      user: req.user,
       message: req.flash('message'),
     });
   },
@@ -42,7 +42,9 @@ module.exports = {
     }
   },
   async referenceIndex(req, res){
-    res.render('user/reference');
+    res.render('user/reference', {
+      user: req.user,
+    });
   },
   async referenceDelete(req, res){
     try{
@@ -63,6 +65,7 @@ module.exports = {
         res.render('user/change-avatar', {
           avatars: files,
           userId: req.user.id,
+          user: req.user,
         });
       }
     })

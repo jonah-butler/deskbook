@@ -4,7 +4,9 @@ const helpers           = require('../assets/helpers/helpers') ;
 module.exports = {
   async index(req, res) {
     try {
-      res.render('reference');
+      res.render('reference', {
+        user: req.user,
+      });
     } catch(err) {
       console.log('reference page index', err);
     }

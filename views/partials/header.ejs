@@ -41,7 +41,11 @@
 										Location
 									</div>
 									<select id="branchLocation" name="question[library]">
+										<% if(locals.user && locals.user.library) { %>
+										<option id="defaultBranchSelect" hidden disabled selected value="<%=user.library%>"><%=locals.user.library%></option>
+										<% } else { %>
 										<option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
+										<% } %>
 										<option value="belmont">Belmont</option>
 										<option value="broad rock">Broad Rock</option>
 										<option value="east end">East End</option>
@@ -54,14 +58,21 @@
 									</select>
 								</div>
 							</div>
-
+							<% if(locals.user && locals.user.mainSubLocation) { %>
+							<div id="mainSubContainer" class="form-group form-group-select">
+							<% } else { %>
 							<div id="mainSubContainer" class="form-group form-group-select hidden">
+							<% } %>
 								<div class="tag-input-container">
 									<div class="headline">
 										Location in Main
 									</div>
 									<select id="mainSubLocation" name="question[subLocation]">
-										<option id="defaultSubSelect" hidden disabled selected="true" value>select location in main</option>
+										<% if(locals.user && locals.user.mainSubLocation) { %>
+										<option id="defaultSubSelect" hidden disabled selected="true" value="<%=user.mainSubLocation%>"><%=locals.user.mainSubLocation%></option>
+										<% } else { %>
+										<option id="defaultSubSelect" hidden disabled selected="true" value>choose location in main</option>
+										<% } %>
 										<option value="circulation">Main Circ</option>
 										<option value="reference">Main Ref</option>
 										<option value="law">Main Law</option>
@@ -156,14 +167,13 @@
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div id="navbar" class="collapse navbar-collapse out" aria-expanded="true">
       <ul class="navbar-right navbar-nav nav" style="overflow: hidden;">
-				<form class="navbar-form navbar-left" action="/search/" method="GET">
-					<div class="form-group">
-						<input type="text" class="form-control" name="query" placeholder="Search FAQs">
-					</div>
-					<button type="submit" class="btn btn-default"><i style="font-size: 14px; color: black;" class="fas fa-search"></i></button>
-				</form>
-				<!-- <li><a href="/print-tracker">Print Tracker</a></li> -->
-				<!-- <li><a class="glyphicon glyphicon-plus" aria-hidden="true" onclick="loadModal()"></a></li> -->
+				<% if(locals.user) { %>
+					<form class="navbar-form navbar-left" action="/search/" method="GET">
+						<div class="form-group">
+							<input type="text" class="form-control" name="query" placeholder="Search FAQs">
+						</div>
+						<button type="submit" class="btn btn-default"><i style="font-size: 14px; color: black;" class="fas fa-search"></i></button>
+					</form>
 				<li><a class="glyphicon glyphicon-plus" aria-hidden="true"></a></li>
 				<li><a class="glyphicon glyphicon-bookmark" aria-hidden="true" href="/bookmarks"></a></li>
 				<li><a class="glyphicon glyphicon-user" aria-hidden="true" href="/user"></a></li>
@@ -171,8 +181,10 @@
 				<li><a href="/reference">Reference</a></li>
 				<li><a href="/calendar">Calendar</a></li>
 				<li><a target="_blank" href="https://docs.google.com/forms/d/e/1FAIpQLSdfavZ6JTvg0j3HPmZoVRCqz4yMCs9NRDBiejuREIU6cjAR7g/viewform">Feedback</a></li>
-					<li><a href="/logout">Logout</a></li>
-					<li><a href="/login">Login</a></li>
+				<li><a href="/logout">Logout</a></li>
+				<% } else { %>
+				<li><a href="/login">Login</a></li>
+				<% } %>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->

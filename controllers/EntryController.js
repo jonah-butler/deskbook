@@ -68,7 +68,10 @@ module.exports = {
   async new(req, res) {
     MainCategory.findOne({_id: req.params.id}, (err, category) => {
       console.log(category);
-      res.render("new-faq", {category: category});
+      res.render("new-faq", {
+        category: category,
+        user: req.user,
+      });
     })
   },
   async categoryIndex(req, res) {
@@ -82,7 +85,7 @@ module.exports = {
           bookmarked = false;
         } else {
           bookmarked = true;
-        }  
+        }
       }
 
       if(category.section != 'parent'){
