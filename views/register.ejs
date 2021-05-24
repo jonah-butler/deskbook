@@ -14,18 +14,54 @@
 
 <div class="container center-block">
   <form action="/register" method="post" style="max-width: 300px; margin: 0 auto; background-color: #eeeeee; padding: 40px 20px; border-radius: 5px;">
+
     <div class="form-group">
       <label for="formGroupExampleInput">Username</label>
       <input type="text" class="form-control" id="formGroupExampleInput" placeholder="username" name="username">
     </div>
+
     <div class="form-group">
       <label for="formGroupExampleInput2">Email</label>
       <input type="text" class="form-control" id="formGroupExampleInput2" placeholder="email" name="email">
     </div>
+
+    <div class="form-group form-group-select">
+      <label for="formGroupExampleInput">Location</label>
+      <div class="sub-headline">
+        Selecting your location binds your account to particular library location. This is helpful for managing reference statistics. This can be changed at any time through your user profile.
+      </div>
+      <select id="branchLocationRegister" name="library">
+        <option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
+        <option value="belmont">Belmont</option>
+        <option value="broad rock">Broad Rock</option>
+        <option value="east end">East End</option>
+        <option value="ginter park">Ginter Park</option>
+        <option value="hull street">Hull Street</option>
+        <option value="main">Main</option>
+        <option value="north avenue">North Avenue</option>
+        <option value="west end">West End</option>
+        <option value="westover hills">Westover Hills</option>
+        </select>
+    </div>
+
+    <div class="form-group form-group-select hidden" id="mainSubContainerRegister">
+      <label for="formGroupExampleInput">Main Sub Location</label>
+      <div class="sub-headline">
+        Main reports statistics from several points. Select your sub location within Main to speed up the reference submission process!
+      </div>
+      <select id="mainSubLocationRegister" name="subLocation">
+        <option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
+        <option value="circulation">Main Circ</option>
+        <option value="law">Main Law</option>
+        <option value="reference">Main Ref</option>
+        </select>
+    </div>
+
     <div class="form-group">
       <label for="formGroupExampleInput2">Password</label>
       <input type="password" class="form-control" id="formGroupExampleInput3" placeholder="password" name="password">
     </div>
+
     <div class="form-group">
       <label for="formGroupExampleInput2">Is Admin?</label>
       <div class="radio-inline">
@@ -35,25 +71,10 @@
         <input type="radio" name="adminradio" value="false">No
       </div>
     </div>
+
     <button class="button-main">Submit</button>
+
   </form>
 </div>
-<!-- 
-<div class="container center-block">
-  <div class="table-wrapper-scroll-y my-custom-scrollbar">
 
-  <table class="table table-bordered table-striped mb-0">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">Username</th>
-        <th scope="col">IsAdmin</th>
-      </tr>
-    </thead>
-    <tbody>
-
-    </tbody>
-  </table>
-  </div>
-</div> -->
-
+<script type="module" src="/user-register.js"></script>
