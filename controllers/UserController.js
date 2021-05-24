@@ -80,10 +80,19 @@ module.exports = {
     }
   },
   async accountDetailsGet(req, res){
-    res.render('user/account-details', {
-      user: req.user,
-      message: req.flash('message'),
-    })
+    if(!req.user.library){
+      res.render('user/account-details', {
+        user: req.user,
+        message: req.flash('message'),
+        isLocationUndefined: true,
+      })
+    } else {
+      res.render('user/account-details', {
+        user: req.user,
+        message: req.flash('message'),
+        isLocationUndefined: false,
+      })
+    }
   },
   async updateUser(req, res){
     try{
