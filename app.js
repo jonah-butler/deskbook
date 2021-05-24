@@ -209,8 +209,28 @@ app.get("/register", isAdmin, (req, res) => {
 
 //handle signup logic
 app.post("/register", isAdmin, (req, res) => {
-	let newUser = new User({username: req.body.username, email: req.body.email, isAdmin: req.body.adminradio, avatar: 'otter-pixel-trans.png'});
-	User.register(newUser, req.body.password, (err, user) => {
+
+	let newUser;
+	if(req.body.library === 'main'){
+		newUser = {
+			username: req.body.username,
+			email: req.body.email,
+			isAdmin: req.body.adminradio,
+			avatar: 'otter-pixel-trans.png',
+			library: req.body.library,
+			mainSubLocation: req.body.subLocation
+		};
+	} else {
+		newUser = {
+			username: req.body.username,
+			email: req.body.email,
+			isAdmin: req.body.adminradio,
+			avatar: 'otter-pixel-trans.png',
+			library: req.body.library,
+		};
+	}
+	const registeredUser = new User(newUser);
+	User.register(registeredUser, req.body.password, (err, user) => {
 		if(err){
 			console.log(err);
 			return res.render("register");
