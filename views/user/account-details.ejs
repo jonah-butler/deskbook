@@ -1,0 +1,132 @@
+<%- include ('../partials/header') %>
+
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <h1 class="jumbo-header">Account Details</h1>
+      <div class="avatar-container top" style="margin-top: 40px; padding-left: 0px;">
+        <span class="avatar">
+          <img src="/imgs/avatars/choices/<%=user.avatar%>">
+        </span>
+      </div>
+      <form action="/user/<%=user._id%>/account-details" method="post">
+        <div class="db-panel">
+          <div class="headline">
+            Modifying Account for:<br><span><strong><%= user.username%></strong></span>
+          </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              username
+            </div>
+            <input value="<%=user.username%>" type="text" class="form-control" id="formGroupExampleInput" placeholder="username" name="username">
+          </div>
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              email
+            </div>
+            <input value="<%=user.email%>" type="text" class="form-control" id="formGroupExampleInput2" placeholder="email" name="email">
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              Is Admin?
+            </div>
+            <div class="form-group">
+              <% if(user.isAdmin) { %>
+              <div class="radio-inline">
+                <input checked type="radio" name="isAdmin" value="true">Yes
+              </div>
+              <div class="radio-inline">
+                <input type="radio" name="isAdmin" value="false">No
+              </div>
+              <% } else { %>
+                <div class="radio-inline">
+                  <input type="radio" name="isAdmin" value="true">Yes
+                </div>
+                <div class="radio-inline">
+                  <input checked type="radio" name="isAdmin" value="false">No
+                </div>
+                <% } %>
+            </div>
+          </div>
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              Library Location
+            </div>
+            <div class="form-group form-group-select">
+              <select id="branchLocationRegister" name="library">
+                <%if(user.library) {%>
+                  <option id="defaultBranchSelect" hidden disabled selected value="<%=user.library%>"><%=user.library%></option>
+                <%} else {%>
+                  <option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
+                <% }%>
+                <option value="belmont">Belmont</option>
+                <option value="broad rock">Broad Rock</option>
+                <option value="east end">East End</option>
+                <option value="ginter park">Ginter Park</option>
+                <option value="hull street">Hull Street</option>
+                <option value="main">Main</option>
+                <option value="north avenue">North Avenue</option>
+                <option value="west end">West End</option>
+                <option value="westover hills">Westover Hills</option>
+              </select>
+            </div>
+            <% if(user.mainSubLocation) { %>
+            <div class="form-group form-group-select" id="mainSubContainerRegister">
+            <% } else {%>
+            <div class="form-group form-group-select hidden" id="mainSubContainerRegister">
+            <% } %>
+              <div class="sub-headline">
+                Locain in Main
+              </div>
+              <select id="mainSubLocationRegister" name="mainSubLocation">
+                <%if(user.mainSubLocation) {%>
+                  <option id="defaultBranchSelect" hidden disabled selected value="<%=user.mainSubLocation%>"><%=user.mainSubLocation%></option>
+                <%} else {%>
+                  <option id="defaultBranchSelect" hidden disabled selected value>select branch</option>
+                <% }%>
+                <option value="circulation">Main Circ</option>
+                <option value="law">Main Law</option>
+                <option value="reference">Main Ref</option>
+                </select>
+            </div>
+          </div>
+        </div>
+        <button style="margin-left: 5px;" class="button-main-sm">Update</button>
+        <% if(message) {%>
+        <div class="message">
+          <%= message %>
+        </div>
+        <% } %>
+      </div>
+      </form>
+      <div class="margin-top-big">
+        <div class="headline">
+          More Account Details Management
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              Update Password
+            </div>
+            <a href="/user/<%=user._id%>/change-password">
+              <button class="button-main-sm" type="button" name="button">Password</button>
+            </a>
+          </div>
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              Change Avatar
+            </div>
+            <a href="/user/<%=user._id%>/change-avatar">
+              <button class="button-main-sm" type="button" name="button">Avatar</button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div> <!-- inner container -->
+  </header>
+</div>
+
+<script type="module" src="/user-update.js"></script>
