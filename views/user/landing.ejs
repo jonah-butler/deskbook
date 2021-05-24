@@ -59,6 +59,32 @@
         </p>
       </div>
     </div>
+    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+      <div class="thumbnail">
+
+        <h3 class="section-name">Update Account Details</h3>
+        <div class="caption">
+          Update all your account details here
+        </div>
+        <p>
+          <a href="/user/<%= user._id %>/account-details" class="button-main-sm">Edit</a>
+        </p>
+      </div>
+    </div>
+    <% if(user.isAdmin) { %>
+      <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+        <div class="thumbnail">
+
+          <h3 class="section-name">Register New Account</h3>
+          <div class="caption">
+            Initiate new accounts
+          </div>
+          <p>
+            <a href="/register" class="button-main-sm">Register</a>
+          </p>
+        </div>
+      </div>
+    <% } %>
   </div>
 </div>
 
