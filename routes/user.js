@@ -25,4 +25,10 @@ module.exports = (app) => {
 
   app.post('/user/:userId/change-avatar', helpers.isLoggedIn,
   UserController.changeAvatar);
+
+  app.get('/user/:userId/account-details', helpers.isLoggedIn,
+  UserController.accountDetailsGet);
+  
+  app.post('/user/:userId/account-details', helpers.isLoggedIn,
+  UserController.updateUser);
 }
