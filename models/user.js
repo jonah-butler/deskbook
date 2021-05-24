@@ -16,10 +16,14 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // library: {
-  //   type: String,
-  //   required: true,
-  // },
+  library: {
+    type: String,
+    required: false,
+  },
+  mainSubLocation: {
+    type: String,
+    required: false,
+  },
   password: String,
   isAdmin: {
     type: Boolean,
