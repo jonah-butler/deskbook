@@ -67,6 +67,18 @@ async function isPublicEntry(req, res, next){
   }
 }
 
+async function shouldUserUpdateLibraryLocation(req, res, next) {
+  try{
+    if(!req.user.library){
+      res.redirect(`user/${req.user_id}/account-details`);
+    } else {
+      return next();
+    }
+  } catch(err) {
+    console.log('error in update library location middleware');
+  }
+}
+
 async function isPublicCategory(req, res, next){
   try{
     const category = await MainCategory.findOne({_id: req.params.id}).populate("faqs").populate("subCategories").populate('owner');
@@ -117,3 +129,4 @@ module.exports.isPublicEntry = isPublicEntry;
 module.exports.isPublicCategory = isPublicCategory;
 module.exports.canSubmit = canSubmit;
 module.exports.passportAuthentication = passportAuthentication;
+module.exports.shouldUserUpdateLibraryLocation = shouldUserUpdateLibraryLocation;
