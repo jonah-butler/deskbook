@@ -75,5 +75,34 @@ module.exports = {
     } catch(err) {
       console.log(err);
     }
-  }
+  },
+  async accountDetailsGet(req, res){
+    res.render('user/account-details', {
+      user: req.user,
+      message: req.flash('message'),
+    })
+  },
+  async updateUser(req, res){
+    try{
+      let user = await User.findById({_id: req.params.userId});
+      for(const key in req.body){
+        if(user[key] != req.body[key]){
+          user[key] = req.body[key];
+          if(key === 'library' && req.body[key] !== 'main' && user.mainSubLocation){
+            user.mainSubLocation = null;
+          }
+          await user.save();
+        }
+      }
+      res.render('user/account-details', {
+        user: user,
+        message: 'account update successful',
+      })
+    } catch(err) {
+      res.render('user/account-details', {
+        user: user,
+        message: err,
+      });
+    }
+  },
 }
