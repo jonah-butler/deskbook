@@ -23,9 +23,9 @@
 		<div class="sub-headline">
 			Add Owner
 		</div>
-		<% users.forEach(user => { %>
+		<% users.forEach(singleUser => { %>
 		<div class="radio">
-  		<label><input type="radio" name="entry[owner]" value="<%=user._id%>"><%= user.username %></label>
+  		<label><input type="radio" name="entry[owner]" value="<%=singleUser._id%>"><%= singleUser.username %></label>
 		</div>
 		<% }) %>
 	</div>
@@ -48,15 +48,15 @@
 				</div>
 				<div class="sub-headline">Teammates can only be added 1 at a time.</div>
 				<div class="checkbox" style="visibility: hidden">
-					<label><input checked type="checkbox" name="entry[user]" value="<%= loggedUser._id %>"><%= loggedUser.username %></label>
+					<label><input checked type="checkbox" name="entry[user]" value="<%= user._id %>"><%= user.username %></label>
 				</div>
-				<% users.forEach(user => { %>
-					<% if(user.username != loggedUser.username){ %>
+				<% users.forEach(singleUser => { %>
+					<% if(singleUser.username != user.username){ %>
 				<div class="checkbox">
-					<% if(category.user.indexOf(user.id) == -1) { %>
-  				<label><input type="checkbox" name="entry[user]" value="<%= user._id %>"><%= user.username %></label>
+					<% if(category.user.indexOf(singleUser.id) == -1) { %>
+  				<label><input type="checkbox" name="entry[user]" value="<%= singleUser._id %>"><%= singleUser.username %></label>
 					<% } else { %>
-						<label><input checked type="checkbox" name="entry[user]" value="<%= user._id %>"><%= user.username %></label>
+						<label><input checked type="checkbox" name="entry[user]" value="<%= singleUser._id %>"><%= singleUser.username %></label>
 					<% } %>
 				</div>
 				<% } %>

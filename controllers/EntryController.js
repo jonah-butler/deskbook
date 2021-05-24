@@ -156,6 +156,7 @@ module.exports = {
           entry: entry,
           category: category,
           users: users,
+          user: req.user,
           // categories: mainCategories
         });
       }

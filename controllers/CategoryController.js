@@ -29,6 +29,7 @@ module.exports = {
         publicCategories: publicCategories,
         categorytoMove: category,
         id: category._id,
+        user: req.user,
       });
     }
   },
@@ -256,7 +257,7 @@ module.exports = {
         res.render('category-edit', {
           category: category,
           users: users,
-          loggedUser: req.user,
+          user: req.user,
           private: true,
         });
       } else {
@@ -264,7 +265,7 @@ module.exports = {
           category: category,
           private: false,
           users: users,
-          loggedUser: req.user,
+          user: req.user,
         });
       }
     } catch(err) {
