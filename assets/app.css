@@ -1089,6 +1089,11 @@ a > button{
   cursor: pointer;
 }
 
+.glyphicon-question-sign{
+  font-size: 18px;
+  color: #0a0a8f;
+}
+
 .jumbotron > div > .glyphicon-bookmark.checked{
   color: #001c8b;
 }
