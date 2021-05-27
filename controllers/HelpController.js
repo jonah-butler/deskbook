@@ -8,6 +8,7 @@ module.exports = {
     res.render('help', {
       message: req.flash('message'),
       emoji: emoji.get('thinking_face'),
+      user: req.user,
     });
   },
   async helpPost(req, res) {
