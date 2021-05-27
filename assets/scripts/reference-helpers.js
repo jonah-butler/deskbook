@@ -82,6 +82,7 @@ function buildPagination(data, parentElement, selectedTab = 1) {
   const currentTab = selectedTab;
 
   for(let i = 1; i < numOfPages+1; i++){
+  // for(let i = 1; i <= maxTabs; i++){
     if(i <= numOfPages){
       const li = document.createElement('li');
       li.classList.add('page-item');
@@ -89,7 +90,6 @@ function buildPagination(data, parentElement, selectedTab = 1) {
         li.classList.add('active');
         let activeEle = li;
       }
-
       const a = document.createElement('a');
       a.classList.add('page-link');
       a.innerText = i;
