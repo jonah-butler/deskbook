@@ -18,6 +18,10 @@ h1 > span{
   font-size: 24px;
 }
 
+textarea{
+  max-width: 100%;
+}
+
 .margin-top-big{
   margin-top: 3em;
 }
