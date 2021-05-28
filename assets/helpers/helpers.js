@@ -25,6 +25,14 @@ function findNextDay(date) {
   return tomorrow;
 }
 
+function formatDatesForDatePickers(date) {
+  if(date instanceof Date){
+    return `${date.getMonth() + 1}/${date.getDate()}/${date.getFullYear()}`
+  } else {
+    return new Error('invalid date param, use Date class');
+  }
+}
+
 function isLoggedIn(req, res, next){
 	if(req.isAuthenticated()){
 		return next();
@@ -130,3 +138,4 @@ module.exports.isPublicCategory = isPublicCategory;
 module.exports.canSubmit = canSubmit;
 module.exports.passportAuthentication = passportAuthentication;
 module.exports.shouldUserUpdateLibraryLocation = shouldUserUpdateLibraryLocation;
+module.exports.formatDatesForDatePickers = formatDatesForDatePickers;
