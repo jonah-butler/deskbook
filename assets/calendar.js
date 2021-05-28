@@ -1,3 +1,5 @@
+import helpers from './helpers/helpers-client.js';
+
 
 const dates = {
 
@@ -51,7 +53,9 @@ const calendarModule = {
 
   inputFields: {
     from: document.querySelector('#date-input-start'),
-    to: document.querySelector('#date-input-end')
+    to: document.querySelector('#date-input-end'),
+    submit: document.querySelector('.icon-circle'),
+    today: document.querySelector('#today'),
   },
 
   initializeDatePickers(){
@@ -192,12 +196,19 @@ const calendarModule = {
           })
           view.insertAdjacentHTML('afterbegin', `<button id="print" style="font-size: 25px;" class="button-main-sm glyphicon glyphicon-print"></button`);
           document.querySelector('#print').addEventListener('click', function() {
-            const printWin = window.open('','','');
-            printWin.document.write(`${view.innerHTML}`);
+            const printWin = window.open('','new div','height=600,width=800');
+            // printWin.document.write(`${view.innerHTML}`);
+            printWin.document.write('<html><head><title></title>');
+            printWin.document.write('<link rel="stylesheet" href="./print.css" type="text/css" />');
+            printWin.document.write('</head><body >');
+            printWin.document.write(view.innerHTML);
+            printWin.document.write('</body></html>');
             printWin.document.close();
             printWin.focus();
-            printWin.print();
-            printWin.close();
+            setTimeout(function(){
+              printWin.print();
+              // printWin.close();
+            },1000);
           });
         } else {
           view.insertAdjacentHTML('beforeend', `<h1>No data for that selected date range!</h1><img class="empty-events-img" src="imgs/undraw_calendar_dutt.svg" alt="">`);
@@ -247,10 +258,20 @@ return html;
 return html;
 },
 
+  todayBtnListener() {
+    this.inputFields.today.addEventListener('click', () => {
+      this.inputFields.from.value = helpers.formatDatesForDatePickers(new Date());
+      this.inputFields.to.value = helpers.formatDatesForDatePickers(new Date());
+      this.inputFields.submit.click();
+    })
+  },
+
   init(){
     this.initializeDatePickers();
     this.dropdownSelection();
-    this.addSubmitListener(document.querySelector('.icon-circle'));
+    this.addSubmitListener(this.inputFields.submit);
+    this.inputFields.submit.click();
+    this.todayBtnListener();
   }
 }
 
