@@ -1096,10 +1096,6 @@ a > button{
   cursor: pointer;
 }
 
-.glyphicon-question-sign{
-  font-size: 18px;
-  color: #0a0a8f;
-}
 
 .jumbotron > div > .glyphicon-bookmark.checked{
   color: #001c8b;
@@ -1262,11 +1258,18 @@ button{
 }
 
 .faq-description{
-  word-break: break-all;
+  /* word-break: break-all; */
 }
 
 .faq-description img{
-  width: 100% !important;
+  max-width: 100%;
+  margin: 15px 0px;
+  box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.3);
+  transition: box-shadow .4s ease;
+}
+
+.faq-description img:hover{
+  box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.6);
 }
 
 .pos-absolute{
