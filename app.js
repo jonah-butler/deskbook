@@ -123,8 +123,10 @@ app.get("/calendarClient", isLoggedIn, (req, res) => {
 })
 
 app.get("/calendar", isLoggedIn, (req, res) => {
+	const today = helpers.formatDatesForDatePickers(new Date());
 	res.render("calendar", {
 		user: req.user,
+		today: today,
 	});
 })
 
