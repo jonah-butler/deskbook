@@ -11,9 +11,16 @@ module.exports = {
     res.redirect(`/user/${req.user._id}`);
   },
   async indexLookup(req, res){
-    res.render('user/landing', {
-      user: req.user,
-    });
+    try{
+      if(req.params.userId == req.user._id){
+        const user = await User.findById(req.params.userId)
+        res.render('user/landing', {
+          user: user,
+        });
+      }
+    } catch(err) {
+      res.redirect('/404');
+    }
   },
   async changePwdIndex(req, res){
     const users = await User.find({});
