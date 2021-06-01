@@ -36,10 +36,10 @@ let EntryCategory = new mongoose.Schema({
 		type: mongoose.Schema.Types.ObjectId,
 		ref: 'User',
 	},
-	// user: {
-	// 	type: String,
-	// 	required: false,
-	// },
+	public: {
+		type: Boolean,
+		default: false,
+	},
 	user: [
 		{
 			type: String,
