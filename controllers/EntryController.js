@@ -14,6 +14,9 @@ module.exports = {
           {isPrivate: {
             $in: false,
           }},
+          {public: {
+            $exists: false,
+          }},
         ],
       }
     ).populate('owner').sort({'createdAt': -1}).limit(6);
@@ -26,6 +29,9 @@ module.exports = {
           }},
           {isPrivate: {
             $in: false,
+          }},
+          {public: {
+            $exists: false,
           }},
         ],
       }
