@@ -38,7 +38,6 @@ let EntryCategory = new mongoose.Schema({
 	},
 	public: {
 		type: Boolean,
-		default: false,
 	},
 	user: [
 		{
