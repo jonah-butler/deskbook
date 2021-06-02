@@ -1,0 +1,68 @@
+<%- include ('../partials/header') %>
+
+<div class="container padding-sm-top padding-sm-right padding-sm-bottom">
+	<div class="row">
+
+<div class="col-md-10">
+<h1 class="jumbo-header">
+	Create a new Parent Category for the Public
+</h1>
+<p>
+</p>
+<!-- <div style="width: 30%; margin: 0 auto"> -->
+
+<form action="/category/new" method="POST" onkeypress="formReturnDisabled(event)">
+	<!-- Title Text Input -->
+	<div class="form-group title-field">
+		<div class="tag-input-container">
+			<div class="headline">
+				Add Title
+			</div>
+			<input class="tag-input" id="titleField" type="text" name="entry[title]" value="" placeholder=""></input>
+		</div>
+	</div>
+		<!-- input for text -->
+		<div class="form-group">
+			<div class="tag-input-container-large">
+				<div class="headline">
+					Add Description
+				</div>
+				<textarea class="form-control tag-input" id="comment" name="entry[description]" rows="8" cols="80" ></textarea>
+			</div>
+		</div>
+
+		<div class="form-group form-group-select">
+			<div class="tag-input-container">
+				<div class="headline">
+					For Public?
+				</div>
+				<select name="entry[public]">
+					<option value="true">True</option>
+				</select>
+			</div>
+		</div>
+
+		<div class="tag-input-container">
+			<div class="headline">Add Category</div>
+			<div class="sub-headline">type and press enter to add your searchable keywords</div>
+		<div id="spanContainer"></div>
+		<input class="tag-input-component" type="text">
+		</div>
+
+		 <!-- submit button for form -->
+		<div class="form-group">
+			<button class="button-main">
+				Submit
+			</button>
+		</div>
+</form>
+
+	<a href="/public"><button class="button-main-sm">Go Back</button></a>
+	<!-- </div> -->
+	</div>
+	</div>
+	</div>
+
+<script src="/category.js"></script>
+
+<%- include ('../partials/footer') %>
