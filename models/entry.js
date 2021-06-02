@@ -28,6 +28,9 @@ const DeskBookSchema = new mongoose.Schema({
 			required: false,
 		},
 	],
+	public: {
+		type: Boolean,
+	},
 	isPrivate: {
 		type: Boolean,
 		default: false,
