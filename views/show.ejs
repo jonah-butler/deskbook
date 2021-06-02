@@ -3,7 +3,11 @@
 <article>
 
   <div class="back-container">
-		<a href="/entries/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
+    <% if(values[0].public) { %>
+		<a href="/public/category/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
+    <% } else { %>
+      <a href="/entries/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
+    <% } %>
 	</div>
 
   <div class="text-container">
