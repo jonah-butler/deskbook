@@ -85,6 +85,9 @@ module.exports = {
           {section: {
             $in: 'parent',
           }},
+          {public: {
+            $exists: false,
+          }},
           {isPrivate: {
             $in: false,
           }},
@@ -97,6 +100,9 @@ module.exports = {
           $and: [
             {section: {
               $in: 'parent',
+            }},
+            {public: {
+              $exists: false,
             }},
             {isPrivate: {
               $in: false,
