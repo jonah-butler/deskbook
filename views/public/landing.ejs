@@ -70,6 +70,19 @@
                   </div>
                 </div>
               </div>
+              <% if(category.faqs.length || category.subCategories.length) { %>
+              <div class="category-container">
+                <div class="headline">
+                  Inside <%= category.title %>
+                </div>
+                <% category.faqs.forEach(faq => { %>
+                  <a href="/public/category/<%=faq.section%>/<%=faq._id%>"><span class="category"> <%=faq.title%> </span> </a>
+                <%}) %>
+                <% category.subCategories.forEach(subCategory => { %>
+                  <a href="/public/category/<%=subCategory._id%>"><span class="category"> <%=subCategory.title%> </span> </a>
+                <%}) %>
+              </div>
+              <% } %>
               <% }) %>
             </div>
           </div>
