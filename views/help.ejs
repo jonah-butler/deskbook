@@ -17,6 +17,11 @@
                 <button style="margin-left: 5px;" class="button-main-sm">Submit Another</button>
               </a>
             </div>
+            <% if(lastRoute.length) { %>
+              <a href="<%=lastRoute%>">
+                <button style="margin-left: 5px;" class="button-main-sm">Go Back</button>
+              </a>
+            <% } %>
             <% } else { %>
             <form action="/help" method="post">
               <div class="headline">
@@ -37,12 +42,31 @@
               </div>
             </div>
             <div class="flex-row">
+              <div class="db-panel fg1 text-center">
+                <div class="sub-headline">
+                  Patron or Staff
+                </div>
+                <select name="post[location]">
+                  <% if(isPublic) { %>
+                  <option selected hidden value="patron">Patron</option>
+                  <% } else { %>
+                  <option selected hidden value="staff">Staff</option>
+                  <% } %>
+                  <option value="patron">Patron</option>
+                  <option value="staff">Staff</option>
+                </select>
+              </div>
+            </div>
+            <div class="flex-row">
               <div class="db-panel fg1">
                 <div class="sub-headline">
                   Description of what is to be added
                 </div>
                 <div class="form-group">
                   <textarea required name="post[guide]" rows="8" cols="80"></textarea>
+                </div>
+                <div class="form-group">
+                  <input hidden type="text" name="post[referer]" value="<%=referer%>">
                 </div>
               </div>
           </div>
