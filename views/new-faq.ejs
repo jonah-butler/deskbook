@@ -22,6 +22,18 @@
 			</select>
 		</div>
 	</div>
+	<% if(category.public) {%>
+		<div class="form-group form-group-select">
+			<div class="tag-input-container">
+				<div class="headline">
+					For Public?
+				</div>
+				<select name="entry[public]">
+					<option value="true">True</option>
+				</select>
+			</div>
+		</div>
+	<% } %>
 	<!-- Title Text Input -->
 	<div class="form-group title-field">
 		<div class="tag-input-container">
