@@ -98,6 +98,7 @@ require('./routes/user')(app);
 require('./routes/sdks3')(app);
 require('./routes/bookmark')(app);
 require('./routes/help')(app);
+require('./routes/public')(app);
 
 
 app.post("/user/print-tracker-update", isLoggedIn, (req, res) => {
