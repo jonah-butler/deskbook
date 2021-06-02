@@ -53,6 +53,18 @@
 				</div>
 			</div>
 		<% } %>
+		<% if(category.public) { %>
+			<div class="form-group form-group-select">
+				<div class="tag-input-container">
+					<div class="headline">
+						For Public?
+					</div>
+					<select name="entry[public]">
+						<option value="true">True</option>
+					</select>
+				</div>
+			</div>
+		<% } %>
 		<div class="tag-input-container">
 			<div class="headline">Add Category</div>
 		<div id="spanContainer"></div>
