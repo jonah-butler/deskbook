@@ -1,5 +1,9 @@
-let cardConts = document.querySelectorAll('.bookmark-card-full-container');
+import { fetchAndBuild } from './scripts/landing-helpers.js';
 
+
+let cardConts = document.querySelectorAll('.bookmark-card-full-container');
+const eventContainer = document.querySelector('.event-card-container');
+const loader = document.querySelector('.loader');
 
 Array.from(cardConts).forEach((cardCont) => {
   cardCont.addEventListener('click', (e) => {
@@ -8,3 +12,6 @@ Array.from(cardConts).forEach((cardCont) => {
     }
   })
 })
+
+
+fetchAndBuild(eventContainer, loader);
