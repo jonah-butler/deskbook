@@ -118,7 +118,7 @@ app.post("/user/print-tracker-update", isLoggedIn, (req, res) => {
 
 const libcalSecret = process.env.LIBCAL_SECRET;
 
-app.get("/calendarClient", isLoggedIn, (req, res) => {
+app.get("/calendarClient", (req, res) => {
 	const clientSecret = process.env.LIBCAL_SECRET;
 	res.send({clientSecret: clientSecret});
 })
