@@ -2,6 +2,21 @@ const Entry             = require("../../models/entry");
 const MainCategory      = require("../../models/category");
 const passport          = require('passport');
 
+function splitAtWordEnd(str, limit) {
+  let count = 0;
+  let newText = '';
+  str.split(' ').forEach(word => {
+    if(count < limit){
+      newText += `${word} `
+    } else {
+      return;
+    }
+    count += word.length;
+  })
+  newText += '...';
+  return newText;
+}
+
 async function recursiveCollectEntries(subCategoryArr, staging) {
   if(!subCategoryArr.length){
     return;
@@ -139,3 +154,4 @@ module.exports.canSubmit = canSubmit;
 module.exports.passportAuthentication = passportAuthentication;
 module.exports.shouldUserUpdateLibraryLocation = shouldUserUpdateLibraryLocation;
 module.exports.formatDatesForDatePickers = formatDatesForDatePickers;
+module.exports.splitAtWordEnd = splitAtWordEnd;
