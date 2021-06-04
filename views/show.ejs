@@ -1,16 +1,47 @@
 <%- include ('partials/header') %>
 
-<article>
+<article class="entry-show">
 
-  <div class="back-container">
+  <div class="back-container" id="sideMenu">
     <% if(values[0].public) { %>
 		<a href="/public/category/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
     <% } else { %>
       <a href="/entries/<%= parentCategory._id %>"> <i class="fas fa-long-arrow-alt-left"></i> </a>
     <% } %>
+    <div class="entry-browse">
+      <ul>
+        <h2><%= parentCategory.title %></h2>
+        <% if(parentCategory.public) { %>
+          <% parentCategory.faqs.forEach(faq => { %>
+            <% if(faq.title === values[0].title) { %>
+            <li>
+              <a style="color: #006599; font-weight: 500;" href="public/category/<%=parentCategory._id%>/<%=faq._id%>"><%=faq.title%></a>
+            </li>
+            <% } else { %>
+            <li>
+              <a href="/public/category/<%=parentCategory._id%>/<%=faq._id%>"><%=faq.title%></a>
+            </li>
+            <% } %>
+          <% }) %>
+        <% } else { %>
+        <% parentCategory.faqs.forEach(faq => { %>
+          <% if(faq.title === values[0].title) { %>
+          <li>
+            <a style="color: #006599; font-weight: 500;" href="/entries/<%=parentCategory._id%>/<%=faq._id%>"><%=faq.title%></a>
+          </li>
+          <% } else { %>
+          <li>
+            <a href="/entries/<%=parentCategory._id%>/<%=faq._id%>"><%=faq.title%></a>
+          </li>
+          <% } %>
+        <% }) %>
+        <% } %>
+      </ul>
+    </div>
 	</div>
 
   <div class="text-container">
+    <span id="sideMenuBtn" class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
     <h1>
       <%= parentCategory.title %>
       <% if(values[0].isPrivate) { %>
@@ -39,7 +70,7 @@
     <p> Cabinet: <%= values[0].cabinet %> </p>
     <% } %>
     <div class="faq-description"><%- values[0].description %></div>
-    <div class="container-fluid" style="margin-top: 40px; padding-left: 0px;">
+    <div class="" style="margin-top: 40px; padding-left: 0px;">
       <hr>
       <h3 class="">
         Maintained by:
@@ -76,8 +107,8 @@
       <p>More in <%= parentCategory.title %></p>
       <% for(let i = 1; i < values.length; i++) { %>
         <% if(values[i] != undefined) { %>
-          <div class="row">
-        <div class="col-sm-6 col-center">
+          <div class="">
+        <div class="">
           <a class="next-previous-links" href="/entries/<%= parentCategory._id %>/<%= values[i].id %>/">
           <div class="entry">
             <h4 class="nav-card-header"><%= parentCategory.title %></h4>
@@ -91,5 +122,6 @@
   </div>
 </div>
 <script type="module" src="/scripts/image-modal/index.js"></script>
+<script type="module" src="/scripts/menu-collapse/index.js"></script>
 
 <%- include ('partials/footer') %>
