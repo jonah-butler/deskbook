@@ -95,7 +95,7 @@ textarea{
 .button-main{
   display: inline-block;
   text-transform: uppercase;
-  padding: 1em 6.5em;
+  padding: .75em 5.5em;
   background: none;
   color:darkblue;
   font-weight: bold;
@@ -190,15 +190,12 @@ article.entry-show{
 }
 
 .back-container{
-	/* width: 5%;
-	display: inline-block;
-	float: left; */
-	/* background-color: white; */
   display: flex;
   flex-direction: column;
   flex: 2;
   max-height: 500px;
   overflow: scroll;
+  opacity: 1;
   min-width: 220px;
   transition: all .3s ease;
 }
@@ -206,22 +203,18 @@ article.entry-show{
 .back-container.open{
   min-width: 220px !important;
   flex: 2 !important;
-  /* position: fixed; */
   min-height: 100vh;
   z-index: 99;
-  /* top: 0px;
-  left: 0px; */
   background-color: #f7f7f7;
+
 }
+
 
 .back-container ul {
   list-style: none;
   padding: 0px;
 }
 
-.back-container::-webkit-scrollbar {
-  /* display: none; */
-}
 
 .back-container li,  .back-container i, .back-container h2, .back-container a{
   color: black;
@@ -1463,6 +1456,12 @@ a:hover{
   text-decoration: none;
 }
 
+@media(max-width: 600px){
+  .jumbotron .container {
+    padding-bottom: 65px !important;
+  }
+}
+
 .jumbotron .container {
   padding-bottom: 20px;
 }
@@ -1555,7 +1554,7 @@ a:hover{
 .avatar-container{
   position: absolute;
   bottom: 15px;
-  right: 20px;
+  right: 1px;
 }
 
 .avatar-container > span{
