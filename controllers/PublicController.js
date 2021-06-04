@@ -1,6 +1,7 @@
 const emoji = require('node-emoji');
 const MainCategory = require('../models/category.js');
 const Entry = require('../models/entry.js');
+const helpers = require('../assets/helpers/helpers.js');
 
 module.exports = {
   async publicLanding(req, res) {
@@ -33,6 +34,7 @@ module.exports = {
       user: req.user,
       greeting: timeObj,
       publicCategories: publicCategories,
+      methods: helpers.splitAtWordEnd,
     })
   },
   async publicNewCategoryIndex(req, res) {
