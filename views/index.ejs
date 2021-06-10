@@ -7,7 +7,7 @@
 		<h1 class="jumbo-header">Welcome, <%= user.username %></h1>
 		<p></p>
     <% if(adminStatus == true) { %>
-		<a href="/category/new-parent"><button class="button-main">Add New Public Parent Category</button></a>
+		<a href="/category/new-parent"><button class="button-main">Add New Staff Parent Category</button></a>
     <% } %>
     <a href="/category/new-parent-private"><button class="button-main">Add New Private Parent Category</button></a>
     <!-- <a href="/entries/new"><button class="button-main">Add A New FAQ</button></a> -->
@@ -15,7 +15,7 @@
 	  </div>
 	</header>
   <div class="container">
-    <h1 class="jumbo-header">System Wide Categories</h1>
+    <h1 class="jumbo-header">Staff Categories</h1>
     <p>Most Recently Added</p>
     <a href="/category/public/?page=1"><button class="button-main">View All</button></a>
     <h5><%=categories.length%> of <%=publicParentTotal%></h5>
