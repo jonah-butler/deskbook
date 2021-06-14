@@ -252,6 +252,11 @@ function fullRender(parentContainer, response, edit, sort) {
   printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
   printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'online');
   printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'person');
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', true);
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', false);
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'reference');
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'directional');
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'circulation');
   if(sort){
     sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
   }
