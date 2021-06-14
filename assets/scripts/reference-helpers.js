@@ -229,8 +229,15 @@ function initializeDatePickers(fromEle, toEle) {
 
 function printBranchTotals(header, sortedObj) {
   Object.keys(sortedObj).forEach(key => {
-    header.insertAdjacentHTML('beforeend', `<p style="font-size: 12px;">${key}: <span style="color: red;">${sortedObj[key]}<span></p>`);
+    header.insertAdjacentHTML('beforeend', `<p style="font-size: 14px; font-weight: 600;">${key}: <span style="color: red;">${sortedObj[key]}<span></p>`);
   })
+}
+
+function printTotals(header, queryObj, key, value){
+  const filteredArr = queryObj.filter(ref => {
+    return ref[key] === value;
+  })
+  header.insertAdjacentHTML('beforeend', `<p style="font-size: 12px;">${key}(${value}): <span style="color: red;">${filteredArr.length}<span></p>`)
 }
 
 function fullRender(parentContainer, response, edit, sort) {
@@ -242,6 +249,9 @@ function fullRender(parentContainer, response, edit, sort) {
   buildData(_referenceQueries, _viewContainer, edit, currentPage);
   let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
   printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'online');
+  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'person');
   if(sort){
     sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
   }
