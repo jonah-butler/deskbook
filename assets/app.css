@@ -179,7 +179,6 @@ article.entry-show{
   animation-name: fadeIn;
   animation-duration: .5s;
   position: relative;
-  overflow: hidden;
 }
 
 @media(max-width: 950px){
@@ -193,11 +192,14 @@ article.entry-show{
   display: flex;
   flex-direction: column;
   flex: 2;
-  max-height: 500px;
+  max-height: 100vh;
   overflow: scroll;
   opacity: 1;
   min-width: 220px;
   transition: all .3s ease;
+  position: sticky;
+  top: 0;
+  background: white;
 }
 
 .back-container.open{
