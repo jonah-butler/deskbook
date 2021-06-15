@@ -22,6 +22,20 @@ textarea{
   max-width: 100%;
 }
 
+.link-filter{
+  text-decoration: underline;
+  font-size: 13px !important;
+}
+
+.link-filter:hover{
+  color: #003652;
+  cursor: pointer;
+}
+
+.link-filter span {
+  color: red;
+}
+
 .dot-container{
   display: flex;
 }
