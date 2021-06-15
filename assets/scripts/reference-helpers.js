@@ -7,6 +7,7 @@ import { createChart } from './chart-helpers.js';
 let _referenceQueries;
 let _viewContainer;
 let _numOfItems = 15;
+let _filteredQueries = null;
 
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
@@ -236,27 +237,91 @@ function printBranchTotals(header, sortedObj) {
 function printTotals(header, queryObj, key, value){
   const filteredArr = queryObj.filter(ref => {
     return ref[key] === value;
-  })
-  header.insertAdjacentHTML('beforeend', `<p style="font-size: 12px;">${key}(${value}): <span style="color: red;">${filteredArr.length}<span></p>`)
+  });
+  const para = document.createElement('p');
+  const span = document.createElement('span');
+  if(filteredArr.length) {
+    para.classList.add('link-filter');
+    para.setAttribute('data-key', key);
+    para.setAttribute('data-value', value);
+    para.innerText = `${key}(${value}): `;
+    span.innerText = filteredArr.length;
+    para.appendChild(span);
+    para.addEventListener('click', function() {
+      filterListener(_referenceQueries, para);
+    });
+    header.appendChild(para);
+    // header.insertAdjacentHTML('beforeend', `<p onclick="filterListener()" class="link-filter" data-key="${key}" data-value="${value}" style="font-size: 12px;">${key}(${value}): <span style="color: red;">${filteredArr.length}<span></p>`)
+  } else {
+    header.insertAdjacentHTML('beforeend', `<p style="font-size: 12px;">${key}(${value}): <span style="color: red;">${filteredArr.length}<span></p>`)
+  }
 }
 
-function fullRender(parentContainer, response, edit, sort) {
+function filterListener(query, para) {
+  const key = para.getAttribute('data-key');
+  const value = para.getAttribute('data-value');
+  _filteredQueries = query.filter(ref => {
+    return ref[key].toString() == value;
+  })
+  fullRender(_viewContainer, query, false, true, _filteredQueries, key);
+}
+
+function clearFilter(container){
+  const para = document.createElement('p');
+  para.innerText = 'Remove Date Filter';
+  para.classList.add('link-filter');
+  para.addEventListener('click', function(){
+    fullRender(_viewContainer, _referenceQueries, false, true);
+  })
+  container.appendChild(para);
+}
+
+function fullRender(parentContainer, response, edit, sort, sortedList = null, sortedListKey = null) {
   _referenceQueries = response;
   _viewContainer = parentContainer;
-  let currentPage = _referenceQueries.slice(0, _numOfItems);
   clearResults(parentContainer);
-  let chartDataObj = setupDataForChart(_referenceQueries);
-  buildData(_referenceQueries, _viewContainer, edit, currentPage);
+  let chartDataObj;
+  if(sortedList){
+    let currentPage = sortedList.slice(0, _numOfItems);
+    // clearResults(parentContainer);
+    chartDataObj = setupDataForChart(sortedList);
+    buildData(sortedList, _viewContainer, edit, currentPage);
+    printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
+    printTotals(document.querySelector('.totals-container'), sortedList, sortedListKey, sortedList[0][sortedListKey]);
+    clearFilter(document.querySelector('.totals-container'));
+  } else {
+    // _referenceQueries = response;
+    let currentPage = _referenceQueries.slice(0, _numOfItems);
+    // clearResults(parentContainer);
+    chartDataObj = setupDataForChart(_referenceQueries);
+    buildData(_referenceQueries, _viewContainer, edit, currentPage);
+    printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'online');
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'person');
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', true);
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', false);
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'reference');
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'directional');
+    printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'circulation');
+  }
+  // _referenceQueries = response;
+  // _viewContainer = parentContainer;
+  // let currentPage = _referenceQueries.slice(0, _numOfItems);
+  // clearResults(parentContainer);
+  // let chartDataObj = setupDataForChart(_referenceQueries);
+  // buildData(_referenceQueries, _viewContainer, edit, currentPage);
   let canvas = createCanvasAndAppend('canvas', document.querySelector('.chart-container'));
-  printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'online');
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'person');
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', true);
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', false);
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'reference');
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'directional');
-  printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'circulation');
+  // printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'online');
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'person');
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', true);
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'overFiveMinutes', false);
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'reference');
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'directional');
+  // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'circulation');
+
   if(sort){
     sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
   }
