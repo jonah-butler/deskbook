@@ -1,9 +1,9 @@
 function sortDataAZ(data) {
   return data.sort(function(a,b) {
-    if(a.library.toUpperCase() < b.library.toUpperCase()){
+    if(`${a.library.toUpperCase()} ${a.subLocation.toUpperCase()}` < `${b.library.toUpperCase()} ${b.subLocation.toUpperCase()}`){
       return -1;
     }
-    if(a.library.toUpperCase() > b.library.toUpperCase()){
+    if(`${a.library.toUpperCase()} ${a.subLocation.toUpperCase()}` > `${b.library.toUpperCase()} ${b.subLocation.toUpperCase()}`){
       return 1;
     }
     return 0;
@@ -12,10 +12,10 @@ function sortDataAZ(data) {
 
 function sortDataZA(data) {
   return data.sort(function(a,b) {
-    if(a.library.toUpperCase() > b.library.toUpperCase()){
+    if(`${a.library.toUpperCase()} ${a.subLocation.toUpperCase()}` > `${b.library.toUpperCase()} ${b.subLocation.toUpperCase()}`){
       return -1;
     }
-    if(a.library.toUpperCase() < b.library.toUpperCase()){
+    if(`${a.library.toUpperCase()} ${a.subLocation.toUpperCase()}` < `${b.library.toUpperCase()} ${b.subLocation.toUpperCase()}`){
       return 1;
     }
     return 0;
@@ -25,10 +25,18 @@ function sortDataZA(data) {
 function setupDataForChart(response) {
   let valueObj = {};
   response.forEach((val) => {
-    if(valueObj[val.library] == undefined){
-      valueObj[val.library] = 1;
+    if(val.library == "main"){
+      if(valueObj[`${val.library} ${val.subLocation}`] == undefined) {
+        valueObj[`${val.library} ${val.subLocation}`] = 1;
+      } else {
+        valueObj[`${val.library} ${val.subLocation}`] += 1;
+      }
     } else {
-      valueObj[val.library] += 1;
+      if(valueObj[val.library] == undefined){
+        valueObj[val.library] = 1;
+      } else {
+        valueObj[val.library] += 1;
+      }
     }
   })
   return valueObj;
