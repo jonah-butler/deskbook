@@ -1,6 +1,6 @@
-function linkCopy() {
+function linkCopy(param = document.location.href) {
   // let url = document.location.href;
-  navigator.clipboard.writeText(document.location.href)
+  navigator.clipboard.writeText(param);
   // .then(() => { alert(`Copied!`) })
   // .catch((error) => { alert(`Copy failed! ${error}`) })
 }
@@ -21,11 +21,11 @@ function animateFlashBox(text){
   }
 }
 
-function animatingStateInit(btn, parent, text) {
+function animatingStateInit(btn, text, textToCopy) {
   let animating = false;
-  btn.addEventListener('click', (e) => {
+  let handler = function(e) {
     if(animating == false) {
-      linkCopy();
+      linkCopy(textToCopy);
       animating = true;
       let flashBox = createFlashBox(text);
       console.log(flashBox);
@@ -38,7 +38,9 @@ function animatingStateInit(btn, parent, text) {
        animating = false;
      }, 4000);
     }
-  })
+  }
+  btn.addEventListener('click', handler);
+  return handler;
 }
 
 function createFlashBox(text) {
