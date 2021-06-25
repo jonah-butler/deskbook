@@ -1,0 +1,147 @@
+<%- include ('../partials/header') %>
+
+
+<div class="backdrop"></div>
+<div class="container-fluid">
+  <div class="jumbotron">
+    <div class="container">
+      <h1 class="jumbo-header">
+        Media Library
+      </h1>
+      <p>The Deskbook Media Library is in beta.</p>
+      <p>At the moment there are a few pieces of functionality to take note of when using the Media Library.</p>
+      <ul>
+        <li>Limited upload mime types. At the moment the only available formats for uploading are <strong>jpg</strong> <strong>png</strong> <strong>jpeg</strong> <strong>webp</strong> <strong>doc</strong> <strong>docx</strong> and <strong>pdf</strong>.</li>
+        <li>Limited CMS tools: users can create folders anywhere in the media library directory. In addition, users can download uploaded files, copy its source url, upload new files in single batches or delete. Unfortunately no deleting of folders or moving at this time. But coming soon! If you need a tool not featured, contact Jonah.</li>
+        <li>Images in these folders should not contain private information. Though this area of the Deskbook is only accessible for users. The links that are generated are viewable by everyone on the internet.</li>
+      </ul>
+      <a href="/media">
+        <button id="mediaHome" class="button-main" type="button" name="button">Root Folder</button>
+      </a>
+      <br>
+      <button id="newFolder" class="button-main" type="button" name="button">Add New Folder</button>
+      <button id="uploadImage" class="button-main" type="button" name="button">Upload Files</button>
+    </div>
+      <div class="row">
+        <div class="col-sm-12 col-md-2">
+          <ul class="list-group">
+            <% if(bucketData[3] != null) {%>
+              <% let aTagPrefixStr = '?'; %>
+              <% buildQueryArr(bucketData[3]).forEach((prefix, i, arr) => {
+                  if(i != arr.length-1){
+                    aTagPrefixStr += `prefix=${prefix}&`;
+                  } else {
+                    aTagPrefixStr += `prefix=${prefix}`;
+                  }
+                 })
+              %>
+              <a class="entry-link" href=<%=`/media${aTagPrefixStr}`%>>
+                <li class="list-group-item glyphicon glyphicon-arrow-left" style="max-width: 50px;"></li>
+              </a>
+            <% } %>
+          <a>
+            <li class="list-group-item selected">
+              <%= bucketData[1][0].key.replace('deskbook-uploads/', '') %>
+            </li>
+          </a>
+          <% bucketData[2].forEach((item, i) => { %>
+            <% let aTagPrefixStr = '?'; %>
+            <% buildQueryArr(item.Prefix).forEach((prefix, i, arr) => {
+                if(i != arr.length-1){
+                  aTagPrefixStr += `prefix=${prefix}&`;
+                } else {
+                  aTagPrefixStr += `prefix=${prefix}`;
+                }
+               })
+            %>
+            <a class="entry-link" href=<%=`/media${aTagPrefixStr}`%>>
+            <li class="list-group-item descendants">
+                <%= item.Prefix.replace('deskbook-uploads/', '') %>
+              </li>
+            </a>
+          <% }) %>
+        </ul>
+        </div>
+        <div class="col-sm-12 col-md-10">
+          <% bucketData[0].forEach(item => { %>
+            <% if(item.size > 0 && isDocument(item.key)) { %>
+              <div data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" class="file-card cms-thumbnail">
+                <%=  item.key.replace(bucketData[1][0].key, '') %>
+                <img data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" src="/imgs/file_icon.png" alt="">
+              </div>
+            <% } else { %>
+              <img data-type="img" data-key="<%= item.key %>" data.src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" class="cms-thumbnail" style="max-width: 300px; margin: 20px;" src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" alt="">
+            <% } %>
+          <% }) %>
+        </div>
+      </div>
+  </div>
+  <section id=sideMenu>
+    <span id="sideMenuClose" class="close color-black">&times;</span>
+      <div class="container">
+        <div class="side-menu-img-container">
+          <img id="sideMenuImg" src="" alt="">
+        </div>
+      </div>
+      <div id="sideMenuDetails" class="container-fluid">
+        <div class="flex-row">
+          <h1>Details</h1>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <div class="sub-headline">
+              Link to Image
+            </div>
+            <div class="flex-input">
+              <input disabled id="imageUrl" type="text" class="full-width" value="">
+              <i id="copyLink" class="fas fa-copy copy-input"></i>
+            </div>
+          </div>
+        </div>
+        <button id="download" class="button-main-sm" type="button" name="button">
+          <span class="glyphicon glyphicon-download-alt"></span>
+        </button>
+        <button id="delete" class="button-main-sm" type="button" name="button">
+          <span class="glyphicon glyphicon-trash"></span>
+        </button>
+      </div>
+  </section>
+  <section id=sideMenuForm>
+    <span id="sideMenuClose2" class="close color-black">&times;</span>
+      <div class="">
+        <div id="newFolderDetails" class="container-fluid">
+          <div class="flex-row margin-top-huge">
+            <div class="db-panel fg1">
+              <div class="sub-headline">
+                Enter New Folder Name
+              </div>
+              <input required id="folderName" type="text" class="form-control" placeholder="folder name" name="folderName">
+              <button id="submitFolder" class="button-main-sm margin-top-sm" type="button" name="button">Add Folder</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+  <section id=sideMenuUpload>
+    <span id="sideMenuClose3" class="close color-black">&times;</span>
+      <div class="">
+        <div id="newFolderDetails" class="container-fluid">
+          <div class="flex-row margin-top-huge">
+            <div class="db-panel fg1">
+              <div class="headline">
+                Upload A New File
+              </div>
+              <div class="sub-headline">
+                current supported file types are <strong>.png</strong>, <strong>.jpg</strong>, <strong>.jpeg</strong>, <strong>.webp</strong>, <strong>.gif</strong>, <strong>.pdf</strong>, <strong>.doc</strong> and <strong>.docx</strong>
+              </div>
+              <input required id="imageUpload" type="file" class="form-control" placeholder="folder name" name="folderName">
+              <button id="submitImage" class="button-main-sm margin-top-sm" type="button" name="button">Add Image</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </section>
+</div>
+
+<%- include ('../partials/footer') %>
+<script type="module" src="/cms.js"></script>
