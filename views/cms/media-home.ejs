@@ -63,6 +63,7 @@
         </ul>
         </div>
         <div class="col-sm-12 col-md-10">
+          <% if(bucketData[0].length) { %>
           <% bucketData[0].forEach(item => { %>
             <% if(item.size > 0 && isDocument(item.key)) { %>
               <div data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" class="file-card cms-thumbnail">
@@ -73,6 +74,9 @@
               <img data-type="img" data-key="<%= item.key %>" data.src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" class="cms-thumbnail" style="max-width: 300px; margin: 20px;" src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" alt="">
             <% } %>
           <% }) %>
+          <% } else { %>
+            <h3>No data in this folder just yet. Add to it or try another location.</h3>
+          <% } %>
         </div>
       </div>
   </div>
