@@ -338,7 +338,7 @@ article.entry-show{
 
 @media(max-width: 950px) {
   #sideMenuBtn{
-    display: block !important;
+    visibility: visible !important;
   }
 }
 
@@ -346,7 +346,7 @@ article.entry-show{
   position: absolute;
   left: -15px;
   top: 5px;
-  display: none;
+  visibility: hidden;
 }
 
 .text-container h1{
