@@ -25,7 +25,7 @@ function deleteClickListner(btn, sideMenuImg) {
   btn.addEventListener('click', async (e) => {
     const key = selectImageKey(sideMenuImg);
     console.log(key);
-    let resp = await fetch('http://localhost:3000/media/delete', {
+    let resp = await fetch(`${window.location.origin}/media/delete`, {
       method: 'POST',
       body: JSON.stringify({
         key: key,
@@ -53,7 +53,7 @@ Type true if yes.`);
       if(validation){
         const prefix = gatherUrlPrefix();
         console.log(prefix);
-        let test = await fetch('http://localhost:3000/media/new-folder', {
+        let test = await fetch(`${window.location.origin}/media/new-folder`, {
           method: 'POST',
           body: JSON.stringify({
             folder: input.value,
@@ -172,7 +172,7 @@ function populateImgName(src, urlInput, copyBtn) {
 }
 
 async function downloadImgBlob(button, key) {
-  let response = await fetch('http://localhost:3000/media/signed-url', {
+  let response = await fetch(`${window.location.origin}/media/signed-url`, {
     method: 'POST',
     body: JSON.stringify({key: key}),
     headers: {
@@ -211,7 +211,7 @@ function packageFormData(e, key) {
 }
 
 async function sendUpload(formData) {
-  let response = await fetch('http://localhost:3000/media/upload', {
+  let response = await fetch(`${window.location.origin}/media/upload`, {
     method: 'POST',
     body: formData,
   });
