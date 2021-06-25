@@ -144,6 +144,71 @@ async function passportAuthentication() {
   }
 }
 
+async function s3RetrieveAllKeys(s3, params) {
+  //while loop boolean
+  let truncated = true;
+  //return arr for organizing data:
+  //0 = data that is not a directory or current directory
+  //1 = current directory listing
+  //2 = child directories of current directory
+  const keys = [[],[]];
+  //truncated begins as true. aws s3 return will hold truncated var
+  //if truncated return true, there are still more items to fetch
+  //beyond may keys. if !truncated, loop will break.
+  while(truncated) {
+    const data = await s3.listObjectsV2(params).promise();
+    data.Contents.forEach(item => {
+      if(item.Size === 0) {
+        keys[1].push({key: item.Key, size: item.Size});
+      } else {
+        keys[0].push({key: item.Key, size: item.Size});
+      }
+    })
+    keys[2] = data.CommonPrefixes;
+    truncated = data.IsTruncated;
+    params.ContinuationToken = data.NextContinuationToken;
+  }
+  return keys;
+}
+
+function buildQueryArr(awsKey) {
+  //remove deskbook-uploads/ portion of key
+  let modifiedKey = awsKey.replace('deskbook-uploads/', '').split('/');
+  modifiedKey.pop();
+  return modifiedKey;
+}
+
+function findPreviousDirectory(currentPrefix) {
+  let previousDirectory = currentPrefix.split('/').filter(x => x);
+  previousDirectory.pop();
+  previousDirectory = `${previousDirectory.join('/')}/`;
+  if(previousDirectory !== 'deskbook-uploads/'){
+    return previousDirectory;
+  } else {
+    return null;
+  }
+}
+
+function isDocument(link) {
+  const nonImgFormats = ['pdf', 'doc', 'docx'];
+  let splitLink = link.split('.');
+  splitLink = splitLink[splitLink.length - 1];
+  if(nonImgFormats.includes(splitLink)){
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function concatStrWithHyphens(str) {
+  if(str.indexOf(' ') != -1) {
+    let concatStr = str.split(' ');
+    return concatStr.join('-');
+  } else {
+    return str;
+  }
+}
+
 module.exports.recursiveCollectEntries = recursiveCollectEntries;
 module.exports.findNextDay = findNextDay;
 module.exports.isLoggedIn = isLoggedIn;
@@ -155,3 +220,8 @@ module.exports.passportAuthentication = passportAuthentication;
 module.exports.shouldUserUpdateLibraryLocation = shouldUserUpdateLibraryLocation;
 module.exports.formatDatesForDatePickers = formatDatesForDatePickers;
 module.exports.splitAtWordEnd = splitAtWordEnd;
+module.exports.s3RetrieveAllKeys = s3RetrieveAllKeys;
+module.exports.buildQueryArr = buildQueryArr;
+module.exports.findPreviousDirectory = findPreviousDirectory;
+module.exports.isDocument = isDocument;
+module.exports.concatStrWithHyphens = concatStrWithHyphens;
