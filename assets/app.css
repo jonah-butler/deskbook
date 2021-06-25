@@ -1285,7 +1285,7 @@ a > button{
 }
 
 .glyphicon {
-  top: 0px !important;
+  /* top: 0px !important; */
   display: block !important;
 }
 
