@@ -13,7 +13,6 @@ const s3 = new AWS.S3();
 
 module.exports = {
   async getHash(req, res) {
-    console.log(req);
     const configs = {
       bucket: 'rvalibrary-deskbook',
       keyStart: 'deskbook-uploads/',
