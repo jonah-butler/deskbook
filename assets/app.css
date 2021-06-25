@@ -2,6 +2,11 @@ body{
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
+body.no-scroll{
+  height: 100vh;
+  overflow: hidden;
+}
+
 h1,h2,h3,h4,h5,h6{
   margin: 15px 0px;
 }
@@ -22,9 +27,42 @@ textarea{
   max-width: 100%;
 }
 
+.file-card{
+  display: inline-block;
+  background: white;
+  max-height: 350px;
+  width: 200px;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+  border-radius: 10px;
+}
+
+.file-card{
+  word-wrap: break-word;
+}
+font-size: 12px !important;
+
+.small-text{
+  font-size: 12px !important;
+}
+
 .link-filter{
   text-decoration: underline;
   font-size: 13px !important;
+}
+
+.full-width{
+  width: 100%;
+}
+
+.selected{
+  border-left: 5px solid green;
+}
+
+.descendants{
+  position: relative;
+  left: 15px;
 }
 
 .link-filter:hover{
@@ -61,6 +99,14 @@ textarea{
 
 .margin-top-big{
   margin-top: 3em;
+}
+
+.margin-top-huge{
+  margin-top: 6em;
+}
+
+.margin-top-sm{
+  margin-top: 1em;
 }
 
 .jumbotron{
@@ -534,6 +580,12 @@ article.entry-show{
   right: 15px;
   bottom: 0px;
   height: 100%;
+}
+
+.copy-input{
+  position: absolute;
+  right: 5px;
+  top: 15px;
 }
 
 .inner-input > i{
@@ -1194,7 +1246,7 @@ hr{
 .close {
   position: absolute;
   z-index: 99999;
-  top: 55px;
+  top: 35px;
   right: 25px;
   color: white;
   opacity: 1 !important;
@@ -1230,6 +1282,11 @@ a > button{
 .glyphicon-bookmark:hover{
   opacity: 0.8;
   cursor: pointer;
+}
+
+.glyphicon {
+  top: 0px !important;
+  display: block !important;
 }
 
 
@@ -1397,15 +1454,16 @@ button{
   /* word-break: break-all; */
 }
 
-.faq-description img{
+.faq-description img, .cms-thumbnail{
   max-width: 100%;
   margin: 15px 0px;
   box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.3);
   transition: box-shadow .4s ease;
 }
 
-.faq-description img:hover{
+.faq-description img:hover, .cms-thumbnail:hover{
   box-shadow: 1px 1px 20px 0px rgba(0,0,0,0.6);
+  cursor: pointer;
 }
 
 .pos-absolute{
@@ -2156,4 +2214,70 @@ h1{
 
 .text-center{
   text-align: center;
+}
+
+#sideMenu, #sideMenuForm, #sideMenuUpload{
+  position: fixed;
+  height: 100vh;
+  width: 50vw;
+  min-width: 420px;
+  top: 0;
+  right: -60vw;
+  background-color: white;
+  box-shadow: -6px 4px 16px rgb(0 0 0 / 40%);
+  z-index: 101;
+  overflow: hidden;
+  transition: right .3s ease;
+}
+
+.invisible{
+  visibility: hidden;
+}
+
+.approved{
+  border: 1px solid green;
+}
+
+#sideMenu.expand, #sideMenuForm.expand, #sideMenuUpload.expand{
+  right: 0;
+}
+
+.backdrop{
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0,0,0,0.5);
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.backdrop.show{
+  display: block;
+}
+
+.color-black{
+  color: black;
+}
+
+#sideMenu .container{
+  background: #f5f2eb;
+  border-bottom: 2px solid #c4b4b4;
+  min-height: 50px;
+}
+
+.side-menu-img-container{
+  max-width: 350px;
+}
+
+.side-menu-img-container > img {
+  max-width: 90%;
+  max-height: 300px;
+  position: relative;
+  top: 20px;
+}
+
+#sideMenuDetails{
+  margin: 40px 20px 20px 20px;
 }
