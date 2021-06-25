@@ -14,7 +14,7 @@ if(document.querySelector('#modalListener')){
 }
 
 if(linkCopyBtn){
-  animatingStateInit(linkCopyBtn, document.querySelector('article'), 'link copied!');
+  animatingStateInit(linkCopyBtn, 'link copied!');
 }
 
 if(modalBtnArr[0] != null){
