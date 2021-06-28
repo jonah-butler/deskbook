@@ -17,4 +17,7 @@ module.exports = (app) => {
 
   app.post('/media/delete', helpers.isLoggedIn,
   CMSController.delete);
+
+  app.post('/media/delete-folder', helpers.isLoggedIn,
+  CMSController.deleteFolder);
 }
