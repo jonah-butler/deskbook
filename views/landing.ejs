@@ -24,20 +24,21 @@
 	<div class="container-fluid db-container">
 		<div class="flex-row">
 			<div class="db-panel fg1">
-				<div class="sub-headline">
-					public category contributions
+				<div class="headline">
+					system category contributions
 				</div>
 				<div class="big-number">
-					<%= publicCategoriesTotal %>
+					<%= systemCategoriesTotal %>
 				</div>
 				<div class="link-container">
 					<a href="https://rvalibrary-deskbook.herokuapp.com/category/new-parent">
 						<button type="button" class="button-main-sm" name="button">Add</button>
 					</a>
 				</div>
+				<span data-toggle="tooltip" title="system categories are repositories of info built specifically for RPL staff" class="absolute-bottom-right glyphicon glyphicon-question-sign"></span>
 			</div>
 			<div class="db-panel fg1">
-				<div class="sub-headline">
+				<div class="headline">
 					private category contributions
 				</div>
 				<div class="big-number">
@@ -48,9 +49,24 @@
 						<button type="button" class="button-main-sm" name="button">Add</button>
 					</a>
 				</div>
+				<span data-toggle="tooltip" title="private categories are repositories viewable only by that particular account. you can also add collaborators who can view and edit private categories" class="absolute-bottom-right glyphicon glyphicon-question-sign"></span>
 			</div>
 			<div class="db-panel fg1">
-				<div class="sub-headline">
+				<div class="headline">
+					public category contributions
+				</div>
+				<div class="big-number">
+					<%= publicCategoriesTotal %>
+				</div>
+				<div class="link-container">
+					<a href="https://rvalibrary-deskbook.herokuapp.com/public/category/new">
+						<button type="button" class="button-main-sm" name="button">Add</button>
+					</a>
+				</div>
+				<span data-toggle="tooltip" title="public categories are repositories created for our patrons, or anything that faces outward from RPL." class="absolute-bottom-right glyphicon glyphicon-question-sign"></span>
+			</div>
+			<div class="db-panel fg1">
+				<div class="headline">
 					FAQ contributions
 				</div>
 				<div class="big-number">
