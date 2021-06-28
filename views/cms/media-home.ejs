@@ -12,7 +12,7 @@
       <p>At the moment there are a few pieces of functionality to take note of when using the Media Library.</p>
       <ul>
         <li>Limited upload mime types. At the moment the only available formats for uploading are <strong>jpg</strong> <strong>png</strong> <strong>jpeg</strong> <strong>webp</strong> <strong>doc</strong> <strong>docx</strong> and <strong>pdf</strong>.</li>
-        <li>Limited CMS tools: users can create folders anywhere in the media library directory. In addition, users can download uploaded files, copy its source url, upload new files in single batches or delete. Unfortunately no deleting of folders or moving at this time. But coming soon! If you need a tool not featured, contact Jonah.</li>
+        <li>Available CMS tools: users can create and delete folders anywhere in the media library directory. In addition, users can download uploaded files, copy its source url, upload new files in single batches or delete.</li>
         <li>Images in these folders should not contain private information. Though this area of the Deskbook is only accessible for users. The links that are generated are viewable by everyone on the internet.</li>
       </ul>
       <a href="/media">
@@ -21,6 +21,11 @@
       <br>
       <button id="newFolder" class="button-main" type="button" name="button">Add New Folder</button>
       <button id="uploadImage" class="button-main" type="button" name="button">Upload Files</button>
+      <br>
+      <br>
+      <% if(bucketData[3]!= null) { %>
+      <button id="deleteFolder" class="button-main" type="button" name="button">Delete Folder: <span style="color: red"><%= bucketData[1][0].key %></span></button>
+      <% } %>
     </div>
       <div class="row">
         <div class="col-sm-12 col-md-2">
