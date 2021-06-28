@@ -117,7 +117,6 @@ function uploadImageListener(btn, sideMenu, backdrop) {
     expandSideMenu(sideMenu);
     const directories = gatherUrlPrefix().directories;
     const lastDirectory = directories[directories.length - 1];
-    console.log(lastDirectory);
     updateDirectorySpan(lastDirectory);
   })
 }
