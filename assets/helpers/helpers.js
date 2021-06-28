@@ -157,16 +157,22 @@ async function s3RetrieveAllKeys(s3, params) {
   //beyond may keys. if !truncated, loop will break.
   while(truncated) {
     const data = await s3.listObjectsV2(params).promise();
-    data.Contents.forEach(item => {
-      if(item.Size === 0) {
-        keys[1].push({key: item.Key, size: item.Size});
-      } else {
-        keys[0].push({key: item.Key, size: item.Size});
+    if(data.KeyCount !== 0) {
+      data.Contents.forEach(item => {
+        if(item.Size === 0) {
+          keys[1].push({key: item.Key, size: item.Size});
+        } else {
+          keys[0].push({key: item.Key, size: item.Size});
+        }
+      })
+      keys[2] = data.CommonPrefixes;
+      truncated = data.IsTruncated;
+      if(data.NextContinuationToken){
+        params.ContinuationToken
       }
-    })
-    keys[2] = data.CommonPrefixes;
-    truncated = data.IsTruncated;
-    params.ContinuationToken = data.NextContinuationToken;
+    } else {
+      return false;
+    }
   }
   return keys;
 }
