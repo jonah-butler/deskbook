@@ -1,4 +1,5 @@
 import {animatingStateInit, animateFlashBox} from './link-copy.js';
+import {toggleButtonDisabled, buildLoader, removeLoader} from '../helpers/helpers-client.js';
 
 let copyEventHandler;
 
@@ -24,7 +25,8 @@ function linkCopyListener(btn) {
 function deleteClickListner(btn, sideMenuImg) {
   btn.addEventListener('click', async (e) => {
     const key = selectImageKey(sideMenuImg);
-    console.log(key);
+    toggleButtonDisabled(btn);
+    const loader = buildLoader(btn.parentElement);
     let resp = await fetch(`${window.location.origin}/media/delete`, {
       method: 'POST',
       body: JSON.stringify({
@@ -52,7 +54,8 @@ function submitFolder(btn, input) {
 Type true if yes.`);
       if(validation){
         const prefix = gatherUrlPrefix();
-        console.log(prefix);
+        toggleButtonDisabled(btn);
+        const loader = buildLoader(btn.parentElement);
         let test = await fetch(`${window.location.origin}/media/new-folder`, {
           method: 'POST',
           body: JSON.stringify({
@@ -64,6 +67,7 @@ Type true if yes.`);
           },
         });
         const data = await test.json();
+        removeLoader(loader);
         if(data.successful) {
           location.reload();
         }
@@ -221,10 +225,16 @@ async function sendUpload(formData) {
   }
 }
 
-function buildUploadKey(arr, fileName) {
-  const location = arr.directories.join('/');
-  let fileKey = `deskbook-uploads/${location}/${fileName}`;
-  return fileKey;
+function buildUploadKey(arr, fileName){
+  if(fileName) {
+    const location = arr.directories.join('/');
+    let fileKey = `deskbook-uploads/${location}/${fileName}`;
+    return fileKey;
+  } else {
+    const location = arr.directories.join('/');
+    let fileKey = `deskbook-uploads/${location}/`;
+    return fileKey;
+  }
 }
 
 function renameFile(originalFile, newName) {
@@ -235,13 +245,17 @@ function renameFile(originalFile, newName) {
   return originalFile;
 }
 
-function fileUploadListener(fileInput) {
+function fileUploadListener(fileInput, uploadBtn) {
   fileInput.addEventListener('change', (e) => {
     if(isFileMimeTypeValid(e.target.files[0].type)) {
       e.target.classList.toggle('approved');
       const key = buildUploadKey(gatherUrlPrefix(), e.target.value.split('\\')[e.target.value.split('\\').length - 1]);
       const file = packageFormData(e, key);
-      sendUpload(file);
+      uploadBtn.addEventListener('click', (e) => {
+        toggleButtonDisabled(uploadBtn);
+        const loader = buildLoader(uploadBtn.parentElement);
+        sendUpload(file);
+      })
     } else {
       animateFlashBox('sorry that file type is not supported yet!');
       e.target.value = '';
@@ -259,4 +273,28 @@ function isFileMimeTypeValid(fileType) {
   }
 }
 
-export {imageThumbnailListener, fileUploadListener, newFolderListener, submitFolder, uploadImageListener};
+function deleteFolder(btn) {
+  btn.addEventListener('click', async (e) => {
+    toggleButtonDisabled(btn);
+    buildLoader(btn.parentElement);
+    const key = buildUploadKey(gatherUrlPrefix());
+    const resp = prompt(`are you sure you want to delete ${key}?
+      type true if yes
+      WARNING: DELETING A DIRECTORY WILL ALSO REMOVE ALL OF ITS CONTENT - THIS IS NOT IRREVERSIBLE`);
+    if(resp === 'true') {
+      let response = await fetch(`${window.location.origin}/media/delete-folder`, {
+        method: 'POST',
+        body: JSON.stringify({key: key}),
+        headers: {
+          'Content-type': 'application/json',
+        },
+      });
+      const data = await response.json();
+      if(data.success){
+        window.location.replace(`${window.location.origin}/media`);
+      }
+    }
+  })
+}
+
+export {imageThumbnailListener, fileUploadListener, newFolderListener, submitFolder, uploadImageListener, deleteFolder};
