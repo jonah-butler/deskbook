@@ -1,4 +1,4 @@
-import helpers from './helpers/helpers-client.js';
+import {formatDatesForDatePickers} from './helpers/helpers-client.js';
 
 
 const dates = {
@@ -260,8 +260,8 @@ return html;
 
   todayBtnListener() {
     this.inputFields.today.addEventListener('click', () => {
-      this.inputFields.from.value = helpers.formatDatesForDatePickers(new Date());
-      this.inputFields.to.value = helpers.formatDatesForDatePickers(new Date());
+      this.inputFields.from.value = formatDatesForDatePickers(new Date());
+      this.inputFields.to.value = formatDatesForDatePickers(new Date());
       this.inputFields.submit.click();
     })
   },
