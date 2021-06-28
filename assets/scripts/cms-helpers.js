@@ -115,7 +115,15 @@ function uploadImageListener(btn, sideMenu, backdrop) {
   btn.addEventListener('click', (e) => {
     triggerBackdrop(backdrop);
     expandSideMenu(sideMenu);
+    const directories = gatherUrlPrefix().directories;
+    const lastDirectory = directories[directories.length - 1];
+    console.log(lastDirectory);
+    updateDirectorySpan(lastDirectory);
   })
+}
+
+function updateDirectorySpan(directory) {
+  document.querySelector('#folderParent').innerText = directory;
 }
 
 function expandSideMenu(sideMenu) {
