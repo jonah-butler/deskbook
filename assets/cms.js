@@ -1,4 +1,4 @@
-import {imageThumbnailListener, newFolderListener, submitFolder, uploadImageListener, fileUploadListener} from './scripts/cms-helpers.js';
+import {deleteFolder, imageThumbnailListener, newFolderListener, submitFolder, uploadImageListener, fileUploadListener} from './scripts/cms-helpers.js';
 
 const thumbnails = document.querySelectorAll('.cms-thumbnail');
 const sideMenu = document.querySelector('#sideMenu');
@@ -15,9 +15,14 @@ const newImgBtn = document.querySelector('#uploadImage');
 const sideMenuImgForm = document.querySelector('#sideMenuUpload');
 const fileInput = document.querySelector('#imageUpload');
 const deleteBtn = document.querySelector('#delete');
+const submitImage = document.querySelector('#submitImage');
+const deleteFolderBtn = document.querySelector('#deleteFolder');
 
 imageThumbnailListener(thumbnails, sideMenu, backdrop, sideMenuImg, downloadBtn, urlInput, copyLink, deleteBtn);
 newFolderListener(newFolderBtn, sideMenuForm, backdrop);
 uploadImageListener(newImgBtn, sideMenuImgForm, backdrop);
 submitFolder(submitFolderBtn, newFolderInput);
-fileUploadListener(fileInput);
+fileUploadListener(fileInput, submitImage);
+if(deleteFolderBtn) {
+  deleteFolder(deleteFolderBtn);
+}
