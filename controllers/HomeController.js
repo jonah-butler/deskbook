@@ -5,7 +5,7 @@ const Entry = require('../models/entry.js');
 
 module.exports = {
   async index(req, res) {
-    const publicCategoriesTotal = await MainCategory.countDocuments(
+    const systemCategoriesTotal = await MainCategory.countDocuments(
       {
         $and: [
           {owner: {
@@ -27,6 +27,18 @@ module.exports = {
             $in: true,
           }},
         ],
+      }
+    )
+    const publicCategoriesTotal = await MainCategory.countDocuments(
+      {
+        $and: [
+          {owner: {
+            $in: req.user._id,
+          }},
+          {public: {
+            $in: true,
+          }},
+        ]
       }
     )
     const faqsTotal = await Entry.countDocuments(
@@ -52,6 +64,7 @@ module.exports = {
     res.render("landing", {
       bookEmoji: emoji.get("book"),
       user: req.user,
+      systemCategoriesTotal: systemCategoriesTotal,
       publicCategoriesTotal: publicCategoriesTotal,
       privateCategoriesTotal: privateCategoriesTotal,
       faqsTotal: faqsTotal,
