@@ -33,32 +33,41 @@ const uploadFiles = multer({
 
 module.exports = {
   async getBucket(req, res) {
-    const params = {
-      Bucket: 'rvalibrary-deskbook',
-      MaxKeys: 30,
-      Delimiter: '/',
-    }
-    if(!req.query.prefix){
-      params.Prefix = `deskbook-uploads/public/`;
-    } else {
-      let prefix = 'deskbook-uploads/';
-      if(Array.isArray(req.query.prefix)){
-        req.query.prefix.forEach(str => {
-          prefix += `${str}/`;
-        })
-        params.Prefix = prefix;
-      } else {
-        params.Prefix = `deskbook-uploads/${req.query.prefix}/`;
+    try{
+      const params = {
+        Bucket: 'rvalibrary-deskbook',
+        MaxKeys: 30,
+        Delimiter: '/',
       }
+      if(!req.query.prefix){
+        params.Prefix = `deskbook-uploads/public/`;
+      } else {
+        let prefix = 'deskbook-uploads/';
+        if(Array.isArray(req.query.prefix)){
+          req.query.prefix.forEach(str => {
+            prefix += `${str}/`;
+          })
+          params.Prefix = prefix;
+        } else {
+          params.Prefix = `deskbook-uploads/${req.query.prefix}/`;
+        }
+      }
+      const keys = await helpers.s3RetrieveAllKeys(s3, params);
+      if(keys) {
+        keys.push(helpers.findPreviousDirectory(params.Prefix));
+        res.render('cms/media-home', {
+          bucketData: keys,
+          user: req.user,
+          buildQueryArr: helpers.buildQueryArr,
+          isDocument: helpers.isDocument,
+        });
+      } else {
+        res.render('404')
+      }
+    } catch(err) {
+      console.log('error', err);
     }
-    const keys = await helpers.s3RetrieveAllKeys(s3, params);
-    keys.push(helpers.findPreviousDirectory(params.Prefix));
-    res.render('cms/media-home', {
-      bucketData: keys,
-      user: req.user,
-      buildQueryArr: helpers.buildQueryArr,
-      isDocument: helpers.isDocument,
-    });
+
   },
   async getSignedURL(req, res) {
     const signedUrl = s3.getSignedUrl('getObject', {
@@ -125,5 +134,23 @@ module.exports = {
     } catch(err) {
       console.log(err);
     }
-  }
+  },
+  async deleteFolder(req, res) {
+    try{
+      if(req.body.key != 'deskbook-uploads/public/') {
+        s3.deleteObject({
+          Bucket: 'rvalibrary-deskbook',
+          Key: req.body.key,
+        }, (err, data) => {
+          if(err) {
+            console.log(err);
+          } else {
+            res.send({success: true});
+          }
+        })
+      }
+    } catch(err) {
+      console.log(err);
+    }
+  },
 }
