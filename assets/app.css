@@ -27,6 +27,11 @@ textarea{
   max-width: 100%;
 }
 
+img[data-type="file"]{
+  display: flex;
+  margin: 0 auto;
+}
+
 .file-card{
   display: inline-block;
   background: white;
