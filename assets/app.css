@@ -132,6 +132,13 @@ font-size: 12px !important;
   top: inherit !important;
 }
 
+.absolute-bottom-right{
+  position: absolute;
+  bottom: 20px !important;
+  right: 10px;
+  top: inherit !important;
+}
+
 .absolute-top-left{
   position: absolute;
   top: 0px;
