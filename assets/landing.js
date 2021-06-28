@@ -8,3 +8,6 @@ const chart2 = document.querySelector('.chart2');
 
 fetchAndBuild(eventContainer, loader);
 getReferenceData(chart1, chart2);
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
