@@ -28,14 +28,12 @@ function animatingStateInit(btn, text, textToCopy) {
       linkCopy(textToCopy);
       animating = true;
       let flashBox = createFlashBox(text);
-      console.log(flashBox);
       document.body.appendChild(flashBox);
-      flashBox.style.top = `${window.scrollY + 50}px`;
+      flashBox.style.bottom = `50px`;
       flashBox.classList.add('show');
       setTimeout(function() {
-      //  flashBox.classList.remove('show');
-       flashBox.remove();
-       animating = false;
+         flashBox.remove();
+         animating = false;
      }, 4000);
     }
   }
