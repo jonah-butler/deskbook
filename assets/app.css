@@ -597,7 +597,7 @@ article.entry-show{
 .copy-input{
   position: absolute;
   right: 5px;
-  top: 15px;
+  top: 5px;
 }
 
 .inner-input > i{
@@ -1421,11 +1421,11 @@ button{
   padding: 20px;
   box-shadow: 10px 6px 0px 0px #e0e0e0;
   background: #fdfdfd;
-  position: fixed;
+  position: sticky;
   top: 50px;
-  left: -1000px;
+  left: 100px;
   opacity: 0;
-  transition: all .4s ease;
+  /* transition: all .4s ease; */
   z-index: 9999;
 }
 
@@ -2231,10 +2231,12 @@ h1{
 #sideMenu, #sideMenuForm, #sideMenuUpload{
   position: fixed;
   height: 100vh;
-  width: 50vw;
-  min-width: 420px;
+  /* width: 50vw; */
+  min-width: 350px;
+  max-width: 666px;
   top: 0;
-  right: -60vw;
+  /* right: -60vw; */
+  right: -750px;
   background-color: white;
   box-shadow: -6px 4px 16px rgb(0 0 0 / 40%);
   z-index: 101;
