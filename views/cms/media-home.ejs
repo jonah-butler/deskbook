@@ -71,12 +71,12 @@
           <% if(bucketData[0].length) { %>
           <% bucketData[0].forEach(item => { %>
             <% if(item.size > 0 && isDocument(item.key)) { %>
-              <div data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" class="file-card cms-thumbnail">
+              <div data-size="<%= item.size %>" data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" class="file-card cms-thumbnail">
                 <%=  item.key.replace(bucketData[1][0].key, '') %>
-                <img data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" src="/imgs/file_icon.png" alt="">
+                <img data-size="<%= item.size %>" data-src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" data-file="<%= item.key.replace(bucketData[1][0].key, '') %>" data-key="<%=item.key%>" data-type="file" src="/imgs/file_icon.png" alt="">
               </div>
             <% } else { %>
-              <img data-type="img" data-key="<%= item.key %>" data.src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" class="cms-thumbnail" style="max-width: 300px; margin: 20px;" src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" alt="">
+              <img data-size="<%= item.size %>" data-type="img" data-key="<%= item.key %>" data.src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" class="cms-thumbnail" style="max-width: 300px; margin: 20px;" src="https://s3.amazonaws.com/rvalibrary-deskbook/<%=item.key%>" alt="">
             <% } %>
           <% }) %>
           <% } else { %>
@@ -95,6 +95,22 @@
       <div id="sideMenuDetails" class="container-fluid">
         <div class="flex-row">
           <h1>Details</h1>
+        </div>
+        <div class="flex-row">
+          <div class="sub-headline">
+            Name
+            <h5 id="fileName" style="margin-top: 1px;">
+              Name of File
+            </h5>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="sub-headline">
+            Size
+            <h5 id="fileSize" style="margin-top: 1px;">
+              Size of File
+            </h5>
+          </div>
         </div>
         <div class="flex-row">
           <div class="db-panel fg1">
