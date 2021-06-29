@@ -12,9 +12,26 @@ function imageThumbnailListener(nodes, sideMenu, backdrop, sideMenuImg, download
       expandSideMenu(sideMenu, copyLink);
       triggerBackdrop(backdrop);
       populateSideMenuImg(selectImageSrc(e), selectImageKey(e));
+      populateDetails(e);
       populateImgName(selectImageSrc(e), urlInput, copyLink);
     })
   })
+}
+
+function populateDetails(e) {
+  const size = convertBytesToKb(e.target.getAttribute('data-size'));
+  const keyArr = e.target.getAttribute('data-key').split('/');
+  const fileName = keyArr[keyArr.length - 1];
+
+  document.querySelector('#fileName').innerText = fileName;
+  document.querySelector('#fileSize').innerText = size;
+}
+
+function convertBytesToKb(num) {
+  if(typeof(num) != 'number') {
+    return parseInt(num) * .001 + ' kb';
+  }
+  return num * .001 + ' kb';
 }
 
 function linkCopyListener(btn) {
