@@ -34,3 +34,7 @@ if(document.querySelector('#submitReference')){
     submitReference(this);
   })
 }
+
+$(document).ready(function(){
+  $('[data-toggle="tooltip"]').tooltip();
+});
