@@ -293,19 +293,6 @@ module.exports = {
       }
     }
     await category.save();
-    if(category.section == "parent" && category.isPrivate){
-      if(Array.isArray(req.body.entry.user)){
-        for(const userId of req.body.entry.user){
-          let user = await User.findOne({_id: userId});
-          if(user.privateEntries.indexOf(category._id) == -1){
-            user.privateEntries.push(category._id);
-            await user.save();
-          }
-        }
-      } else {
-        // define delete controller for users not present - push above the property swap loop
-      }
-    }
     res.redirect(`/entries/${req.params.categoryId}`);
   },
   async delete(req, res) {
@@ -343,5 +330,72 @@ module.exports = {
     res.render('new-category-parent-private', {
       user: req.user,
     });
-  }
+  },
+  async collaboratorIndex(req, res) {
+    const category = await MainCategory.findOne({_id: req.params.id}).populate('owner');
+    if(category.isPrivate) {
+      const users = await User.find();
+      res.render('collaborator', {
+        category: category,
+        user: req.user,
+        users: users,
+      });
+    } else {
+      res.redirect('/404');
+    }
+  },
+  async collaboratorUpdate(req, res) {
+    const category = await MainCategory.findOne({_id: req.params.id});
+    let userArr = req.body.entry.user;
+
+    if(!Array.isArray(userArr)){
+      userArr = [userArr];
+    }
+    if(userArr.length > category.user.length) {
+      console.log('users added');
+      if(category.section == "parent"){
+        if(Array.isArray(req.body.entry.user)){
+          for(const userId of req.body.entry.user){
+            let user = await User.findOne({_id: userId});
+            if(user.privateEntries.indexOf(category._id) == -1){
+              user.privateEntries.push(category._id);
+              await user.save();
+            }
+            if(category.user.indexOf(user._id) == -1){
+              category.user.push(user._id);
+              await category.save();
+            }
+          }
+        }
+      } else {
+        if(Array.isArray(req.body.entry.user)){
+          for(const userId of req.body.entry.user){
+            let user = await User.findOne({_id: userId});
+            if(category.user.indexOf(user._id) == -1){
+              category.user.push(user._id);
+              await category.save();
+            }
+          }
+        }
+      }
+    } else {
+      if(userArr.length !== category.user.length){
+        for(const id of category.user) {
+          if(userArr.indexOf(id) === -1) {
+            category.user.splice(category.user.indexOf(id), 1);
+            await category.save();
+
+            if(category.section === "parent"){
+              await User.updateOne(
+                {_id: id},
+                {$pull: {privateEntries: category._id}}
+              )
+            }
+
+          }
+        }
+      }
+    }
+    res.redirect(`/entries/${req.params.id}`);
+  },
 }
