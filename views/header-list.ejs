@@ -9,9 +9,14 @@
       <span>
       <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
         <% if(i == 0) {%>
+          <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
           <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
+          <% } %>
           <% } else { %>
+          <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
+            <% console.log(true) %>
           <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
+          <% } %>
           <% } %>
     <% } %>
     </span>
@@ -90,15 +95,29 @@
 
 <div class="container">
   <header class="jumbotron">
+    <% if(collaborators.length) { %>
+    <div style="position: absolute; top: 10px; left: 10px;" class="collaborators-container">
+      <div class="sub-headline">collaborators</div>
+      <% for(const collaborator of collaborators){ %>
+        <div data-toggle="tooltip" title="<%=collaborator.username%>" class="avatar" style="width: 30px; height: 30px; box-shadow: none; background: white;">
+          <img src="/imgs/avatars/choices/<%=collaborator.avatar%>" alt="">
+        </div>
+      <% } %>
+    </div>
+    <% } %>
   <div class="container">
   <h1 class="jumbo-header"><%= category.title %></h1>
   <% if(sectionArray != undefined) { %>
     <span>
     <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
       <% if(i == 0) {%>
+        <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
         <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
+        <% } %>
         <% } else { %>
+        <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
         <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
+        <% } %>
         <% } %>
   <% } %>
   </span>
@@ -124,17 +143,23 @@
   <% if(category.section == 'parent' && user !== null) { %>
   <a href="/entries"><button class="button-main">Go Back</button></a>
   <% } %>
-  <% if(user !== null && user.isAdmin || user !== null && category.user == user._id) { %>
+  <% if(user !== null && user.isAdmin || user !== null && category.user.indexOf(user._id) !== -1) { %>
   <a href="/entries/<%= category._id %>/new"><button class="button-main">Add a new FAQ</button></a>
   <% } %>
-  <% if(user !== null && user.isAdmin || user !== null && category.user == user._id) { %>
+  <% if(user !== null && user.isAdmin) { %>
   <a href="/category/<%= category._id %>/new"><button class="button-main">Add a new Subcategory</button></a>
   <% } %>
-  <a href="/category/<%= category._id %>/edit/">
-    <% if(user !== null && user.isAdmin || user != null && category.user == user._id) { %>
-    <button style="display: block; margin-top: 3px;" class="button-main-sm">Edit</button>
+    <% if(user !== null && user.isAdmin || user != null && category.user.indexOf(user._id) !== -1) { %>
+      <br>
+      <a href="/category/<%= category._id %>/edit/">
+        <button style="display: inline-block; margin-top: 3px;" class="button-main-sm">Edit</button>
+      </a>
     <% } %>
-  </a>
+    <% if(user !== null && user.isAdmin && category.isPrivate || user != null && category.isPrivate) { %>
+      <a href="/category/<%= category._id %>/collaborators/">
+        <button style="display: inline-block; margin-top: 3px;" class="button-main-sm">Edit Collaborators</button>
+      </a>
+    <% } %>
   <a href="/category/<%= category._id %>/move/">
     <% if(user !== null && user.isAdmin && !category.isPrivate || user != null && category.user == user._id && !category.isPrivate) { %>
     <button style="display: block; margin-top: 3px;" class="button-main-sm">Move</button>
@@ -171,7 +196,9 @@
       <% } %>
       <% if(category.subCategories.length) { %>
       <% category.subCategories.forEach((subCategory) =>{ %>
+        <% if(subCategory.user.indexOf(user._id) !== -1){ %>
         <a class = "entry-link" href="/entries/<%= subCategory._id %>"><li class="list-group-item"><%= subCategory.title %><span class="glyphicon glyphicon-folder-open"></span></li></a>
+        <% } %>
       <% }); %>
       <% } %>
     </ul>
