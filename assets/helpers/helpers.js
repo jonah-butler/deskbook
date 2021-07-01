@@ -118,12 +118,13 @@ async function isPublicCategory(req, res, next){
         if(category.user.indexOf(req.user._id) !== -1){
           req.category = category;
           return next();
-        } else
+        } else {
         // res.redirect('/login');
-        res.redirect(req.headers.referer);
+        res.redirect('/entries');
         // req.category = category;
         // return next();
       }
+  }
   } catch(err) {
     res.redirect('/404');
   }
