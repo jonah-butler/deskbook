@@ -20,7 +20,24 @@ module.exports = {
         ],
       }
     ).populate('owner').sort({'createdAt': -1}).limit(6);
-    const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1});
+    // const privateCategories = await User.findOne({_id: req.user._id}).populate('privateEntries').sort({'createdAt': -1}).populate('owner');
+    const privateCategories = await MainCategory.find(
+      {
+        $and: [
+          {owner: req.user._id},
+          {section: 'parent'},
+          {isPrivate: true},
+        ],
+      }
+    ).populate('owner').sort({'createdAt': -1}).limit(6);
+    const childCategoriesCollaborating = await MainCategory.find(
+      {
+        $and: [
+          {"user.1": {$exists: true}},
+          {"user": {$in: req.user._id}},
+        ],
+      }
+    ).populate('owner').sort({'createdAt': -1})
     const publicParentTotal = await MainCategory.countDocuments(
       {
         $and: [
@@ -39,7 +56,9 @@ module.exports = {
     res.render('index', {
       publicParentTotal: publicParentTotal,
       categories: publicCategories,
-      privateCategories: privateCategories.privateEntries.slice(0, 6),
+      // privateCategories: privateCategories.privateEntries.slice(0, 6),
+      privateCategories: privateCategories,
+      childCategoriesCollaborating: childCategoriesCollaborating,
       user: req.user,
       adminStatus: req.user.isAdmin
     })
@@ -84,7 +103,17 @@ module.exports = {
     try{
 
       const category = req.category;
+      const collaborators = [];
       let bookmarked = null;
+
+      if(category.user.length) {
+        for(const userId of category.user) {
+          let user = await User.findOne({_id: userId});
+          if(user.email != category.owner.email){
+            collaborators.push(user);
+          }
+        }
+      }
 
       if(req.user){
         if(req.user.categoryBookmarks.indexOf(category._id) == -1){
@@ -99,23 +128,23 @@ module.exports = {
         let section = category.section
         while(section != 'parent'){
           section = await MainCategory.findOne({_id: section});
-          sectionArray.push({title: section.title, _id: section._id});
+          sectionArray.push({title: section.title, _id: section._id, user: section.user});
           section = section.section;
         }
           res.render("header-list", {
             category: category,
             sectionArray: sectionArray,
             bookmarked: bookmarked,
-            // adminStatus: req.user.isAdmin,
             user: req.user || null,
+            collaborators: collaborators || null,
           });
       } else {
         res.render("header-list", {
           category: category,
           sectionArray: undefined,
           bookmarked: bookmarked,
-          // adminStatus: req.user.isAdmin || null,
           user: req.user || null,
+          collaborators: collaborators || null,
         });
       }
     } catch(err) {
@@ -188,5 +217,5 @@ module.exports = {
         res.redirect("/entries/" + req.params.headerCategory + "/" + req.params.id);
       }
     })
-  }
+  },
 }
