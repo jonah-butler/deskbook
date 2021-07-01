@@ -238,6 +238,7 @@ function printTotals(header, queryObj, key, value){
   const filteredArr = queryObj.filter(ref => {
     return ref[key] === value;
   });
+  queryObj = filteredArr;
   const para = document.createElement('p');
   const span = document.createElement('span');
   if(filteredArr.length) {
@@ -248,7 +249,7 @@ function printTotals(header, queryObj, key, value){
     span.innerText = filteredArr.length;
     para.appendChild(span);
     para.addEventListener('click', function() {
-      filterListener(_referenceQueries, para);
+      filterListener(queryObj, para);
     });
     header.appendChild(para);
     // header.insertAdjacentHTML('beforeend', `<p onclick="filterListener()" class="link-filter" data-key="${key}" data-value="${value}" style="font-size: 12px;">${key}(${value}): <span style="color: red;">${filteredArr.length}<span></p>`)
@@ -271,13 +272,16 @@ function clearFilter(container){
   para.innerText = 'Remove Date Filter';
   para.classList.add('link-filter');
   para.addEventListener('click', function(){
+    _filteredQueries = null;
     fullRender(_viewContainer, _referenceQueries, false, true);
   })
   container.appendChild(para);
 }
 
 function fullRender(parentContainer, response, edit, sort, sortedList = null, sortedListKey = null) {
-  _referenceQueries = response;
+  if(!sortedList){
+    _referenceQueries = response;
+  }
   _viewContainer = parentContainer;
   clearResults(parentContainer);
   let chartDataObj;
@@ -287,7 +291,15 @@ function fullRender(parentContainer, response, edit, sort, sortedList = null, so
     chartDataObj = setupDataForChart(sortedList);
     buildData(sortedList, _viewContainer, edit, currentPage);
     printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
-    printTotals(document.querySelector('.totals-container'), sortedList, sortedListKey, sortedList[0][sortedListKey]);
+    printTotals(document.querySelector('.totals-container'), sortedList, 'answeredHow', 'phone');
+    printTotals(document.querySelector('.totals-container'), sortedList, 'answeredHow', 'online');
+    printTotals(document.querySelector('.totals-container'), sortedList, 'answeredHow', 'person');
+    printTotals(document.querySelector('.totals-container'), sortedList, 'overFiveMinutes', true);
+    printTotals(document.querySelector('.totals-container'), sortedList, 'overFiveMinutes', false);
+    printTotals(document.querySelector('.totals-container'), sortedList, 'refType', 'reference');
+    printTotals(document.querySelector('.totals-container'), sortedList, 'refType', 'directional');
+    printTotals(document.querySelector('.totals-container'), sortedList, 'refType', 'circulation');
+    // printTotals(document.querySelector('.totals-container'), sortedList, sortedListKey, sortedList[0][sortedListKey]);
     clearFilter(document.querySelector('.totals-container'));
   } else {
     // _referenceQueries = response;
@@ -323,7 +335,11 @@ function fullRender(parentContainer, response, edit, sort, sortedList = null, so
   // printTotals(document.querySelector('.totals-container'), _referenceQueries, 'refType', 'circulation');
 
   if(sort){
-    sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
+    if(_filteredQueries) {
+      sortDropDown(document.querySelector('.totals-container'), _filteredQueries, _viewContainer, false);
+    } else {
+      sortDropDown(document.querySelector('.totals-container'), _referenceQueries, _viewContainer, false);
+    }
   }
   createChart(canvas, Object.keys(chartDataObj), Object.keys(chartDataObj).map(key => chartDataObj[key]), 'pie');
 }
@@ -345,19 +361,19 @@ function sortDropDown(parentElement, data, parentContainer, edit) {
   const sort4 = document.createElement('li');
   sort1.innerText = "A - Z";
   sort1.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataAZ(data), edit, true);
+    fullRender(parentContainer, sortDataAZ(data), edit, true, _filteredQueries);
   })
   sort2.innerText = "Z - A";
   sort2.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataZA(data), edit, true);
+    fullRender(parentContainer, sortDataZA(data), edit, true, _filteredQueries);
   })
   sort3.innerText = "Time <";
   sort3.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataTimeAsc(data), edit, true);
+    fullRender(parentContainer, sortDataTimeAsc(data), edit, true, _filteredQueries);
   })
   sort4.innerText = "Time >";
   sort4.addEventListener('click', () => {
-    fullRender(parentContainer, sortDataTimeDesc(data), edit, true);
+    fullRender(parentContainer, sortDataTimeDesc(data), edit, true, _filteredQueries);
   })
   menu.append(sort1);
   menu.append(sort2);
