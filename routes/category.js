@@ -29,6 +29,12 @@ module.exports = (app) => {
   app.get('/category/:categoryId/edit', helpers.isLoggedIn,
   CategoryController.editGet);
 
+  app.get("/category/:id/collaborators", helpers.isLoggedIn,
+  CategoryController.collaboratorIndex);
+
+  app.post("/category/:id/collaborators", helpers.isLoggedIn,
+  CategoryController.collaboratorUpdate);
+
   app.put('/category/:categoryId/edit', helpers.isLoggedIn,
   CategoryController.editUpdate);
 
