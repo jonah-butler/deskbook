@@ -1,0 +1,11 @@
+<div class="form-group-select">
+  <div class="sub-headline">
+    <%= label %>
+  </div>
+  <select required name="<%= name %>">
+    <option default hidden><%= defaultTitle %></option>
+    <% options.forEach(option => { %>
+    <option value="<%= option.value %>"><%= option.label %></option>
+    <% }) %>
+  </select>
+</div>

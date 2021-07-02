@@ -1,0 +1,21 @@
+<div class="headline">
+  <%= label %>
+  <br>
+</div>
+<% if(subLabel) { %>
+<div class="sub-headline">
+  <%= subLabel %>
+</div>
+<% } %>
+<div class="form-group">
+  <div class="container-checkbox">
+    <% options.forEach(checkbox => { %>
+      <div class="checkbox">
+       <label>
+         <input type="checkbox" name="<%= name %>" value="<%= checkbox.value %>">
+         <%= checkbox.label %>
+       </label>
+     </div>
+    <% }) %>
+  </div>
+</div>
