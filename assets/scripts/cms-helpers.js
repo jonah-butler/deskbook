@@ -208,7 +208,7 @@ async function downloadImgBlob(button, key) {
     },
   });
   const data = await response.json();
-  let awsResponse = await fetch(data.signedUrl, {mode: 'cors'});
+  const awsResponse = await fetch(data.signedUrl, {mode: 'cors'});
   const blob = await awsResponse.blob();
   const imageURL = URL.createObjectURL(blob);
   triggerDownload(button, key, imageURL);
