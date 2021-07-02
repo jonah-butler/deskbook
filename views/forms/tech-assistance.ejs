@@ -1,0 +1,134 @@
+<%- include ('../partials/header') %>
+<div class="container">
+  <header class="jumbotron">
+    <div class="container">
+      <h1 class="jumbo-header">Tech Assistance Form <%= emoji.male %> <%=emoji.female%></h1>
+      <p>
+        Provide the patron information below to be forwarded to participating 1-on-1 computer lab technical assistance employees.
+      </p>
+      <div class="db-panel">
+        <% if(message) {%>
+        <div class="message">
+          <%= message %>
+          <br>
+        </div>
+        <% } %>
+        <form action="/user/<%=user._id%>/forms/tech-assistance" method="POST">
+          <div class="headline">
+            Please fill in all applicable fields
+          </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/text.ejs', {
+              label: 'First Name',
+              placeholder: 'first name',
+              name: 'post[firstName]',
+              required: 'required'
+            })
+            %>
+          </div>
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/text.ejs', {
+              label: 'Last Name',
+              placeholder: 'last name',
+              name: 'post[lastName]',
+              required: 'required'
+            })
+            %>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/text.ejs', {
+              label: 'Preferred Pronouns',
+              placeholder: 'ex. he/him they/them',
+              name: 'post[pronouns]',
+              required: 'required'
+            })
+            %>
+          </div>
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/email.ejs', {
+              label: 'Email',
+              placeholder: 'valid email',
+              name: 'post[email]',
+              required: 'required'
+            })
+            %>
+          </div>
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/tele.ejs', {
+              label: 'Phone Number',
+              placeholder: '111-111-1111',
+              name: 'post[phoneNumber]',
+              required: 'required'
+            })
+            %>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1 text-center">
+              <%- include('../partials/form-inputs/select.ejs', {
+                label: 'Preferred Method of Contact',
+                name: 'post[contactMethod]',
+                defaultTitle: 'Select Contact Method',
+                options: [
+                  {value: 'phone', label: 'Phone'},
+                  {value: 'email', label: 'Email'},
+                ],
+              })
+              %>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel form-group-select fg1 text-center">
+            <%- include('../partials/form-inputs/select.ejs', {
+              label: 'Level of Technology Knowledge/Computer Skills',
+              name: 'post[skillLevel]',
+              defaultTitle: 'Select Skill Level',
+              options: [
+                {value: 'Beginner', label: 'Beginner'},
+                {value: 'Intermediate', label: 'Intermediate'},
+                {value: 'Expert', label: 'Expert'},
+              ],
+            })
+            %>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/checkbox.ejs', {
+              label: 'What would the patron like assistance with?',
+              subLabel: 'Select as many as you would like',
+              name: 'post[skills]',
+              options: [
+                {value: 'Basic Computer Tablet, Smartphone Skills', label: 'Basic Computer Tablet, Smartphone Skills'},
+                {value: 'Formatting Resume', label: 'Formatting Resume(please bring all information needed)'},
+                {value: 'Introduction to Microsoft Office Software(Word/Excel/Powerpoint/Publisher', label: 'Intro to Microsoft Office Software'},
+                {value: 'Setting Up an Email', label: 'Setting Up an Email'},
+                {value: 'Using RPL Online Resources', label: 'Using RPL Online Resources'},
+                {value: 'Introduction to Adobe Creative Cloud(Photoshop/Illustrator/InDesign)', label: 'Basic Intro to Adobe Creative Cloud'},
+                {value: 'Innovation Lab Orientation(3D Printer/Cricut Machine/Sewing Machine)', label: 'Innovation Lab Orientation'},
+                {value: 'Introduction to Digitization Software(Scanner/Film/Record/Tape Digitization)', label: 'Intro to Digitization Software'},
+              ],
+            })
+            %>
+          </div>
+        </div>
+        <div class="flex-row">
+          <div class="db-panel fg1">
+            <%- include('../partials/form-inputs/textarea.ejs', {
+              label: 'Provide any additional details regarding what the patron would like to cover during the appointment',
+              name: 'post[additionalDetails]',
+            }) %>
+          </div>
+        </div>
+        <button style="margin-left: 5px;" class="button-main-sm formSubmit">Submit</button>
+        </form>
+      </div>
+    </div>
+  </header>
+</div>
+
+<%- include ('../partials/footer') %>
+<script src="/forms.js" type="module"></script>

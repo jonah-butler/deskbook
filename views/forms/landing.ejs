@@ -1,0 +1,29 @@
+<%- include ('../partials/header') %>
+
+<div class="container">
+    <header class="jumbotron">
+	  <div class="container">
+		<h1 class="jumbo-header">Internal Forms</h1>
+    <p class="jumbo-header"><span class="avatar"><img src="/imgs/avatars/choices/<%=user.avatar%>"></span><%= user.username %></p>
+		<p></p>
+	  </div>
+	</header>
+
+  <div class="row text-center" style="display: flex; flex-wrap: wrap">
+    <div class="col-sm-12 col-xs-12 col-md-4 col-lg-4">
+      <a href="/user/<%= user._id %>/forms/tech-assistance" class="">
+      <div class="thumbnail">
+
+        <h3 class="section-name">Tech Assistance Form</h3>
+        <div class="caption">
+          The tech assistance form used by the Main library computer lab staff to send patron details to participating employees
+        </div>
+        <p>
+        </p>
+      </div>
+      </a>
+    </div>
+  </div>
+
+
+<%- include ('../partials/footer') %>
