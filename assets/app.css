@@ -135,6 +135,10 @@ font-size: 12px !important;
   margin-top: 1em;
 }
 
+.margin-left-big{
+  margin-left: 3em;
+}
+
 .jumbotron{
   position: relative;
   padding-top: 60px !important;
@@ -367,6 +371,21 @@ article.entry-show{
   margin-left: 20px;
   padding: 3%;
   position: relative;
+}
+
+.filter-array{
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.filter-added{
+  font-size: 11px;
+  background: #3c2c91;
+  color: white;
+  padding: 3px 6px;
+  border-radius: 12px;
+  margin: 5px 5px 5px 0;
+  align-self: center;
 }
 
 @media(max-width: 950px) {
