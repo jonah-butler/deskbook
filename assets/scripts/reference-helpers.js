@@ -8,6 +8,7 @@ let _referenceQueries;
 let _viewContainer;
 let _numOfItems = 15;
 let _filteredQueries = null;
+let _currentFilter = [];
 
 async function fetchApi(url = '', data = {}) {
   let response = await fetch(url, {
@@ -49,6 +50,20 @@ function buildHeader(data, parentElement) {
   parentElement.insertAdjacentHTML('afterbegin', `<header class="jumbotron"><div class="container"><div class="row"><div class="totals-container col-sm-4"><h3 style="display:inline-block;">Query Total: </h3><h2 style="display: inline-block; padding-left: 5px;" class="query-total">${data.length}</h2></div><div class="chart-container col-sm-8"></div></div></div></header>`);
 }
 
+function buildFilterSection(parentElement, key, value) {
+  parentElement.insertAdjacentHTML('afterbegin', `<div class="filter-array"></div>`);
+  buildFilterTagAndAppend();
+}
+
+function buildFilterTagAndAppend() {
+  _currentFilter.forEach(filter => {
+    let span = document.createElement('span');
+    span.classList.add('filter-added');
+    span.innerText = filter;
+    document.querySelector('.filter-array').appendChild(span);
+  })
+}
+
 function buildUl() {
   let ul = document.createElement('ul');
   ul.classList.add('list-group');
@@ -66,10 +81,17 @@ function navigatePagination(num, e, parent) {
   })
   e.target.parentElement.classList.add('active');
   let offsetData;
-  if(num === 1){
-    offsetData = _referenceQueries.slice(0, _numOfItems);
+  let queryArr;
+  if(_filteredQueries) {
+    queryArr = _filteredQueries;
   } else {
-    offsetData = _referenceQueries.slice((_numOfItems * (num - 1)), (_numOfItems * (num - 1) + _numOfItems))
+      queryArr = _referenceQueries;
+  }
+
+  if(num === 1){
+    offsetData = queryArr.slice(0, _numOfItems);
+  } else {
+    offsetData = queryArr.slice((_numOfItems * (num - 1)), (_numOfItems * (num - 1) + _numOfItems))
   }
   renderData(offsetData, _viewContainer, false);
 }
@@ -239,6 +261,8 @@ function printTotals(header, queryObj, key, value){
     return ref[key] === value;
   });
   queryObj = filteredArr;
+  // console.log(queryObj.length);
+  // console.log(queryObj);
   const para = document.createElement('p');
   const span = document.createElement('span');
   if(filteredArr.length) {
@@ -264,7 +288,11 @@ function filterListener(query, para) {
   _filteredQueries = query.filter(ref => {
     return ref[key].toString() == value;
   })
-  fullRender(_viewContainer, query, false, true, _filteredQueries, key);
+  if(_currentFilter.indexOf(`${key}: ${value}`) == -1) {
+    _currentFilter.push(`${key}: ${value}`);
+  }
+  fullRender(_viewContainer, _filteredQueries, false, true, _filteredQueries, key);
+  buildFilterSection(document.querySelector('.totals-container'));
 }
 
 function clearFilter(container){
@@ -273,6 +301,7 @@ function clearFilter(container){
   para.classList.add('link-filter');
   para.addEventListener('click', function(){
     _filteredQueries = null;
+    _currentFilter = [];
     fullRender(_viewContainer, _referenceQueries, false, true);
   })
   container.appendChild(para);
