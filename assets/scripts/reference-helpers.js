@@ -252,8 +252,58 @@ function initializeDatePickers(fromEle, toEle) {
 
 function printBranchTotals(header, sortedObj) {
   Object.keys(sortedObj).forEach(key => {
-    header.insertAdjacentHTML('beforeend', `<p style="font-size: 14px; font-weight: 600;">${key}: <span style="color: red;">${sortedObj[key]}<span></p>`);
+
+    let p = document.createElement('p');
+    let span = document.createElement('span');
+
+    p.classList.add('location-totals');
+    p.setAttribute('data-key', key);
+    p.innerText = `${key}: `;
+    p.addEventListener('click', (e) => {
+      if(e.target.classList.contains('location-totals')) {
+        filterByBranchKey(e.target.getAttribute('data-key'));
+      }
+    });
+
+    span.classList.add('location-totals-amount');
+    span.innerText = `${sortedObj[key]}`;
+
+    p.appendChild(span);
+    header.appendChild(p);
+    // header.insertAdjacentHTML('beforeend', `<p class="location-totals" data-key="${key.split(' ')[key.split(' ').length - 1]}" style="font-size: 14px; font-weight: 600;">${key}: <span style="color: red;">${sortedObj[key]}<span></p>`);
   })
+}
+
+function filterByBranchKey(key) {
+  if(key.split(' ').indexOf('main') !== -1) {
+    const subLocation = key.split(' ')[1];
+    console.log('hit', subLocation);
+    if(_filteredQueries) {
+      _filteredQueries = _filteredQueries.filter(query => {
+        return query.subLocation === subLocation;
+      })
+    } else {
+      _filteredQueries = _referenceQueries.filter(query => {
+        return query.subLocation === subLocation;
+      })
+    }
+  } else {
+    console.log('hit, not main', key);
+    if(_filteredQueries) {
+      _filteredQueries = _filteredQueries.filter(query => {
+        return query.library === key;
+      })
+    } else {
+      _filteredQueries = _referenceQueries.filter(query => {
+        return query.library === key;
+      })
+    }
+  }
+  if(_currentFilter.indexOf(key)){
+    _currentFilter.push(key);
+  }
+  fullRender(_viewContainer, _filteredQueries, false, true, _filteredQueries, key);
+  buildFilterSection(document.querySelector('.totals-container'));
 }
 
 function printTotals(header, queryObj, key, value){
@@ -308,6 +358,7 @@ function clearFilter(container){
 }
 
 function fullRender(parentContainer, response, edit, sort, sortedList = null, sortedListKey = null) {
+  console.log(response);
   if(!sortedList){
     _referenceQueries = response;
   }
@@ -335,6 +386,7 @@ function fullRender(parentContainer, response, edit, sort, sortedList = null, so
     let currentPage = _referenceQueries.slice(0, _numOfItems);
     // clearResults(parentContainer);
     chartDataObj = setupDataForChart(_referenceQueries);
+    console.log(chartDataObj);
     buildData(_referenceQueries, _viewContainer, edit, currentPage);
     printBranchTotals(document.querySelector('.totals-container'), chartDataObj);
     printTotals(document.querySelector('.totals-container'), _referenceQueries, 'answeredHow', 'phone');
