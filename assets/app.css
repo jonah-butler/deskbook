@@ -64,6 +64,22 @@ img[data-type="file"]{
   color: white;
 }
 
+.location-totals{
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  color: #3f3494;
+  transition: colr .2s ease;
+}
+
+.location-totals:hover{
+  color: black;
+  cursor: pointer;
+}
+
+.location-totals-amount{
+  color: red;
+}
+
 .file-card{
   word-wrap: break-word;
 }
@@ -800,6 +816,7 @@ content-align: center;
   width: 100%;
   height: fit-content;
   background: #126a9d;
+  z-index: 999;
 }
 
 .input-container-search{
