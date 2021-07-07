@@ -1554,12 +1554,29 @@ body.stop-scrolling{
   overflow: hidden;
 }
 
+.flex-form{
+  display: flex;
+}
+
+.flex-wrap{
+  flex-wrap: wrap;
+}
+
 .input-group{
-  margin: 15px 0px;
+  margin: 15px 10px 10px 0px;
 }
 
 .input-group > .list-group{
   margin-bottom: 0px;
+}
+
+.list-group-item img{
+  height: 100px;
+  width: auto;
+}
+
+.full-width-flex{
+  width: 100%;
 }
 
 .avatar{
@@ -1576,7 +1593,7 @@ body.stop-scrolling{
 }
 
 .avatar img {
-  height: 85%;
+  height: 75%;
 }
 
 .admin-panel{
@@ -1850,11 +1867,11 @@ a:hover{
   animation-duration: .8s;
 }
 
-@media(max-width: 800px) {
+/* @media(max-width: 800px) {
   .db-panel{
     padding: 5px !important;
   }
-}
+} */
 
 .db-panel{
   background-color: white;
