@@ -10,8 +10,11 @@ function modalClickListener() {
         if(this.value === "main"){
           hiddenField.classList.remove('hidden');
           hiddenField.classList.add('show');
+          // hiddenField.querySelector('#defaultSubSelect').setAttribute('value', hiddenField.querySelector('#defaultSubSelect').innerText);
         } else {
           hiddenField.classList.add('hidden');
+          hiddenField.querySelector('#defaultSubSelect').setAttribute('value', '');
+          hiddenField.removeAttribute('value');
         }
       })
 
@@ -29,14 +32,42 @@ function closeModal(modal) {
 
 function resetModalForms(modal) {
   // reset location selection field
-  modal.querySelector('#defaultBranchSelect').removeAttribute('selected');
-  modal.querySelector('#defaultBranchSelect').setAttribute('selected', 'selected');
-  // reset main sub location selection field
-  if(modal.querySelector('#mainSubContainer').classList.contains('show')){
-    modal.querySelector('#defaultSubSelect').removeAttribute('selected');
-    modal.querySelector('#defaultSubSelect').setAttribute('selected', 'selected');
-    modal.querySelector('#mainSubContainer').classList.remove('show');
-    modal.querySelector('#mainSubContainer').classList.add('hidden');
+  let defaultBranchSelect = modal.querySelector('#defaultBranchSelect');
+
+  defaultBranchSelect.removeAttribute('selected');
+  defaultBranchSelect.setAttribute('selected', 'selected');
+
+  if(defaultBranchSelect.getAttribute('data-library')){
+
+    let libraryPref = defaultBranchSelect.getAttribute('data-library');
+    defaultBranchSelect.value = libraryPref;
+    defaultBranchSelect.innerText = libraryPref;
+
+    if(libraryPref === 'main') {
+
+      let subLocationContainer = document.querySelector('#mainSubContainer');
+      let subLocationSelect = document.querySelector('#mainSubLocation');
+      let subLocationDefault = document.querySelector('#defaultSubSelect');
+      let subLocationPref = subLocationContainer.getAttribute('data-sublocation');
+
+      if(subLocationContainer.classList.contains('hidden')){
+        subLocationContainer.classList.remove('hidden');
+        subLocationContainer.classList.add('show');
+      }
+
+      subLocationSelect.value = subLocationPref;
+      subLocationDefault.selected = 'selected';
+      subLocationDefault.value = subLocationPref;
+    } else {
+      console.log('here');
+      // reset main sub location selection field
+      if(modal.querySelector('#mainSubContainer').classList.contains('show')){
+        modal.querySelector('#defaultSubSelect').removeAttribute('selected');
+        modal.querySelector('#defaultSubSelect').setAttribute('selected', 'selected');
+        modal.querySelector('#mainSubContainer').classList.remove('show');
+        modal.querySelector('#mainSubContainer').classList.add('hidden');
+      }
+    }
   }
   // remove check from overFiveMinutes checkbox
   modal.querySelector('#questionLength').checked = false;
