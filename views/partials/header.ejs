@@ -42,7 +42,7 @@
 									</div>
 									<select id="branchLocation" name="question[library]">
 										<% if(locals.user && locals.user.library) { %>
-										<option id="defaultBranchSelect" hidden disabled selected value="<%=user.library%>"><%=locals.user.library%></option>
+										<option data-library="<%=locals.user.library%>" id="defaultBranchSelect" hidden disabled selected value="<%=user.library%>"><%=locals.user.library%></option>
 										<% } else { %>
 										<option id="defaultBranchSelect" hidden disabled selected value>select branch </option>
 										<% } %>
@@ -59,7 +59,7 @@
 								</div>
 							</div>
 							<% if(locals.user && locals.user.mainSubLocation) { %>
-							<div id="mainSubContainer" class="form-group form-group-select">
+							<div data-subLocation="<%=locals.user.mainSubLocation%>" id="mainSubContainer" class="form-group form-group-select">
 							<% } else { %>
 							<div id="mainSubContainer" class="form-group form-group-select hidden">
 							<% } %>
