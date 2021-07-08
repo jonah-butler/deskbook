@@ -5,8 +5,79 @@ const Reference = require('../models/question.js');
 const helpers = require('../assets/helpers/helpers.js');
 const fs = require('fs');
 const path = require('path');
+const sgMail = require('@sendgrid/mail');
+const passport = require('passport');
+
+require('dotenv').config();
 
 module.exports = {
+  async registerUser(req, res) {
+    let newUser;
+    if(req.body.library === 'main'){
+      newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        isAdmin: req.body.adminradio,
+        avatar: 'otter-pixel-trans.png',
+        library: req.body.library,
+        mainSubLocation: req.body.subLocation
+      };
+    } else {
+      newUser = {
+        username: req.body.username,
+        email: req.body.email,
+        isAdmin: req.body.adminradio,
+        avatar: 'otter-pixel-trans.png',
+        library: req.body.library,
+      };
+    }
+    const registeredUser = new User(newUser);
+    User.register(registeredUser, req.body.password, (err, user) => {
+      if(err){
+        console.log(err);
+        req.flash('message', 'Error creating account.');
+        return res.redirect("/");
+      }
+
+      sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+      const msg = {
+        to: req.body.email,
+        from: 'rvalearns@gmail.com',
+        subject: 'RVALibrary New Account Registration',
+        html:  `<h2>Your RVALibrary Deskbook account was created successfully!</h2>
+        <div>
+        <h3>Account Details</h3>
+        <hr>
+        <ul>
+        <li>${req.body.username}(used to login)</li>
+        <li>${req.body.password}</li>
+        <li>${req.body.email}</li>
+        </ul>
+        </div>
+        <div>For logging in or resetting your password: https://rvalibrary-deskbook.herokuapp.com/login</div>
+        <hr>
+        <div>To get started with using Deskbook, visit the Deskbook meta FAQ. For information on submitting reference questions and querying reference, data, click on the <strong>Reference sub-folder:</strong> https://rvalibrary-deskbook.herokuapp.com/entries/608876de7c391a0f28b95188</div>.
+        You must be logged in to access.
+        <hr>
+        <div>For updating your password after logging in, visit the user portal located in the navbar and select Change Password.
+        <br>
+        <p style="font-size: 13px">contact jonah.butler@richmondgov.com for any questions</p>`
+      };
+      sgMail
+        .send(msg)
+        .then(() => {
+          passport.authenticate("/")(req, res, () => {
+            req.flash('message', 'Account created. An email has been sent to the account with credentials');
+            res.redirect("/");
+          })
+        })
+        .catch((error) => {
+          req.flash('message', 'Account created. But our servers could not send an email, notifying new user of their account. please contact the holder of the new account manually if you have not done so.');
+          res.redirect("/");
+        })
+    })
+  },
   async index(req, res){
     res.redirect(`/user/${req.user._id}`);
   },
