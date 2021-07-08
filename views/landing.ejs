@@ -20,6 +20,12 @@
 		<p>
 			Welcome to RVALibrary Deskbook <%= bookEmoji %>
 		</p>
+		<br>
+		<% if(message) { %>
+		<p style="color: red">
+			<%= message %>
+		</p>
+		<% } %>
 	</div>
 	<div class="container-fluid db-container">
 		<div class="flex-row">
