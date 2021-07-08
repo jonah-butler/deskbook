@@ -62,6 +62,7 @@ module.exports = {
       })
     })
     res.render("landing", {
+      message: req.flash('message'),
       bookEmoji: emoji.get("book"),
       user: req.user,
       systemCategoriesTotal: systemCategoriesTotal,
