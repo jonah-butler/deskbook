@@ -108,11 +108,11 @@
 				</div>
 			</div>
 		</div>
+		<% const today = new Date();%>
 		<div class="flex-row">
 			<div class="db-panel chart1 fg1">
 				<li class="absolute-top-right glyphicon glyphicon-plus" aria-hidden="true" id="modalListener"></li>
 				<div class="sub-headline">
-					<% const today = new Date();%>
 					Reference Submissions: <strong><%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
 				</div>
 				<div class="total-container big-number"></div>
@@ -123,6 +123,16 @@
 					Reference Submissions: <strong><%= `${weekAgo.getMonth() + 1}/${weekAgo.getDate()}/${weekAgo.getFullYear()}` %> - <%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
 				</div>
 				<div class="total-container big-number"></div>
+			</div>
+		</div>
+		<div class="flex-row">
+			<div class="db-panel hour-chart fg1">
+				<div class="headline">
+					Questions by the Hour: <strong><%= `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}` %></strong>
+				</div>
+				<div class="sub-headline">
+					hours in military time
+				</div>
 			</div>
 		</div>
 		<div class="flex-row">
