@@ -1,6 +1,6 @@
 import { createCanvasAndAppend } from './canvas-helpers.js';
-import { createChart } from './chart-helpers.js';
-import { sortDataAZ, setupDataForChart } from './client-helpers.js';
+import { createChart, createLineChart } from './chart-helpers.js';
+import { sortDataAZ, setupDataForChart, setupHourlyDataForChart } from './client-helpers.js';
 import { fetchApi } from './reference-helpers.js';
 
 const svgs = [
@@ -74,7 +74,7 @@ function appendTotals(parentContainer, data) {
   parentContainer.querySelector('.total-container').innerText = data.length;
 };
 
-async function getReferenceData(container1, container2) {
+async function getReferenceData(container1, container2, lineChartContainer) {
   const today = new Date();
   const weekAgo = new Date(Date.now() - 604800000);
   let dateStrToday = `${today.getMonth() + 1}/${today.getDate()}/${today.getFullYear()}`;
@@ -82,14 +82,18 @@ async function getReferenceData(container1, container2) {
   const todayData = await fetchApi('/reference/search', {createdAt: [dateStrToday, dateStrToday], library: 'all'});
   const weeklyData = await fetchApi('/reference/search', {createdAt: [dateStrWeekAgo, dateStrToday], library: 'all'});
   let chartDataToday = setupDataForChart(todayData);
+  let dailyHourlyData = setupHourlyDataForChart(todayData);
   let chartDataWeekly = setupDataForChart(weeklyData)
   const canvas1 = createCanvasAndAppend('canvas1', container1);
   const canvas2 = createCanvasAndAppend('canvas2', container2);
+  const canvas3 = createCanvasAndAppend('canvas3', lineChartContainer);
   if(Object.keys(chartDataToday).length === 0){
     chartDataToday = {'No data today': -1};
     createChart(canvas1, Object.keys(chartDataToday), Object.keys(chartDataToday).map(key => chartDataToday[key]), 'pie', {scaleBeginAtZero: true}, '#cc262d');
+    lineChartContainer.insertAdjacentHTML('beforeend', `<h3>No data yet</h3>`);
   } else {
     createChart(canvas1, Object.keys(chartDataToday), Object.keys(chartDataToday).map(key => chartDataToday[key]), 'pie', {scaleBeginAtZero: true})
+    createLineChart(canvas3, dailyHourlyData);
   }
   if(Object.keys(chartDataWeekly).length === 0){
     chartDataWeekly = {'No data this week': -1};
