@@ -6,7 +6,6 @@
     <div class="container">
     <h1 class="jumbo-header"><%= category.title %></h1>
     <% if(sectionArray != undefined) { %>
-      <% console.log(sectionArray) %>
       <span>
       <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
       <% if(i == 0) {%>
@@ -107,11 +106,13 @@
     <span>
     <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
       <% if(i == 0) {%>
-        <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
+
+        <% if(!category.isPrivate || sectionArray[i].user.indexOf(user._id) !== -1){ %>
         <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
         <% } %>
         <% } else { %>
-        <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
+        <% if(!category.isPrivate || sectionArray[i].user.indexOf(user._id) !== -1){ %>
+          <% console.log(sectionArray)%>
         <h4 style="display: inline-block"><a href="/entries/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
         <% } %>
         <% } %>
