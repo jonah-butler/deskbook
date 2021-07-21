@@ -6,18 +6,14 @@
     <div class="container">
     <h1 class="jumbo-header"><%= category.title %></h1>
     <% if(sectionArray != undefined) { %>
+      <% console.log(sectionArray) %>
       <span>
       <% for(let i = sectionArray.length - 1; i >= 0; i--) {%>
-        <% if(i == 0) {%>
-          <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
-          <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
-          <% } %>
-          <% } else { %>
-          <% if(sectionArray[i].user.indexOf(user._id) !== -1){ %>
-            <% console.log(true) %>
-          <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
-          <% } %>
-          <% } %>
+      <% if(i == 0) {%>
+        <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4>
+        <% } else { %>
+        <h4 style="display: inline-block"><a href="/public/category/<%= sectionArray[i]._id %>"><%= sectionArray[i].title %></a></h4><span style="padding: 0px 2px 0px 5px;">/</span>
+      <% } %>
     <% } %>
     </span>
     <% } %>
@@ -196,7 +192,9 @@
       <% } %>
       <% if(category.subCategories.length) { %>
       <% category.subCategories.forEach((subCategory) =>{ %>
-        <% if(subCategory.user.indexOf(user._id) !== -1){ %>
+        <% if(subCategory.isPrivate && subCategory.user.indexOf(user._id) !== -1){ %>
+        <a class = "entry-link" href="/entries/<%= subCategory._id %>"><li class="list-group-item"><%= subCategory.title %><span class="glyphicon glyphicon-folder-open"></span></li></a>
+        <% } else { %>
         <a class = "entry-link" href="/entries/<%= subCategory._id %>"><li class="list-group-item"><%= subCategory.title %><span class="glyphicon glyphicon-folder-open"></span></li></a>
         <% } %>
       <% }); %>
