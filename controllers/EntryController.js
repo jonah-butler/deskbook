@@ -154,7 +154,7 @@ module.exports = {
   async faqIndex(req, res) {
 
 	const entry = await Entry.findOne({_id: req.params.id});
-	const parentCategory = await MainCategory.findOne({_id: req.params.categoryId}).populate('faqs');
+	const parentCategory = await MainCategory.findOne({_id: req.params.categoryId}).populate('faqs').populate('subCategories');
 	Promise.all([
 		Entry.find({_id: req.params.id}).populate('owner'),
 	  // Entry.findOne({_id: { $gt: req.params.id } }, { section: entry.section } ),
