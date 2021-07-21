@@ -42,6 +42,32 @@ function setupDataForChart(response) {
   return valueObj;
 }
 
+function setupHourlyDataForChart(response) {
+  const valueObj = {};
+  valueObj.datasets = [];
+  response.forEach((val) => {
+    let hour = new Date(val.createdAt);
+    hour = hour.getHours();
+    const index = valueObj.datasets.map(obj => obj.label).indexOf(val.library);
+    if(index === -1){
+      valueObj.datasets.push({
+        data: {10: 0, 11: 0, 12: 0, 13: 0, 14: 0, 15: 0, 16: 0, 17: 0, 18: 0},
+        label: val.library,
+        borderColor: generateRandomColor(),
+        fill: true,
+      })
+      valueObj.datasets[valueObj.datasets.length - 1].data[hour] += 1;
+    } else {
+      valueObj.datasets[index].data[hour] += 1;
+    }
+  })
+  valueObj['timeLabels'] = [10,11,12,13,14,15,16,17,18];
+  valueObj.datasets.forEach(obj => {
+    obj.data = Object.values(obj.data);
+  })
+  return valueObj;
+}
+
 function sortDataTimeAsc(data) {
   return data.sort((a, b) => {
     return new Date(a.createdAt) - new Date(b.createdAt);
@@ -54,4 +80,8 @@ function sortDataTimeDesc(data) {
   })
 }
 
-export { sortDataAZ, sortDataZA, setupDataForChart, sortDataTimeAsc, sortDataTimeDesc };
+function generateRandomColor() {
+  return `#${Math.floor(Math.random()*16777215).toString(16)}`;
+}
+
+export { sortDataAZ, sortDataZA, setupDataForChart, setupHourlyDataForChart, sortDataTimeAsc, sortDataTimeDesc };
