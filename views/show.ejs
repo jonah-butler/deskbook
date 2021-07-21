@@ -23,6 +23,12 @@
             </li>
             <% } %>
           <% }) %>
+          <% parentCategory.subCategories.forEach(category => { %>
+            <li>
+              <a href="/public/category/<%=category._id%>/"><%=category.title%></a>
+              <span style="display: inline-block !important;" class="glyphicon glyphicon-folder-open"></span>
+            </li>
+          <% }) %>
         <% } else { %>
         <% parentCategory.faqs.forEach(faq => { %>
           <% if(faq.title === values[0].title) { %>
@@ -34,6 +40,12 @@
             <a href="/entries/<%=parentCategory._id%>/<%=faq._id%>"><%=faq.title%></a>
           </li>
           <% } %>
+        <% }) %>
+        <% parentCategory.subCategories.forEach(category => { %>
+          <li>
+            <a href="/entries/<%=category._id%>/"><%=category.title%></a>
+            <span style="display: inline-block !important;" class="glyphicon glyphicon-folder-open"></span>
+          </li>
         <% }) %>
         <% } %>
       </ul>
