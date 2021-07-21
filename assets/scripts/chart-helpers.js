@@ -19,4 +19,14 @@ function createChart(chartElement, labels, data, type, options = {}, color = nul
 });
 }
 
-export { createChart }
+function createLineChart(chartElement, data) {
+  const chart = new Chart(chartElement, {
+    type: 'line',
+    data: {
+      labels: data.timeLabels,
+      datasets: data.datasets,
+    },
+  });
+}
+
+export { createChart, createLineChart }
